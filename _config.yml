@@ -21,7 +21,9 @@ description: > # this means to ignore newlines until "baseurl:"
 baseurl: "" # the subpath of your site, e.g. /blog
 url: "https://tachiguishi.github.io" # the base hostname & protocol for your site, e.g. http://example.com
 twitter_username: RorSipke
-github_username:  Tachiguishi
+github_username: Tachiguishi
+disqus:
+  shortname: RorSpike
 
 # Build settings
 markdown: kramdown
@@ -36,6 +38,14 @@ github: [metadata]
 kramdown:
   input: GFM
   hard_wrap: false
+
+default:
+  -
+    scope:
+      path: "_posts" # 一个空的字符串代表项目中所有的文件
+      # type: "posts" # 以前的 `post`， 在 Jekyll 2.2 里。
+    values:
+      comments: true
 # gems:
   # - jekyll-coffeescript
   # - jekyll-paginate
