@@ -3,8 +3,8 @@ layout: post
 title:  "Flask Databases"
 date:   2016-12-01 22:09:00 +0800
 categories:
-  - flask
-  - python
+  - Reading
+  - Flask-Web-Development-by-Miguel-Grinberg
 ---
 
 # Databases
@@ -113,3 +113,313 @@ class User(db.Model):
   order_by | 指定关系中记录的排序方式
   secondary | 指定多对多关系中关系表的名字
   secondaryjoin | SQLAlchemy 无法自行决定时，指定多对多关系中的二级联结条件
+
+## Database Operations
+
+接下来我们将在`python shell`中进行操学习  
+
+hello.py  
+
+```python
+import os
+from flask import Flask, render_template, session, redirect, url_for, flash
+from flask_script import Manager
+from flask_bootstrap import Bootstrap
+from flask_moment import Moment
+from flask_wtf import Form
+from wtforms import StringField, SubmitField
+from wtforms.validators import Required
+from flask_sqlalchemy import SQLAlchemy
+
+basedir = os.path.abspath(os.path.dirname(__file__))
+
+app = Flask(__name__)
+app.config['SECRET_KEY'] = 'hard to guess string'
+app.config['SQLALCHEMY_DATABASE_URI'] =\
+    'sqlite:///' + os.path.join(basedir, 'data.sqlite')
+app.config['SQLALCHEMY_COMMIT_ON_TEARDOWN'] = True
+
+manager = Manager(app)
+bootstrap = Bootstrap(app)
+moment = Moment(app)
+db = SQLAlchemy(app)
+
+
+class Role(db.Model):
+    __tablename__ = 'roles'
+    id = db.Column(db.Integer, primary_key=True)
+    name = db.Column(db.String(64), unique=True)
+    users = db.relationship('User', backref='role', lazy='dynamic')
+
+    def __repr__(self):
+        return '<Role %r>' % self.name
+
+
+class User(db.Model):
+    __tablename__ = 'users'
+    id = db.Column(db.Integer, primary_key=True)
+    username = db.Column(db.String(64), unique=True, index=True)
+    role_id = db.Column(db.Integer, db.ForeignKey('roles.id'))
+
+    def __repr__(self):
+        return '<User %r>' % self.username
+
+
+class NameForm(Form):
+    name = StringField('What is your name?', validators=[Required()])
+    submit = SubmitField('Submit')
+
+
+@app.errorhandler(404)
+def page_not_found(e):
+    return render_template('404.html'), 404
+
+
+@app.errorhandler(500)
+def internal_server_error(e):
+    return render_template('500.html'), 500
+
+
+@app.route('/', methods=['GET', 'POST'])
+def index():
+    form = NameForm()
+    if form.validate_on_submit():
+        old_name = session.get('name')
+        if old_name is not None and old_name != form.name.data:
+            flash('Looks like you have changed your name!')
+        session['name'] = form.name.data
+        return redirect(url_for('index'))
+    return render_template('index.html', form=form, name=session.get('name'))
+
+
+if __name__ == '__main__':
+    db.create_all()
+    manager.run()
+```
+
+### Create Table
+
+`Flask-SQLAlchemy`使用`create_all()`函数
+
+```
+(venv) $ python hello.py shell
+>>> from hello import db
+>>> db.create_all()
+```
+
+这是你会看到一个名为`data.sqlite`的文件被创建，其中包含`roles`和`users`两个表单
+
+如果数据库已经存在则不会覆盖后更新
+
+```
+>>> db.drop_all()
+>>> db.create_all()
+```
+
+### Insert Rows
+
+```
+>>> from hello import Role, User
+>>> admin_role = Role(name='Admin')
+>>> mod_role = Role(name='Moderator')
+>>> user_role = Role(name='User')
+>>> user_john = User(username='john', role=admin_role)
+>>> user_susan = User(username='susan', role=user_role)
+>>> user_david = User(username='david', role=user_role)
+```
+
+模型(model)的构造函数接受键/值对的形式赋值的属性  
+注意到`User`模型中可以使用`role`来进行复制, 而没有使用其真正的属性`role_id`  
+复制给`role`的不是`admin_role.id`而直接是`admin_role`  
+模型的主键`id`并没有被人工赋值，这是因为主键是由`Flask-SQLAlchemy`管理的  
+由于这是所有实例化的对象都还只存在于`python`之中，并没有被写入数据库，
+所以`id`仍未被赋值  
+
+```
+>>> print(admin_role.id)
+None
+>>> print(mod_role.id)
+None
+>>> print(user_role.id)
+None
+```
+
+`Flask-SQLAlchemy`通过`session`管理数据库的读写操作  
+要将数据写入数据库，手写需要将其添加到`session`中，让后提交
+
+```
+>>> db.session.add(admin_role)
+>>> db.session.add(mod_role)
+>>> db.session.add(user_role)
+>>> db.session.add(user_john)
+>>> db.session.add(user_susan)
+>>> db.session.add(user_david)
+```
+
+或者  
+
+```
+>>> db.session.add_all([admin_role, mod_role, user_role,
+... user_john, user_susan, user_david])
+```
+
+最后调用`commit()`函数
+
+```
+>>> db.session.commit()
+```
+
+> 注意这里的 `db.session` 和 `Flask` 的站点 `session`是完全不同的东西
+
+`commit()`函数写入数据库时，只要发生任何一个错误，
+那么添加到`db.session`中的数据都会写入失败  
+如果你每次只将相关的数据添加到`db.session`中，将有效的保证数据的一致性
+
+> `db.session.rollback()`
+
+### Update Rows
+
+只用将更新的数据添加到`session`中然后提交即可
+
+```
+>>> admin_role.name = 'Administrator'
+>>> db.session.add(admin_role)
+>>> db.session.commit()
+```
+
+### Delete Rows
+
+```
+>>> db.session.delete(mod_role)
+>>> db.session.commit()
+```
+
+### Query Rows
+
+Flask-SQLAlchemy 的每个`model`类都有一个`query`对象，
+最基本的模型查询是取回对应表中的所有记录  
+注意，这里直接使用模型类调用`query`对象的
+
+```
+>>> Role.query.all()
+[<Role u'Administrator'>, <Role u'User'>]
+>>> User.query.all()
+[<User u'john'>, <User u'susan'>, <User u'david'>]
+```
+
+使用`filters`进行精确查找
+
+```
+>>> User.query.filter_by(role=user_role).all()
+[<User u'susan'>, <User u'david'>]
+>>> Role.query.filter_by(name='User').first()
+<Role u'User'>
+```
+
+可以查看`Flask-SQLAlchemy`究竟是使用何种`SQL`语句进行查询的
+
+```
+>>> str(User.query.filter_by(role=user_role))
+'SELECT users.id AS users_id, users.username AS users_username,
+... users.role_id AS users_role_id \nFROM users \nWHERE ? = users.role_id'
+```
+
+[SQLAlchemy的详细文档](http://docs.sqlalchemy.org)
+
+* 常用的SQLAlchemy查询过滤器  
+
+Option Description
+filter() 把过滤器添加到原查询上，返回一个新查询
+filter_by() 把等值过滤器添加到原查询上，返回一个新查询
+limit() 使用指定的值限制原查询返回的结果数量，返回一个新查询
+offset() 偏移原查询返回的结果，返回一个新查询
+order_by() 根据指定条件对原查询结果进行排序，返回一个新查询
+group_by() 根据指定条件对原查询结果进行分组，返回一个新查询
+
+
+* 最常使用的SQLAlchemy查询执行函数
+
+Option Description
+all() 以列表形式返回查询的所有结果
+first() 返回查询的第一个结果，如果没有结果，则返回 None
+first_or_404() 返回查询的第一个结果，如果没有结果，则终止请求，返回 404 错误响应
+get() 返回指定主键对应的行，如果没有对应的行，则返回 None
+get_or_404() 返回指定主键对应的行，如果没找到指定的主键，则终止请求，返回 404 错误响应
+count() 返回查询结果的数量
+paginate() 返回一个 Paginate 对象，它包含指定范围内的结果
+
+关系查询
+
+```
+>>> user_role = Role.query.filter_by(name='User').first()
+>>> user_role
+<Role u'User'>
+>>> users = user_role.users
+>>> users
+<sqlalchemy.orm.dynamic.AppenderBaseQuery object at 0xff5ac04c>
+```
+
+这里在执行`user_role.users`查询时出错  
+这跟我们定义`Role`类时添加的`lazy = dynamic`参数有关
+
+该用以下方式执行即可
+```
+>>> user_role.users.order_by(User.username).all()
+[<User u'david'>, <User u'susan'>]
+>>> user_role.users.count()
+2
+```
+
+## Database Use in View Functions
+
+视图函数
+
+```python
+@app.route('/', methods=['GET', 'POST'])
+def index():
+    form = NameForm()
+    if form.validate_on_submit():
+        user = User.query.filter_by(username=form.name.data).first()
+        if user is None:
+            user = User(username=form.name.data)
+            db.session.add(user)
+            session['known'] = False
+        else:
+            session['known'] = True
+        session['name'] = form.name.data
+        return redirect(url_for('index'))
+    return render_template('index.html', form=form, name=session.get('name'),
+                           known=session.get('known', False))
+```
+
+`templates/index.html`
+
+{% highlight text %}
+  { % raw % }
+      {% extends "base.html" %}
+      {% import "bootstrap/wtf.html" as wtf %}
+
+      {% block title %}Flasky{% endblock %}
+
+      {% block page_content %}
+      <div class="page-header">
+          <h1>Hello, {% if name %}{{ name }}{% else %}Stranger{% endif %}!</h1>
+          {% if not known %}
+          <p>Pleased to meet you!</p>
+          {% else %}
+          <p>Happy to see you again!</p>
+          {% endif %}
+      </div>
+      {{ wtf.quick_form(form) }}
+      {% endblock %}
+  {% endraw %}
+{% endhighlight %}
+
+## Integration with the Python Shell
+
+```python
+from flask.ext.script import Shell
+def make_shell_context():
+return dict(app=app, db=db, User=User, Role=Role)
+manager.add_command("shell", Shell(make_context=make_shell_context))
+```
