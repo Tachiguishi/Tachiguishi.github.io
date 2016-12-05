@@ -424,3 +424,29 @@ def make_shell_context():
 return dict(app=app, db=db, User=User, Role=Role)
 manager.add_command("shell", Shell(make_context=make_shell_context))
 ```
+
+`make_shell_context()`函数注册了程序、数据库实例以及模型，
+因此这些对象能直接导入`shell`
+
+```
+$ python hello.py shell
+>>> app
+<Flask 'app'>
+>>> db
+<SQLAlchemy engine='sqlite:////home/flask/flasky/data.sqlite'>
+>>> User
+<class 'app.User'>
+```
+
+## Database Migrations with Flask-Migrate
+
+```bash
+(venv) $ pip install flask-migrate
+```
+
+```python
+from flask.ext.migrate import Migrate, MigrateCommand
+# ...
+migrate = Migrate(app, db)
+manager.add_command('db', MigrateCommand)
+```
