@@ -2,7 +2,9 @@
 layout: post
 title:  "Linux Basic Command"
 date:   2016-11-26 16:11:47 +0800
-categories: linux
+categories:
+  - Reading
+  - Shell Programming in Unix, Linux and OS X by Stephen G. Kochan
 ---
 
 ### 101
@@ -11,6 +13,7 @@ categories: linux
 * `who`
 * `who am i`
 * `echo`
+* `echo *` 显示当前文件夹中的所有文件，输出内容和`ls`一样，但是是在同一行输出
 
 ### File
 
