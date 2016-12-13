@@ -19,19 +19,14 @@ categories:
 
 ### 配置
 
-Key Default Description
-MAIL_HOSTNAME
-localhost Hostname or IP address of the email server
-MAIL_PORT
-25 Port of the email server
-MAIL_USE_TLS False
-Enable Transport Layer Security (TLS) security
-MAIL_USE_SSL False
-Enable Secure Sockets Layer (SSL) security
-MAIL_USERNAME None
-Mail account username
-MAIL_PASSWORD None
-Mail account password
+| Key  | Default | Description |
+| :--- | :------ | :---------- |
+| MAIL_HOSTNAME | localhost | Hostname or IP address of the email server |
+| MAIL_PORT | 25 | Port of the email server |
+| MAIL_USE_TLS | False | Enable Transport Layer Security (TLS) security |
+| MAIL_USE_SSL | False | Enable Secure Sockets Layer (SSL) security |
+| MAIL_USERNAME | None | Mail account username |
+| MAIL_PASSWORD | None | Mail account password |
 
 ```python
 import os
@@ -43,17 +38,20 @@ app.config['MAIL_USERNAME'] = os.environ.get('MAIL_USERNAME')
 app.config['MAIL_PASSWORD'] = os.environ.get('MAIL_PASSWORD')
 ```
 
-邮箱的用户名和密码属于敏感信息，最好不要直接写在代码中，可以定义环境变量  
-(?如何定义环境变量?)(主流邮箱的配置)
+邮箱的用户名和密码属于敏感信息，最好不要直接写在代码中，而是定义在环境变量中  
+(主流邮箱的配置)
 
 ```shell
 # Linux or Mac OS
-(venv) $ export MAIL_USERNAME=<Gmail username>
-(venv) $ export MAIL_PASSWORD=<Gmail password>
+(venv) $ export MAIL_USERNAME=username@gmail.com
+(venv) $ export MAIL_PASSWORD=gmailPassword
 # Windows
-(venv) $ set MAIL_USERNAME=<Gmail username>
-(venv) $ set MAIL_PASSWORD=<Gmail password>
+(venv) $ set MAIL_USERNAME=username@gmail.com
+(venv) $ set MAIL_PASSWORD=gmailPassword
 ```
+
+在虚拟环境中创建的环境变量只存在于虚拟环境中，
+当退出虚拟环境后则无法获取在虚拟环境中定义的环境变量
 
 ## Sending Email from the Python Shell
 
@@ -134,7 +132,7 @@ def send_email(to, subject, template, **kwargs):
     return thr
 ```
 
-`flask-mail`的`sned()`函数`current_app`，所以需要计划`app_context`
+`flask-mail`的`sned()`函数`current_app`，所以需要`app_context`
 
 ```python
 with app.app_context():
