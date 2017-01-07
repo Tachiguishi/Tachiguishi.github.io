@@ -1,6 +1,6 @@
 ---
 layout: post
-title:  "Tools of The Trade"
+title:  Chapter 4 Tools of The Trade
 date:   2016-12-08 05:32:00 +0800
 categories:
   - Reading
@@ -102,9 +102,11 @@ mv temp file
 
 ### `-n`
 
-`sed -n`表示不将真个文件的结果输出，结合`p`使用可以指定输出内容  
+`sed -n`表示不将执行命令后的整个文件的内容输出，结合`p`使用可以指定输出内容  
 
 ```shell
+# 输出`intro`文件中的前两行
+sed -n '1,2p' intro
 # 将`intro`文件中所有包含`Unix`的行输出
 sed -n '/Unix/p' intro
 # 将`intro`文件所有行输出，使用转义字符表示非打印字符 如`tab`用`\t`表示
