@@ -180,3 +180,78 @@ Android会为layout文件和每个string生成一个ID，但不会为layout文�
 ```
 
 注意创建资源ID时需要使用`+`符号，只需要在第一次创建时使用该符号，创建后其它地方引用时就不需要添加
+
+## Wiring Up Widgets
+
+在`QuizActivity.java`中添加成员变量
+```java
+import android.widget.Button;
+
+public class QuizActivity extends AppCompatActivity {
+    private Button mTrueButton;
+    private Button mFalseButton;
+
+    @Override
+    protected void onCreate(Bundle savedInstanceState) {
+        super.onCreate(savedInstanceState);
+        setContentView(R.layout.activity_quiz);
+    }
+}
+```
+
+如果不清楚应该引用什么包，可是使用快捷键`Alt + Enter`(or `Option + Return`)
+
+### Getting references to widgets
+
+可以通过这个函数在 Activity中获取到widget
+```java
+public View findViewById(int id);
+```
+
+在赋值给成员变量前记得先加`View`转化为`Button`
+```java
+@Override
+protected void onCreate(Bundle savedInstanceState) {
+    super.onCreate(savedInstanceState);
+    setContentView(R.layout.activity_quiz);
+
+    mTrueButton  = (Button)findViewById(R.id.true_button);
+    mFalseButton = (Button)findViewById(R.id.false_button);
+}
+```
+
+### Setting listeners
+
+安卓程序是事件驱动的，所以要有`listener`来监听事件的发生
+```java
+mTrueButton = (Button)findViewById(R.id.true_button);
+mTrueButton.setOnClickListener(new View.OnClickListener(){
+    @Override
+    public void onClick(View v){
+        // Do nothing yet, but soon.
+    }
+});
+```
+
+## Making Toasts
+
+toast 是给用户的一小段提示信息  
+
+首先在`strings.xml`中添加文本资源
+```xml
+<string name="correct_toast">Correct!</string>
+<string name="incorrect_toast">Incorrect!</string>
+```
+
+需要调用以下函数来创建 toast
+```java
+public static Toast makeText(Context context, int resId, int duration);
+```
+然后调用`Toast.show()`来显示 toast
+```java
+public void onClick(View v){
+    Toast.makeText(QuizActivity.this,
+            R.string.correct_toast,
+            Toast.LENGTH_SHORT).show();
+}
+```
