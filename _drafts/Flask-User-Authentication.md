@@ -154,3 +154,164 @@ def create_app(config_name):
 ```shell
 pip install flask-login
 ```
+
+| Method | Description |
+| :----- | :---------- |
+| is_authenticated() | Must return True if the user has login credentials or False otherwise. |
+| is_active() | Must return True if the user is allowed to log in or False otherwise. A False return value can be used for disabled accounts. |
+| is_anonymous() | Must always return  False for regular users. |
+| get_id() | Must return a unique identifier for the user, encoded as a Unicode string. |
+
+为了方便使用，Flask-Login提供了`UserMixin`类自动调用以上函数。
+
+### Preparing the User Model for Logins
+
+修改后的`app/models.py`
+```python
+from flask_login import UserMixin
+
+class User(UserMixin, db.Model):
+    __tablename__ = 'users'
+    id = db.Column(db.Integer, primary_key=True)
+    email = db.Column(db.String(64), unique=True, index=True)
+    username = db.Column(db.String(64), unique=True, index=True)
+    role_id = db.Column(db.Integer, db.ForeignKey('roles.id'))
+    password_hash = db.Column(db.String(128))
+```
+
+在工厂初始化函数中初始化Flask-Login
+`app/__init__.py`
+```python
+from flask.ext.login import LoginManager
+
+login_manager = LoginManager()
+login_manager.session_protection = 'strong'
+login_manager.login_view = 'auth.login'
+
+def create_app(config_name):
+    # ...
+    login_manager.init_app(app)
+    # ...
+```
+
+获取用户信息接口
+`app/models.py`
+```python
+from . import login_manager
+
+@login_manager.user_loader
+def load_user(user_id):
+    return User.query.get(int(user_id))
+```
+
+### Protecting Routes
+
+添加`login_required`修饰知名某页面只有在登录后才能访问，例如：
+```python
+from flask.ext.login import login_required
+
+@app.route('/secret')
+@login_required
+def secret():
+    return 'Only authenticated users are allowed!'
+```
+
+### Adding a Login Form
+
+添加登录表单`app/auth/forms.py`
+```python
+from flask_wtf import Form
+from wtforms import StringField, PasswordField, BooleanField, SubmitField
+from wtforms.validators import Required, Length, Email
+
+class LoginForm(Form):
+    email = StringField('Email', validators=[Required(), Length(1,64), Email()])
+    password = PasswordField('Password', validators=[Required()])
+    rember_me = BooleanField('Keep me logged in')
+    submit = SubmitField('Log in')
+```
+
+修改模板`app/templates/base.html`，添加语句
+```html
+<ul class="nav navbar-nav navbar-right">
+    {% if current_user.is_authenticated() %}
+    <li><a href="{{ url_for('auth.logout') }}">Sign Out</a></li>
+    {% else %}
+    <li><a href="{{ url_for('auth.login') }}">Sign In</a></li>
+    {% endif %}
+</ul>
+```
+
+### Signing Users In
+
+`app/auth/views.py`
+```python
+from flask import render_template, redirect, request, url_for, flash
+from flask_login import login_user, logout_user, login_required
+from . import auth
+from ..models import User
+from .forms import LoginForm
+
+@auth.route('/login', methods=['GET', 'POST'])
+def login():
+    form = LoginForm()
+    if form.validate_on_submit():
+        user = User.query.filter_by(email=form.email.data).first()
+        if user is not None and user.verify_password(form.password.data):
+            login_user(user, form.remember_me.data)
+            return redirect(request.args.get('next'))
+        flash('Invalid username or password')
+    return render_template('auth/login.html', form=form)
+```
+
+`app/templates/auth/login.html`
+```html
+{% extends "base.html" %}
+{% import "bootstrap/wtf.html" as wtf %}
+
+{% block title %}Flasky - Login{% endblock %}
+
+{% block page_content %}
+<div class="page-header">
+    <h1>Login</h1>
+</div>
+<div class="col-md-4">
+    {{ wtf.quick_form(form) }}
+</div>
+{% endblock %}
+```
+
+### Signing Users Out
+
+`app/auth/views.py`
+```python
+@auth.route('/logout')
+@login_required
+def logout():
+    logout_user()
+    flash('You have been logged out')
+    return redirect(url_for('main.index'))
+```
+
+### Testing Logins
+
+`app/templates/index.html`
+```html
+{% extends "base.html" %}
+
+{% block title %}Flasky{% endblock %}
+
+{% block page_content %}
+<div class="page-header">
+    <h1>
+    Hello,
+    {% if current_user.is_authenticated %}
+        {{ current_user.username }}
+    {% else %}
+        Stranger
+    {% endif %}
+    !
+    </h1>
+</div>
+{% endblock %}
+```
