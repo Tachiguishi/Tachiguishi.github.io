@@ -1,6 +1,6 @@
 ---
 layout: post
-title:  "Flask Databases"
+title:  Chapter 5 Flask Databases
 date:   2016-12-01 22:09:00 +0800
 categories:
   - Reading
@@ -206,9 +206,10 @@ if __name__ == '__main__':
 >>> db.create_all()
 ```
 
-这是你会看到一个名为`data.sqlite`的文件被创建，其中包含`roles`和`users`两个表单
-
-如果数据库已经存在则不会覆盖后更新
+这是你会看到一个名为`data.sqlite`的文件被创建，其中包含`roles`和`users`两个表单  
+如果数据库文件`data.sqlite`已经存，
+运行`db.create_all()`并不会重新创建或更新其中的数据表  
+可以手动删除所有的数据表然后重新创建，但是这样同时会删除所有的数据记录
 
 ```
 >>> db.drop_all()
@@ -231,7 +232,7 @@ if __name__ == '__main__':
 注意到`User`模型中可以使用`role`来进行复制, 而没有使用其真正的属性`role_id`  
 复制给`role`的不是`admin_role.id`而直接是`admin_role`  
 模型的主键`id`并没有被人工赋值，这是因为主键是由`Flask-SQLAlchemy`管理的  
-由于这是所有实例化的对象都还只存在于`python`之中，并没有被写入数据库，
+由于这时所有实例化的对象都还只存在于`python`之中，并没有被写入数据库，
 所以`id`仍未被赋值  
 
 ```
@@ -393,8 +394,7 @@ def index():
                            known=session.get('known', False))
 ```
 
-`templates/index.html`  
-
+`templates/index.html`
 ```liquid
 {% raw %}
 {% extends "base.html" %}
@@ -420,8 +420,10 @@ def index():
 
 ```python
 from flask.ext.script import Shell
+
 def make_shell_context():
-return dict(app=app, db=db, User=User, Role=Role)
+    return dict(app=app, db=db, User=User, Role=Role)
+
 manager.add_command("shell", Shell(make_context=make_shell_context))
 ```
 
@@ -440,7 +442,15 @@ $ python hello.py shell
 
 ## Database Migrations with Flask-Migrate
 
-```bash
+Flask-SQLAlchemy 只有在数据库表格不存在时才会创建表，
+这就表示如果想更新表的结构就必须删除原表然后重建。但这样同时也会删除原表中的所有数据
+
+SQLAlchemy 的开发者根据代码的版本控制原理写了[Alembic](http://bit.ly/alembic-doc)
+来管理数据库，我们可以使用它的Flask版本`Flask-Migrate`
+
+### Creating a Migration Repository
+
+```shell
 (venv) $ pip install flask-migrate
 ```
 
@@ -450,3 +460,34 @@ from flask.ext.migrate import Migrate, MigrateCommand
 migrate = Migrate(app, db)
 manager.add_command('db', MigrateCommand)
 ```
+
+然后在命令行中运行
+
+```shell
+(venv) $ python hello.py db init
+```
+
+该命令会生成`migrations`文件夹，其中的文件和你的其它代码文件一样需要添加到你的版本控制器中
+
+### Creating a Migration Script
+
+在 Alembic 中数据库的变更使用`migration script`表示。
+脚本有两个函数`upgrade()`和`downgrade()`  
+可以使用`revision`命令手动生成脚本，也可以使用`migrate`命令自动生成脚本。  
+手动生成的脚本只有一个框架，`upgrade()`和`downgrade()`都是空函数，需要自己手动补充。
+自动生成的脚本并不一定会完全准确，所以在生活后一定要检查一遍  
+
+
+```shell
+(venv) $ python hello.py db migrate -m "initial migration"
+```
+
+### Upgrading the Database
+
+一旦确定`magration script`准确无误，就可以运行`upgrade()`将数据库运用到程序中
+
+```shell
+(venv) $ python hello.py db upgrade
+```
+
+如果是第一次运行`upgrade`其效果和`db.create_all()`相同
