@@ -482,6 +482,10 @@ manager.add_command('db', MigrateCommand)
 (venv) $ python hello.py db migrate -m "initial migration"
 ```
 
+该命令会在`migrations/versions`文件夹下生成一个脚本。
+脚本名为12位随机字符加上`-m`参数后跟的字符串  
+每次对数据库表进行修改后都需要运行该命令产生`migration script`，然后运行`upgrade()`命令更新实际的数据库
+
 ### Upgrading the Database
 
 一旦确定`magration script`准确无误，就可以运行`upgrade()`将数据库运用到程序中
