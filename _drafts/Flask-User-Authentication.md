@@ -264,6 +264,12 @@ def login():
     return render_template('auth/login.html', form=form)
 ```
 
+提交登录密令的 POST 请求最后也做了重定向，不过目标 URL 有两种可能。
+用户访问未授权的 URL 时会显示登录表单，Flask-Login
+会把原地址保存在查询字符串的 next 参数中，这个参数可从 request.args 字典中读取。
+如果查询字符串中没有 next 参数，则重定向到首页。
+如果用户输入的电子邮件或密码不正确，程序会设定一个 Flash 消息，再次渲染表单，让用户重试登录
+
 `app/templates/auth/login.html`
 ```html
 {% extends "base.html" %}
@@ -314,4 +320,182 @@ def logout():
     </h1>
 </div>
 {% endblock %}
+```
+
+更新数据库模型
+```shell
+python manage.py db migrate -m "Login_support"
+python manage.py db upgrade
+```
+
+手动添加一条用户记录
+```shell
+(venv) $ python manage.py shell
+>>> u = User(email='john@example.com', username='john', password='cat')
+>>> db.session.add(u)
+>>> db.session.commit()
+```
+
+运行测试
+```shell
+python manage.py runserver
+```
+
+## New User Registration
+
+### Adding a User Registration Form
+
+在`app/auth/forms.py`中添加表格
+```python
+from flask_wtf import Form
+from wtforms import StringField, PasswordField, BooleanField, SubmitField
+from wtforms.validators import Required, Length, Email, Regexp, EqualTo
+from wtforms import ValidationError
+from ..models import User
+
+
+class RegistrationForm(Form):
+    email = StringField('Email', validators=[Required(), Length(1,64), Eamil()])
+    username = StringField('Username',
+                validators=[Required(),
+                Length(1,64),
+                Regexp('^[A-Za-z][A-Za-z0-9_.]*$',
+                        0,
+                        'Username must have only letters, '
+                        'numbers, dots or underscores')])
+    password = PasswordField('Password',
+                validators=[Required(),
+                            EqualTo('password2',
+                                message='Passwords must match.')])
+    password2 = PasswordField('Confirm password', validators=[Required()])
+    submit = SubmitField('Register')
+
+    def validate_email(self, field):
+        if User.query.filter_by(email=field.data).first():
+            raise ValidationError('Email already registered.')
+
+    def validate_username(self, field):
+        if User.query.filter_by(username=field.data).first():
+            raise ValidationError('Username already in use.')
+```
+
+添加 `app/templates/auth/register.html`
+```html
+{% extends "base.html" %}
+{% import "bootstrap/wtf.html" as wtf %}
+
+{% block title %}Flask - Register{% endblock %}
+
+{% block page_content %}
+<div class="page-header">
+    <h1>Register</h1>
+</div>
+<div class="col-md-4">
+    {{ wtf.quick_form(form) }}
+</div>
+{% endblock %}
+
+```
+
+在`app/templates/auth/login.html`中添加到注册页面的连接
+```html
+<p>
+    New user?
+    <a href="{{url_for('auth.register')}}">
+        Click here to register
+    </a>
+</p>
+```
+
+### Registering New Users
+
+`app/auth/view.py`中添加注册route
+```python
+@auth.route('/register', methods['GET', 'POST'])
+def register():
+    form = RegistrationForm()
+    if form.validate_on_submit():
+        user = User(email=form.email.data,
+                    username=form.username.data,
+                    password=form.password.data)
+        db.session.add(user)
+        flash('You can now login.')
+        return redirect(url_for('auth.login'))
+    return render_template('auth/register.html', form=form)
+```
+
+## Account Confirmation
+
+用户注册时向用户发送一封确认邮件，用户点击邮箱中的确认邮件通过验证
+
+### Generating Confirmation Tokens with itsdangerous
+
+通常需要用户点击一个`http://www.example.com/auth/confirm/<id>`这样的连接即可验证。
+但是如果直接这样很容易被用户伪造验证。所以可以通过一些加密方式将`<id>`加密，生成`token`。
+这里需要用到`itsdangerous`包
+
+```shell
+(venv) $ python manage.py shell
+>>> from manage import app
+>>> from itsdangerous import TimedJSONWebSignatureSerializer as Serializer
+>>> s = Serializer(app.config['SECRET_KEY'], expires_in = 3600)
+>>> token = s.dumps({ 'confirm': 23 })
+>>> token
+'eyJhbGciOiJIUzI1NiIsImV4cCI6MTM4MTcxODU1OCwiaWF0IjoxMzgxNzE0OTU4fQ.ey ...'
+>>> data = s.loads(token)
+>>> data
+{u'confirm': 23}
+```
+
+修改`app/models.py`，添加`confirmed`列
+```python
+from werkzeug.security import generate_password_hash, check_password_hash
+from itsdangerous import TimedJSONWebSignatureSerializer as Serializer
+from flask import current_app
+from flask_login import UserMixin
+from . import db, login_manager
+
+
+class User(UserMixin, db.Model):
+    # ...
+    confirmed = db.Column(db.Boolean, default=False)
+
+    def generate_confirmation_token(self, expiration=3600):
+        s = Serializer(current_app.config['SECRET_KEY'], expiration)
+        return s.dumps({'confirm': self.id})
+
+    def confirm(self, token):
+        s = Serializer(current_app.config['SECRET_KEY'])
+        try:
+            data = s.loads(token)
+        except:
+            return False
+        if data.get('confirm') != self.id:
+            return False
+        self.confirmed = True
+        db.session.add(self)
+        return True
+```
+
+运行`migrage`和`upgrade`命令更新数据库
+
+### Sending Confirmation Emails
+
+`app/auth/view.py`修改注册route
+```python
+from ..email import send_email
+
+@auth.route('/register', methods = ['GET', 'POST'])
+def register():
+    form = RegistrationForm()
+    if form.validate_on_submit():
+        # ...
+        db.session.add(user)
+        db.session.commit()
+        token = user.generate_confirmation_token()
+        send_email(user.email, 'Confirm Your Account',
+                  'auth/email/confirm', user=user, token=token)
+        flash('A confirmation email has been sent to you by email.')
+        return redirect(url_for('auth.login'))
+    return render_template('auth/register.html', form=form)
 ```
