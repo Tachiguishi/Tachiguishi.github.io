@@ -232,14 +232,16 @@ class LoginForm(Form):
 ```
 
 修改模板`app/templates/base.html`，添加语句
-```html
+```liquid
+{% raw %}
 <ul class="nav navbar-nav navbar-right">
-    {% if current_user.is_authenticated() %}
+    {% if current_user.is_authenticated %}
     <li><a href="{{ url_for('auth.logout') }}">Sign Out</a></li>
     {% else %}
     <li><a href="{{ url_for('auth.login') }}">Sign In</a></li>
     {% endif %}
 </ul>
+{% endraw %}
 ```
 
 ### Signing Users In
@@ -271,7 +273,8 @@ def login():
 如果用户输入的电子邮件或密码不正确，程序会设定一个 Flash 消息，再次渲染表单，让用户重试登录
 
 `app/templates/auth/login.html`
-```html
+```liquid
+{% raw %}
 {% extends "base.html" %}
 {% import "bootstrap/wtf.html" as wtf %}
 
@@ -285,6 +288,7 @@ def login():
     {{ wtf.quick_form(form) }}
 </div>
 {% endblock %}
+{% endraw %}
 ```
 
 ### Signing Users Out
@@ -302,7 +306,8 @@ def logout():
 ### Testing Logins
 
 `app/templates/index.html`
-```html
+```liquid
+{% raw %}
 {% extends "base.html" %}
 
 {% block title %}Flasky{% endblock %}
@@ -320,6 +325,7 @@ def logout():
     </h1>
 </div>
 {% endblock %}
+{% endraw %}
 ```
 
 更新数据库模型
@@ -355,7 +361,7 @@ from ..models import User
 
 
 class RegistrationForm(Form):
-    email = StringField('Email', validators=[Required(), Length(1,64), Eamil()])
+    email = StringField('Email', validators=[Required(), Length(1,64), Email()])
     username = StringField('Username',
                 validators=[Required(),
                 Length(1,64),
@@ -380,7 +386,8 @@ class RegistrationForm(Form):
 ```
 
 添加 `app/templates/auth/register.html`
-```html
+```liquid
+{% raw %}
 {% extends "base.html" %}
 {% import "bootstrap/wtf.html" as wtf %}
 
@@ -394,24 +401,26 @@ class RegistrationForm(Form):
     {{ wtf.quick_form(form) }}
 </div>
 {% endblock %}
-
+{% endraw %}
 ```
 
 在`app/templates/auth/login.html`中添加到注册页面的连接
-```html
+```liquid
+{% raw %}
 <p>
     New user?
     <a href="{{url_for('auth.register')}}">
         Click here to register
     </a>
 </p>
+{% endraw %}
 ```
 
 ### Registering New Users
 
 `app/auth/view.py`中添加注册route
 ```python
-@auth.route('/register', methods['GET', 'POST'])
+@auth.route('/register', methods=['GET', 'POST'])
 def register():
     form = RegistrationForm()
     if form.validate_on_submit():
@@ -499,3 +508,108 @@ def register():
         return redirect(url_for('auth.login'))
     return render_template('auth/register.html', form=form)
 ```
+
+添加邮件模板`app/templates/auth/email/confirm.html`
+```liquid
+{% raw %}
+<p>Dear {{ user.username }}, </p>
+<p>Welcome to <b>Flasky</b>!</p>
+<p>To confirm your account please
+  <a href="{{url_for('auth.confirm', token=token, _external=True)}}">
+    click here
+  </a>
+  .
+</p>
+<p>Alternatively, you can paste the following link in your browers's address bar:</p>
+<p>{{url_for('auth.confirm', token=token, _external=True)}}</p>
+<p>Sincerely,</p>
+<p>The Flasky Team</p>
+<p><small>Note: replies to this email address are not monitored</small></p>
+{% endraw %}
+```
+
+通常`url_for()`函数生成的是相对地址，这样不能直接在邮件中使用，
+所以要添加`_external=True`参数从而产生绝对地址
+
+
+`app/auth/views.py`中添加确认route
+```python
+@auth.route('/confirm/<token>')
+@login_required
+def confirm(token):
+    if current_user.confirmed:
+        return redirect(url_for('main.index'))
+    if current_user.confirm(token):
+        flash('You have confirmed your account. Thanks!')
+    else:
+        flash('The confirmation link is invalid or has expired.')
+    return redirect(url_for('main.index'))
+```
+
+限制未验证用户的访问页面
+`app/auth/view.py`
+```python
+@auth.before_app_request
+def before_request():
+    if current_user.is_authenticated \
+            and not current_user.confirmed \
+            and request.endpoint[:5] != 'auth.' \
+            and request.endpoint != 'static':
+        return redirect(url_for('auth.unconfirmed'))
+
+@auth.route('/unconfirmed')
+def unconfirmed():
+    if current_user.is_anonymous or current_user.confirmed:
+        return redirect(url_for('main.index'))
+    return render_template('auth/unconfirmed.html')
+```
+
+添加`app/templates/auth/unconfirmed.html`
+```liquid
+{% raw %}
+{% extends "base.html" %}
+
+{% block title %}Flasky - Confirm your account{% endblock %}
+
+{% block page_content %}
+<div class="page-header">
+    <h1>
+        Hello, {{ current_user.username }}
+    </h1>
+    <h3>
+        You have not confirmed your account yet.
+    </h3>
+    <p>
+        Before you can access this site you need to confirm your account.
+        Check your inbox, you should have received an email with a confirmation link.
+    </p>
+    <p>
+        Need another confirmation email?
+        <a href="{{url_for('auth.resend_confirmation')}}">
+            Click here
+        </a>
+    </p>
+</div>
+{% endblock%}
+{% endraw %}
+```
+
+`app/auth/view.py`中添加`resend_confirmation`route
+```python
+@auth.route('/confirm')
+@login_required
+def resend_confirmation():
+    token = current_user.generate_confirmation_token()
+    send_email(current_user.email, 'Confirm Your Account',
+                'auth/email/confirm', user=current_user, token=token)
+    flash('A new confirmation email has been sent to you by email.')
+    return redirect(url_for('mail.index'))
+```
+
+## Account Management
+
+TBD
+
+* Password update
+* Password reset
+* Email address changes
