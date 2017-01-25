@@ -75,6 +75,7 @@ they are :args args2 names nu phonebook stat xact xtra:
 ## A Program to Look Up Someone in the Phone Book
 
 现有文件`phonebook`如下
+
 ```shell
 cat phonebook
 # Alice Chebba 973-555-2015
@@ -105,6 +106,7 @@ lu "Susan T"
 
 可以发现在查询`Susan T`时出错  
 这是因为算`Susan T`被当作一个参数传递给了`$1`，但是在执行`grep`命令时变量名被值替代
+
 ```shell
 grep Susan T phonebook
 ```
@@ -173,6 +175,7 @@ tshift a b c d e
 shift 3
 ```
 等价于
+
 ```shell
 shift
 shift

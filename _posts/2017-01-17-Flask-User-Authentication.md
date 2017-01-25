@@ -32,6 +32,7 @@ Werkzeug 的 security 模块可以很方便的进行密码的哈希计算。
 
 更改`User`Model
 `app/model.py`
+
 ```python
 from werkzeug.security import generate_passward_hash, check_password_hash
 from . import db
@@ -59,6 +60,7 @@ class User(db.Model):
 ```
 
 运行测试：
+
 ```shell
 (venv) $ python manage.py shell
 >>> u = User()
@@ -76,8 +78,9 @@ False
 ```
 注意虽然`u`和`u2`的密码相同，但产生的哈希值却是不同的
 
-可以为此写个单元测试，避免手动测试
+可以为此写个单元测试，避免手动测试  
 `tests/test_user_model.py`
+
 ```python
 import unittest
 from app import create_app, db
@@ -119,6 +122,7 @@ class UserModelTestCase(unittest.TestCase):
 ## Creating an Authentication Blueprint
 
 `app/auth/__init__.py`
+
 ```python
 from flask import Blueprint
 
@@ -128,6 +132,7 @@ from . import views
 ```
 
 `app/auth/views.py`
+
 ```python
 from flask import render_template
 from . import auth
@@ -138,6 +143,7 @@ def login():
 ```
 
 `app/__init__.py`
+
 ```python
 def create_app(config_name):
     # ...
@@ -167,6 +173,7 @@ pip install flask-login
 ### Preparing the User Model for Logins
 
 修改后的`app/models.py`
+
 ```python
 from flask_login import UserMixin
 
@@ -179,8 +186,9 @@ class User(UserMixin, db.Model):
     password_hash = db.Column(db.String(128))
 ```
 
-在工厂初始化函数中初始化Flask-Login
+在工厂初始化函数中初始化Flask-Login  
 `app/__init__.py`
+
 ```python
 from flask.ext.login import LoginManager
 
@@ -195,6 +203,7 @@ def create_app(config_name):
 ```
 
 获取用户信息接口
+
 `app/models.py`
 ```python
 from . import login_manager
@@ -207,6 +216,7 @@ def load_user(user_id):
 ### Protecting Routes
 
 添加`login_required`修饰知名某页面只有在登录后才能访问，例如：
+
 ```python
 from flask.ext.login import login_required
 
@@ -219,6 +229,7 @@ def secret():
 ### Adding a Login Form
 
 添加登录表单`app/auth/forms.py`
+
 ```python
 from flask_wtf import Form
 from wtforms import StringField, PasswordField, BooleanField, SubmitField
@@ -232,6 +243,7 @@ class LoginForm(Form):
 ```
 
 修改模板`app/templates/base.html`，添加语句
+
 ```liquid
 {% raw %}
 <ul class="nav navbar-nav navbar-right">
@@ -247,6 +259,7 @@ class LoginForm(Form):
 ### Signing Users In
 
 `app/auth/views.py`
+
 ```python
 from flask import render_template, redirect, request, url_for, flash
 from flask_login import login_user, logout_user, login_required
@@ -273,6 +286,7 @@ def login():
 如果用户输入的电子邮件或密码不正确，程序会设定一个 Flash 消息，再次渲染表单，让用户重试登录
 
 `app/templates/auth/login.html`
+
 ```liquid
 {% raw %}
 {% extends "base.html" %}
@@ -294,6 +308,7 @@ def login():
 ### Signing Users Out
 
 `app/auth/views.py`
+
 ```python
 @auth.route('/logout')
 @login_required
@@ -306,6 +321,7 @@ def logout():
 ### Testing Logins
 
 `app/templates/index.html`
+
 ```liquid
 {% raw %}
 {% extends "base.html" %}
@@ -329,12 +345,14 @@ def logout():
 ```
 
 更新数据库模型
+
 ```shell
 python manage.py db migrate -m "Login_support"
 python manage.py db upgrade
 ```
 
 手动添加一条用户记录
+
 ```shell
 (venv) $ python manage.py shell
 >>> u = User(email='john@example.com', username='john', password='cat')
@@ -343,6 +361,7 @@ python manage.py db upgrade
 ```
 
 运行测试
+
 ```shell
 python manage.py runserver
 ```
@@ -352,6 +371,7 @@ python manage.py runserver
 ### Adding a User Registration Form
 
 在`app/auth/forms.py`中添加表格
+
 ```python
 from flask_wtf import Form
 from wtforms import StringField, PasswordField, BooleanField, SubmitField
@@ -386,6 +406,7 @@ class RegistrationForm(Form):
 ```
 
 添加 `app/templates/auth/register.html`
+
 ```liquid
 {% raw %}
 {% extends "base.html" %}
@@ -405,6 +426,7 @@ class RegistrationForm(Form):
 ```
 
 在`app/templates/auth/login.html`中添加到注册页面的连接
+
 ```liquid
 {% raw %}
 <p>
@@ -419,6 +441,7 @@ class RegistrationForm(Form):
 ### Registering New Users
 
 `app/auth/view.py`中添加注册route
+
 ```python
 @auth.route('/register', methods=['GET', 'POST'])
 def register():
@@ -457,6 +480,7 @@ def register():
 ```
 
 修改`app/models.py`，添加`confirmed`列
+
 ```python
 from werkzeug.security import generate_password_hash, check_password_hash
 from itsdangerous import TimedJSONWebSignatureSerializer as Serializer
@@ -491,6 +515,7 @@ class User(UserMixin, db.Model):
 ### Sending Confirmation Emails
 
 `app/auth/view.py`修改注册route
+
 ```python
 from ..email import send_email
 
@@ -510,6 +535,7 @@ def register():
 ```
 
 添加邮件模板`app/templates/auth/email/confirm.html`
+
 ```liquid
 {% raw %}
 <p>Dear {{ user.username }}, </p>
@@ -533,6 +559,7 @@ def register():
 
 
 `app/auth/views.py`中添加确认route
+
 ```python
 @auth.route('/confirm/<token>')
 @login_required
@@ -547,6 +574,7 @@ def confirm(token):
 ```
 
 限制未验证用户的访问页面
+
 `app/auth/view.py`
 ```python
 @auth.before_app_request
@@ -565,6 +593,7 @@ def unconfirmed():
 ```
 
 添加`app/templates/auth/unconfirmed.html`
+
 ```liquid
 {% raw %}
 {% extends "base.html" %}
@@ -595,6 +624,7 @@ def unconfirmed():
 ```
 
 `app/auth/view.py`中添加`resend_confirmation`route
+
 ```python
 @auth.route('/confirm')
 @login_required

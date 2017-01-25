@@ -19,6 +19,7 @@ categories:
 ## Laying Out the User Interface
 
 自动生成的`activity_quiz.xml`文件
+
 ```xml
 <?xml version="1.0" encoding="utf-8"?>
 <RelativeLayout xmlns:android="http://schemas.android.com/apk/res/android"
@@ -42,6 +43,7 @@ categories:
 每个widget都是`View`类或其子类的一个实例
 
 修改`activity_quiz.xml`文件
+
 ```xml
 <?xml version="1.0" encoding="utf-8"?>
 <LinearLayout xmlns:android="http://schemas.android.com/apk/res/android"
@@ -115,6 +117,7 @@ categories:
 每个项目都有一个默认的string file，叫`strings.xml`，位于`app/res/values`
 
 修改`strings.xml`文件
+
 ```xml
 <resources>
     <string name="app_name">GeoQuiz</string>
@@ -132,6 +135,7 @@ categories:
 ## From Layout XML to View Objects
 
 自动生成的`QuizActivity.java`文件
+
 ```java
 package com.avalon.ash.geoquiz;
 
@@ -184,6 +188,7 @@ Android会为layout文件和每个string生成一个ID，但不会为layout文�
 ## Wiring Up Widgets
 
 在`QuizActivity.java`中添加成员变量
+
 ```java
 import android.widget.Button;
 
@@ -204,11 +209,13 @@ public class QuizActivity extends AppCompatActivity {
 ### Getting references to widgets
 
 可以通过这个函数在 Activity中获取到widget
+
 ```java
 public View findViewById(int id);
 ```
 
 在赋值给成员变量前记得先加`View`转化为`Button`
+
 ```java
 @Override
 protected void onCreate(Bundle savedInstanceState) {
@@ -223,6 +230,7 @@ protected void onCreate(Bundle savedInstanceState) {
 ### Setting listeners
 
 安卓程序是事件驱动的，所以要有`listener`来监听事件的发生
+
 ```java
 mTrueButton = (Button)findViewById(R.id.true_button);
 mTrueButton.setOnClickListener(new View.OnClickListener(){
@@ -238,16 +246,19 @@ mTrueButton.setOnClickListener(new View.OnClickListener(){
 toast 是给用户的一小段提示信息  
 
 首先在`strings.xml`中添加文本资源
+
 ```xml
 <string name="correct_toast">Correct!</string>
 <string name="incorrect_toast">Incorrect!</string>
 ```
 
 需要调用以下函数来创建 toast
+
 ```java
 public static Toast makeText(Context context, int resId, int duration);
 ```
 然后调用`Toast.show()`来显示 toast
+
 ```java
 public void onClick(View v){
     Toast.makeText(QuizActivity.this,

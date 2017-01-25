@@ -36,6 +36,7 @@ Flask 没有特定的结构要求，以下为一种可行的结构
 ## 配置文件
 
 `config.py`
+
 ```python
 import os
 basedir = os.path.abspath(os.path.dirname(__file__))
@@ -86,6 +87,7 @@ config = {
 为了可以更加灵活地选择运行环境，可以使用工厂函数
 
 `app/__init__.py`
+
 ```python
 from flask import Flask
 from flask_bootstrap import Bootstrap
@@ -118,6 +120,7 @@ def create_app(config_name):
 ### Blueprint
 
 `app/main/__init__.py`
+
 ```python
 from flask import Blueprint
 
@@ -127,6 +130,7 @@ from . import views, errors
 ```
 
 `app/main/errors.py`
+
 ```python
 from flask import render_template
 from . import main
@@ -141,6 +145,7 @@ def internal_server_error(e):
 ```
 
 `app/main/view.py`
+
 ```python
 from flask import render_template, session, redirect, url_for, current_app
 from .. import db
@@ -173,6 +178,7 @@ def index():
 ## Launch Script
 
 `manage.py`
+
 ```python
 #!/usr/bin/env python
 import os
@@ -204,12 +210,14 @@ if __name__ == '__main__':
 ## Requirements File
 
 `requirements.txt`文件中包含运行环境所依赖的`Package`  
-可以通过以下命令自动生成  
+可以通过以下命令自动生成
+
 ```shell
 (venv) $ pip freeze >requirements.txt
 ```
 
-如果转移项目，可以通过以下命令一键安装依赖库  
+如果转移项目，可以通过以下命令一键安装依赖库
+
 ```shell
 (venv) $ pip install -r requirements.txt
 ```
@@ -217,7 +225,8 @@ if __name__ == '__main__':
 ## Unit Tests
 
 `tests/test_basics.py`
-```shell
+
+```python
 import unittest
 from flask import current_app
 from app import create_app, db

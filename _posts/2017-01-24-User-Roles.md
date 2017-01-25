@@ -10,6 +10,7 @@ categories:
 ## Database Representation of Roles
 
 修改`app/models.py`中的角色表格
+
 ```python
 class Role(db.Model):
     __tablename__ = 'roles'
@@ -36,6 +37,7 @@ class Role(db.Model):
 | Administration access | 0b10000000(0x80) | Administrative access to the site |
 
 `app/models.py`中添加权限定义
+
 ```python
 class Permission:
     FOLLOW = 0x01
@@ -55,6 +57,7 @@ class Permission:
 | Administrator | 0b11111111(0xff) | Full access, which includes permission to change the roles of other users. |
 
 `app/models.py`
+
 ```python
 class Role(db.Model):
     # ...
@@ -81,12 +84,14 @@ class Role(db.Model):
 ```
 
 更新数据库模型
+
 ```shell
 python manage.py db migrate -m "User_roles"
 python manage.py db upgrade
 ```
 
 添加用户角色
+
 ```shell
 (venv) $ python manage.py shell
 >>> Role.insert_roles()
@@ -100,6 +105,7 @@ python manage.py db upgrade
 将管理员的邮箱提前写在配置中，但其注册时为其自动分配管理员权限
 
 `app/models.py`
+
 ```python
 class User(UserMixin, db.Model):
     # ...
@@ -117,6 +123,7 @@ class User(UserMixin, db.Model):
 
 确认某用户是否拥有某个权限  
 `app/models.py`
+
 ```python
 from flask.ext.login import UserMixin, AnonymousUserMixin
 
@@ -140,6 +147,7 @@ login_manager.anonymous_user = AnonymousUser
 ```
 
 添加`app/decorators.py`
+
 ```python
 from functools import wraps
 from flask import abort
@@ -163,6 +171,7 @@ def admin_required(f):
 ```
 
 `app/main/errors.py`中添加
+
 ```python
 @main.app_errorhandler(403)
 def forbidden(e):
@@ -170,6 +179,7 @@ def forbidden(e):
 ```
 
 使用
+
 ```python
 from decorators import admin_required, permission_required
 

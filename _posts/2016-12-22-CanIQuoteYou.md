@@ -41,6 +41,7 @@ echo "$filelist"
 ## The Backslash
 
 格式
+
 ```shell
 \c
 ```
@@ -81,6 +82,7 @@ onetwo
 它不是保护其中的内容不被转义，而是相反：使用命令结果替换命令
 
 格式：
+
 ```shell
 `command`
 ```
@@ -93,6 +95,7 @@ echo The date and time is: `date`
 ### `$(...)`结构
 
 格式：
+
 ```shell
 $(command)
 ```
