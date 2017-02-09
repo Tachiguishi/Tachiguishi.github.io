@@ -2,7 +2,9 @@
 layout: post
 title:  "Install g++ on Windows"
 date:   2016-11-15 16:11:22 +0800
-categories: g++
+categories:
+  - tools
+  - g++
 ---
 
 ## 使用`cygwin`
