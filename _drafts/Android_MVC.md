@@ -36,7 +36,7 @@ public class Question{
 
 在打开的`Question.java`文件中，在构造函数后面鼠标右键，
 点击`Generate`，选择`Getter and Setter`, 然后选择内部变量`mTextResId`和`mAnswerTrue`，点击生成  
-![code generation](http://i.imgur.com/awvXPuO.png)
+![code generation](https://i.imgur.com/awvXPuO.png)
 
 ## Android and Model-View-Controller
 
@@ -156,3 +156,24 @@ protected void onCreate(Bundle savedInstanceState){
   });
 }
 ```
+
+## 在硬件设备上运行
+
+首先配置手机，打开`开发者选项`中的`USB调试`功能
+(`Settings - Developer options - USB debugging`)  
+
+使用数据线连接手机与电脑(Mac上自动连接，而Windows上需要[安装驱动](https://developer.android.google.cn/studio/run/oem-usb.html)  
+如果驱动为自动安装则需要手动安装，在`计算机 - 设备管理`中可以看到有个`其它设备`-`ADB Interface`。  
+![abd driver uninstalled](https://i.imgur.com/cBt3Mkw.png)
+
+`右键 - 更新驱动程序`，在弹出的对话框中手动选择驱动所在目录，然后点击安装即可  
+安装成功后可以看到`Android Device - Android Composite ADB Interface`  
+![abd driver installed](https://i.imgur.com/jbBol81.png)
+
+如果连接成功可以在`Android Studio`的`Terminal`中运行`adb devices`进行检测  
+运行目录为`$(sdk/platform-tools)`，该命令可以列出所有已连接设备  
+![adb devices](https://i.imgur.com/oLV8nQ7.png)
+
+运行程序，选择你所连接的硬件设备而非模拟器，则可以你所连接的设备上测试你的程序。  
+之后就可以`Android monitor`中看到你设备的状态  
+![android monitor](https://i.imgur.com/WSuJl6u.png)
