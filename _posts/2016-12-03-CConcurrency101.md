@@ -1,8 +1,10 @@
 ---
 layout: post
-title:  "C++ Concurrency 101"
+title:  Chapter 1 C++ Concurrency 101
 date:   2016-12-03 06:24:00 +0800
-categories: Concurrency C++
+categories:
+  - Reading
+  - C++ Concurrency in Action by Anthony Williams
 ---
 
 使用 c++11 标准库中的多线程来学习多线程。  
