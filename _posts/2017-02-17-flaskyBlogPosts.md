@@ -458,6 +458,7 @@ def post(id):
 `app/templates/_posts.html`
 
 ```liquid
+{% raw %}
 <ul class="posts">
   {% for post in posts %}
   <li class="post">
@@ -470,6 +471,7 @@ def post(id):
   </li>
   {% endfor %}
 </ul>
+{% raw %}
 ```
 
 ## Blog Post Editor
