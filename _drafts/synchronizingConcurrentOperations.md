@@ -176,3 +176,156 @@ void data_processing_thread()
 
 如果同时有多个线程在等待某一个线程中的事件，在调用`notify_one()`时，一次只会有一个线程从等待中被唤醒。
 如果想同时唤醒所有的线程，可以使用`notify_all()`
+
+## waiting for one-off events with futures
+
+`std::future<>`和`std::shared_future<>`包含在`<future>`头文件中
+
+### returning values from background tasks
+
+```c++
+#include <future>
+#include <iostream>
+
+int find_the_answer_to_ltuae();
+void do_other_stuff();
+int main()
+{
+  std::future<int> the_answer=std::async(find_the_answer_to_ltuae);
+  do_other_stuff();
+  std::std::cout << "The answer is" << the_answer.get() << std::endl;
+}
+```
+
+和`std::thread`一样，传入`std::async`的函数也可以附带参数
+
+```c++
+#include <string>
+#include <future>
+
+struct X
+{
+  void foo(int, std;;string const&);
+  std::string bar(std::string const&);
+};
+X x;
+auto f1=std::async(&X::foo, &x, 42, "hello");   // p->foo(42, "hello"), p is &x
+auto f2=std::async(&X::bar, x, "goodbye");      // temp.bar("goodbye"),
+                                                // temp is a copy of x
+
+struct Y
+{
+  double operator()(double);
+};
+Y y;
+auto f3 = std::async(Y(), 3.14);// temp(3.14), temp is move-constructed from Y()
+auto f4 = std::async(std::ref(y), 2,718); // y(2.718)
+
+X baz(X&);
+std::asyc(baz, std;;ref(x));  // baz(x)
+class move_only
+{
+public:
+  move_only();
+  move_only(move_only&&);
+  move_only(move_only const&) = delete;
+  move_only& operator=(move_only&&);
+  move_only& operator=(move_only const&) = delete;
+
+  void operator()();
+};
+// temp(), temp is constructed form std::move(move_only())
+auto f5 = std::async(move_only());
+```
+
+`std::async`不一定会启动一个新线程，但可以用参数手动控制
+
+```c++
+auto f6=std::async(std::launch::async, Y(), 1.2); // run in new thread
+auto f7=std::async(std::launch::deferred, std::ref(x));// run in wait() or get()
+auto f8=std::async(std::launch::deferred | std::launch::async,
+                   baz, std::ref(x)); // implementation chooses
+auto f9=std::async(baz, std::ref(x)); // implementation chooses
+f7.wait();  // invoke deferred function
+```
+
+### associating a task with a future
+
+`std::packaged_task<>`接受函数签名作为模版参数，如`std::packaged_task<double(double)>`
+函数签名中的返回值类型即为调用`get_future()`时的返回的`std::future<>`类型
+
+```c++
+#include <deque>
+#include <mutex>
+#include <future>
+#include <thread>
+#include <utility>
+
+std::mutex m;
+std::deque<std::packaged_task<void()>> tasks;
+
+bool gui_shutdown_message_received();
+void get_and_process_gui_message();
+
+void gui_thread()
+{
+  while(!gui_shutdown_message_received())
+  {
+    get_and_process_gui_message();
+    std::packaged_task<void()> task;
+    {
+      std::lock_guard<std::mutex> lk(m);
+      if(tasks.empty())
+        continue;
+      task=std::move(tasks.front());
+      tasks.opp_front();
+    }
+    task();
+  }
+}
+
+std:: thread gui_bg_thread(gui_thread);
+
+template<typename Func>
+std::future<void> post_task_for_gui_thread(Func f)
+{
+  std::packaged_task<void()> task(f);
+  std::future<void> res=task.get_future();
+  std::lock_guard<std::mutex> lk(m);
+  tasks.push_back(std::move(task));
+  return res;
+}
+```
+
+### making (std::)promises
+
+在单个线程中处理多个通信连接
+
+```c++
+#include <future>
+
+void process_connections(connection_set& connections)
+{
+  while(!done(connections))
+  {
+    for(connection_iterator
+          connection=connections.begin(), end=connections.end();
+        connection!=end;
+        ++connection)
+    {
+      if(connection->has_incoming_data())
+      {
+        data_packet data=connection->incoming();
+        std::promise<payload_type>& p=connection->get_promise(data.id);
+        p.set_value(data.payload);
+      }
+      if(connection->has_outgoing_data())
+      {
+        outgoing_packet data=connection->top_of_outgoing_queue();
+        connection->send(data.plyload);
+        data.promise.set_value(true);
+      }
+    }
+  }
+}
+```
