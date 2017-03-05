@@ -2,7 +2,9 @@
 layout: post
 title:  "FlaskScript"
 date:   2016-11-16 16:11:47 +0800
-categories: flask
+categories:
+  - Reading
+  - Flask Web Development by Miguel Grinberg
 ---
 
 # Flask Script

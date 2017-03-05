@@ -2,7 +2,9 @@
 layout: post
 title:  Chapter 12 Followers
 date:   2017-02-28 05:09:47 +0800
-categories: flask
+categories:
+  - Reading
+  - Flask Web Development by Miguel Grinberg
 ---
 
 ## Database relationships revisited
