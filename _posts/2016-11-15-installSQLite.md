@@ -22,7 +22,7 @@ $ sqlite3 --version
 3.15.1 2016-11-04 12:08:49 1136863c76576110e710dd5d69ab6bf347c65e36
 ```
 
-> 之前`sqlite3.exe`文件时被放在`sqlite-shell-win32-*.zip`中的
+> 之前`sqlite3.exe`文件是被放在`sqlite-shell-win32-*.zip`中的
 
 ### 动态链接库(dll)
 
@@ -54,4 +54,132 @@ Among other issues, that often causes them to enter non-interactive mode.
 
 [Using SQLite in a Native Visual C++ Application](https://dcravey.wordpress.com/2011/03/21/using-sqlite-in-a-visual-c-application/)
 
-下载`sqlite-amalgamation-*.zip`文件，其中包含`sqlite3.h`, `sqlite3.c`等文件
+下载`sqlite-amalgamation-*.zip`文件，其中包含`sqlite3.h`, `sqlite3.c`等文件,将这些文件放入你的项目中即可
+
+```c++
+#include "stdafx.h"
+#include <ios>
+#include <iostream>
+#include "sqlite3.h"
+
+using namespace std;
+
+int _tmain(int argc, _TCHAR* argv[])
+{
+   int rc;
+   char *error;
+
+   // Open Database
+   cout << "Opening MyDb.db ..." << endl;
+   sqlite3 *db;
+   rc = sqlite3_open("MyDb.db", &db);
+   if (rc)
+   {
+      cerr << "Error opening SQLite3 database: "
+           << sqlite3_errmsg(db) << endl << endl;
+      sqlite3_close(db);
+      return 1;
+   }
+   else
+   {
+      cout << "Opened MyDb.db." << endl << endl;
+   }
+
+   // Execute SQL
+   cout << "Creating MyTable ..." << endl;
+   const char *sqlCreateTable = "CREATE TABLE MyTable \
+        (id INTEGER PRIMARY KEY, value STRING);";
+   rc = sqlite3_exec(db, sqlCreateTable, NULL, NULL, &error);
+   if (rc)
+   {
+      cerr << "Error executing SQLite3 statement: "
+           << sqlite3_errmsg(db) << endl << endl;
+      sqlite3_free(error);
+   }
+   else
+   {
+      cout << "Created MyTable." << endl << endl;
+   }
+
+   // Execute SQL
+   cout << "Inserting a value into MyTable ..." << endl;
+   const char *sqlInsert = "INSERT INTO MyTable VALUES(NULL, 'A Value');";
+   rc = sqlite3_exec(db, sqlInsert, NULL, NULL, &error);
+   if (rc)
+   {
+      cerr << "Error executing SQLite3 statement: "
+           << sqlite3_errmsg(db) << endl << endl;
+      sqlite3_free(error);
+   }
+   else
+   {
+      cout << "Inserted a value into MyTable." << endl << endl;
+   }
+
+   // Display MyTable
+   cout << "Retrieving values in MyTable ..." << endl;
+   const char *sqlSelect = "SELECT * FROM MyTable;";
+   char **results = NULL;
+   int rows, columns;
+   sqlite3_get_table(db, sqlSelect, &results, &rows, &columns, &error);
+   if (rc)
+   {
+      cerr << "Error executing SQLite3 query: "
+           << sqlite3_errmsg(db) << endl << endl;
+      sqlite3_free(error);
+   }
+   else
+   {
+      // Display Table
+      for (int rowCtr = 0; rowCtr <= rows; ++rowCtr)
+      {
+         for (int colCtr = 0; colCtr < columns; ++colCtr)
+         {
+            // Determine Cell Position
+            int cellPosition = (rowCtr * columns) + colCtr;
+
+            // Display Cell Value
+            cout.width(12);
+            cout.setf(ios::left);
+            cout << results[cellPosition] << " ";
+         }
+
+         // End Line
+         cout << endl;
+
+         // Display Separator For Header
+         if (0 == rowCtr)
+         {
+            for (int colCtr = 0; colCtr < columns; ++colCtr)
+            {
+               cout.width(12);
+               cout.setf(ios::left);
+               cout << "~~~~~~~~~~~~ ";
+            }
+            cout << endl;
+         }
+      }
+   }
+   sqlite3_free_table(results);
+
+   // Close Database
+   cout << "Closing MyDb.db ..." << endl;
+   sqlite3_close(db);
+   cout << "Closed MyDb.db" << endl << endl;
+
+   // Wait For User To Close Program
+   cout << "Please press any key to exit the program ..." << endl;
+   cin.get();
+
+   return 0;
+}
+```
+
+`c++`操作接口，其使用可以参考[这篇文章](http://www.runoob.com/sqlite/sqlite-c-cpp.html)  
+详细文档可以查阅[官方文档](https://www.sqlite.org/cintro.html)
+
+| API  | 描述  |
+| :--- | :--- |
+| `sqlite3_open(const char *filename, sqlite3 **ppDb)` | 该例程打开一个指向 SQLite 数据库文件的连接，返回一个用于其他 SQLite 程序的数据库连接对象。如果 filename 参数是 NULL 或 ':memory:'，那么 sqlite3_open() 将会在 RAM 中创建一个内存数据库，这只会在 session 的有效时间内持续。如果文件名 filename 不为 NULL，那么 sqlite3_open() 将使用这个参数值尝试打开数据库文件。如果该名称的文件不存在，sqlite3_open() 将创建一个新的命名为该名称的数据库文件并打开。 |
+| `sqlite3_exec(sqlite3*, const char *sql, sqlite_callback, void *data, char **errmsg)` | 该例程提供了一个执行 SQL 命令的快捷方式，SQL 命令由 sql 参数提供，可以由多个 SQL 命令组成。在这里，第一个参数 sqlite3 是打开的数据库对象，sqlite_callback 是一个回调，data 作为其第一个参数，errmsg 将被返回用来获取程序生成的任何错误。sqlite3_exec() 程序解析并执行由 sql 参数所给的每个命令，直到字符串结束或者遇到错误为止。 |
+| `sqlite3_close(sqlite3*)` | 该例程关闭之前调用 sqlite3_open() 打开的数据库连接。所有与连接相关的语句都应在连接关闭之前完成。如果还有查询没有完成，sqlite3_close() 将返回 SQLITE_BUSY 禁止关闭的错误消息。|
