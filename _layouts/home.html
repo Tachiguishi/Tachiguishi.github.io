@@ -2,10 +2,10 @@
 layout: default
 ---
 
-<div class="home">
+<div class="home col-md-9">
 
   <h1 class="page-heading">Posts</h1>
-  
+
   {{ content }}
 
   <ul class="post-list">
@@ -22,4 +22,8 @@ layout: default
 
   <p class="rss-subscribe">subscribe <a href="{{ "/feed.xml" | relative_url }}">via RSS</a></p>
 
+</div>
+
+<div class="col-md-3">
+  {% include category.html %}
 </div>

@@ -1,0 +1,12 @@
+{% if site.categories | size != 0 %}
+<ul class="list-group">
+  <li class="list-group-item list-group-item-info">分类</li>
+  {% for item in site.categories %}
+  {% if item[1] | size !=0 %}
+  <li class="list-group-item">{{ item[0] }}
+    <span class="badge">{{ item[1] | size }}</span>
+  </li>
+  {% endif %}
+  {% endfor %}
+</ul>
+{% endif %}
