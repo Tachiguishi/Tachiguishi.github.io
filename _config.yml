@@ -25,11 +25,14 @@ github_username: Tachiguishi
 disqus:
   shortname: RorSpike
 
+paginate: 20
+
 # Build settings
 markdown: kramdown
 theme: minima
 gems:
   - jekyll-feed
+  - jekyll-paginate
 exclude:
   - Gemfile
   - Gemfile.lock
@@ -48,4 +51,3 @@ default:
       comments: true
 # gems:
   # - jekyll-coffeescript
-  # - jekyll-paginate
