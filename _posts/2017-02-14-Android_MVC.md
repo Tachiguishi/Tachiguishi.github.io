@@ -4,7 +4,7 @@ title:  Chapter 2 Android and Model-View-Controller
 date:   2017-02-14 22:06:00 +0800
 categories:
   - Reading
-  - Android_Programming_by_Chris_Stewart
+  - Android Programming by Chris Stewart
 ---
 
 将上一张程序改为有多个问答题目

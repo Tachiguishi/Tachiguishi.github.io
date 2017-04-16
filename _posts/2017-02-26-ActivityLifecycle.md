@@ -4,7 +4,7 @@ title:  Chapter 3 The Activity Lifecycle
 date:   2017-02-26 10:25:00 +0800
 categories:
   - Reading
-  - Android_Programming_by_Chris_Stewart
+  - Android Programming by Chris Stewart
 ---
 
 ![activity lifecycle](https://developer.android.google.cn/images/training/basics/basic-lifecycle.png)
