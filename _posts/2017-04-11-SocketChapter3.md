@@ -10,7 +10,7 @@ categories:
 `Socket API`只接受`IP`地址作为目标地址，但是人类并不善于记忆数值型变量。
 但我们可以使用服务器名代替，然后转换成`IP`地址再使用  
 
-再运行工程中动态选择`IPv4`或`IPv6`
+再运行过程中动态选择`IPv4`或`IPv6`
 
 ## Mapping Names to Numbers
 

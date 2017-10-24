@@ -9,7 +9,8 @@ categories:
 
 ## IPv4 TCP Client
 
-典型的TCP客户端包含下面4个操作：  
+典型的TCP客户端包含下面4个操作：
+
 - 使用`socket()`创建`TCP socket`
 - 使用`connect()`建立与服务端的连接
 - 使用`send(), recv()`进行通信
@@ -96,7 +97,8 @@ int main(int argc, char * argv[]) {
 
 ## IPv4 TCP Server
 
-典型的服务端包含以下4个操作：  
+典型的服务端包含以下4个操作：
+
 - 使用`socket()`创建`TCP socket`
 - 使用`bind()`为`socket`分配端口号
 - 使用`listen()`进入监听状态，表示允许制定端口的连接
