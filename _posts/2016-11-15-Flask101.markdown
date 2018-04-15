@@ -34,6 +34,10 @@ $ easy_install virtualenv
 ```bash
 $ virtualenv venv
 ```
+或
+```bash
+$ python3 -m venv venv # 'python3 -m venv'为命令，后一个‘venv’为自定义的虚拟环境名
+```
 这样就创建了一个名为`venv`的虚拟环境，你可以在`flasky`文件夹下发现生成了一个`venv`文件夹
 `venv`为虚拟环境名，可以自定义
 
