@@ -13,7 +13,7 @@ menu:
 widgets: 
 - category
 - tag
-- links
+- goodreads
 - rss
 
 #### RSS 
@@ -52,6 +52,7 @@ author:
   linkedin:   
   google_plus:
   stackoverflow:  
+  goodreads: 43544276
 
 
 #### 目录
