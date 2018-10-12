@@ -277,3 +277,35 @@ grub2-mkconfig -o /boot/grub2/grub.cfg
 ## socket error 10038 无效的套接字
 
 使用`send`时出错，说明使用的套接字是无效的
+
+## install Oracle11g-32bit in Ubuntu16.04.05-32bit
+
+安装过程中报错`direct GOT relocation R_386_GOT32 against`,导致`genclntsh`脚本无法生成`libclntsh.so.11.1`库，
+网上查阅[资料][binutils_compatibility]说很可能是`binutils`版本兼容问题，  
+系统原生自带版本`2.26.1-1ubuntu1~16.04.6`，降级到`2.24-5ubuntu14.2`后依然不行，  
+错误信息变为`unrecognized relocation (0x2b) in section '.init'`  
+[网上传言][binutils_bug]说这是`binutils`的一个`bug`可以通过升级其版本解决  
+于是安装`2.26-8ubuntu2`版本解决，成功生成`libclntsh.so.11.1`
+
+之后报错`rdbms/lib/config.o file not recognized file truncated`导致`irman`与`ioracle`无法生成，
+此时只需根据[这篇文章][chang_env_rdbms.mk]里的方法
+修改`rdbms/lib/env_rdbms.mk`文件即可。  
+> 注意，这篇文章是安装`oracle12`，所以要将`-lnnz12`改为`-lnnz11`
+
+[binutils_compatibility]: https://jhartman.pl/2018/04/24/690/
+[binutils_bug]: https://github.com/dirkvdb/ps3netsrv--/issues/13
+[chang_env_rdbms.mk]: http://db.geeksinsight.com/2014/10/02/ora-12547-tns-lost-contact-on-dbca-in-12c-with-oel-7-uek/
+
+
+## 编译qt5.3.1
+
+### 运行`./configure`时`could not find qmake configuration file linux-g++`  
+
+文件是存在的，只是没找到，那么就是路径的问题。通常直接解压官网下载下的源码路径不会有错，没找到是因为路径中有中文
+
+可以将文件夹转移到纯英文目录下，  
+或者添加参数指明路径:`./configure -prefix $PWD/qtbase`。这样虽然能配置成功，但之后`make`时依然会因为中文路径出问题，所以建议使用前一种解决方式
+
+### 运行qt5程序时需要添加环境变量
+
+`QT_QPA_PLATFORM_PLUGIN_PATH=qtbase/plugins/platforms`
