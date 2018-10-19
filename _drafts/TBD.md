@@ -309,3 +309,82 @@ grub2-mkconfig -o /boot/grub2/grub.cfg
 ### 运行qt5程序时需要添加环境变量
 
 `QT_QPA_PLATFORM_PLUGIN_PATH=qtbase/plugins/platforms`
+
+## 获取文件大小 
+
+通过将文件当前位置指示符放在文件尾部，然后再获取指示符的位置来得到文件大小(bytes)
+
+```c++
+#include <ifstream>
+
+int main(){
+    std::ifstream file("somthing.dat");
+    file.seekg(0, std::ios::end);
+    int fileSize = file.tellg();
+    return 0;
+}
+```
+
+## 判断文件是否存在
+
+```c++
+#ifdef _WIN32
+#include <io.h>
+int _access(const char *path, int mode);
+#else
+#include <unistd.h>
+int access(const char *path, int mode);
+#endif
+
+```
+
+其中`mode`有如下集中取值：
+
+| mode | checks file for |
+| ---- | --------------- |
+|  0   | existence only  |
+|  2   | write permission|
+|  4   | read premission |
+|  6   | rean and write permission |
+
+```c++
+void main(){
+    if((_access("somefile.txt", 0)) == -1){
+        printf("can't file file.");
+    }
+    else if((_access("somefile.txt", 4)) == -1){
+        printf("have no read permission");
+    }
+}
+
+```
+
+## 获取当前路径
+
+```c++
+#ifdef _WIN32
+#include <direct.h>
+#else
+#include <unistd.h>
+#endif
+char* getcwd(char* buffer, int len);
+```
+
+## zh-hans.tld-list.com
+
+botbouncer
+
+```
+Hello.  Your IP address is making unauthorized automated requests to this website and access has been temporarily banned.
+
+To restore immediate access to this website, make the following Bitcoin payment within the next 2 hours:
+
+Bitcoin Address: 1FY5WqsMkpaUfdj3XiRSi36dQPX8QcFnyo
+Bitcoin Amount: 0.0005 BTC
+QR code: https://chart.googleapis.com/chart?cht=qr&chs=300x300&chld=L|2&chl=bitcoin%3A1FY5WqsMkpaUfdj3XiRSi36dQPX8QcFnyo%3Famount%3D0.0005
+
+After your full payment has reached 0 confirmation(s), your IP address will be granted access for a month.
+
+If you think this ban was made in error, or you are experiencing problems with your payment, please contact the website administrator at example@example.com and include your IP address (172.96.209.43) in your message. 
+
+```
