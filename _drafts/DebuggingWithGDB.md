@@ -18,16 +18,40 @@ ddd --version
 
 ## GDB基本命令
 
-* `break line`  
-    设置断点
-* `break file:line`  
-    在制定文件的制定行设置断点
+### breakpoint
+
+#### 设置断点
+
+* `break function`
+* `break line_number`
+* `break filename:line_number`
+* `break filename:function`
+
+#### 删除断点
+
+* `delete breakpoint-list-number`  
+    根据断点编号来删除断点
+* `delete`  
+    删除所有断点
+* `clear`  
+    删除即将遇到的最近的一个断点
+* `clear function`
+* `clear line_number`
+* `clear filename:line_number`
+* `clear filename:function`
+
+#### enable/disable
+
+* `disable breakpoint-list-number`
+* `disable`  disable所有断点
+* `enable breakpoint-list-number`
+* `enable`  enable所有断点
+* `enable once breakpoint-list-number`
+
 * `条件断点`  
     `break lineno if condition` 如: `break 30 if num_y==1`  
     也可以在设置了普通断点后在添加条件: `condition breakpointNO num_y==1`,
-    其中的`breakpointNO`为断点的编号，可以通过`info break`命令来查看
-* `clear line`  
-    消除断点
+    其中的`breakpointNO`为断点的编号，可以通过`info break`或`info breakpoints`来查看
 * `tbreak line`  
     设置临时断点，即该断点在被出发过一次后就会自动失效
 * `run`  
