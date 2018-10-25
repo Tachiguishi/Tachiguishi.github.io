@@ -385,6 +385,49 @@ QR code: https://chart.googleapis.com/chart?cht=qr&chs=300x300&chld=L|2&chl=bitc
 
 After your full payment has reached 0 confirmation(s), your IP address will be granted access for a month.
 
-If you think this ban was made in error, or you are experiencing problems with your payment, please contact the website administrator at example@example.com and include your IP address (172.96.209.43) in your message. 
+If you think this ban was made in error, or you are experiencing problems with your payment, please contact the website administrator at example@example.com and include your IP address in your message. 
 
 ```
+
+
+## Oracle数据库连接缓慢
+
+在`ubuntu 16.04`上直接使用`sqlplus user/pwd`连接数据库很快，而使用`sqlplus sys/sys@local`连接十分缓慢，可能需要5~10分钟才能连上。  
+数据库位于本机，确认`listener.ora`和`tnsnames.ora`配置无问题。`tnsnames.ora`中指定的`host`地址为`localhost`,
+`/etc/hosts`中有配置语句`127.0.0.1 localhost`。  
+结果发现是`/etc/resolv.conf`中有语句`nameserver 127.0.1.1`, 将该条语句删除后数据库连接速度恢复正常，瞬间连上。
+
+`/etc/resolv.conf`中的配置是有`NetworkManager`写入的，修改其配置文件`/etc/NetworkManager/NetworkManager.conf`，删除`dns=dnsmasq`。
+这样就可以保证以后即使重启电脑后`/etc/resolv.conf`文件中也不会出新`nameserver 127.0.1.1`
+
+## Ubuntu 16.04 将启动器移到屏幕底部
+
+```shell
+gsettings set com.canonical.Unity.Launcher launcher-position Bottom 
+```
+
+## vs code markdown preview 不显示svg图片
+
+这是与有`vs code`的安全机制引起的，运行`Markdown: Change preview security settings`命令，将安全级别改为`Allow insecure content`即可  
+参考文档: [MarkDown preview secutiry](https://code.visualstudio.com/docs/languages/markdown#_markdown-preview-security)
+
+## `WIN32, _WIN32, _WIN64`
+
+`WIN32`定义在头文件`minwindef.h`中，只要使用了头文件`Windows.h`则程序中就会定义
+
+```c++
+#ifndef WIN32
+    #define WIN32
+#endif
+```
+
+正因为时这种方式定义的，所以可以使用`#undefine WIN32`来取消定义
+
+而`_WIN32`与`_WIN64`是微软的`Visual C++ compiler`预定义的宏，无法修改。微软[官方文档](https://msdn.microsoft.com/en-us/library/b0084kay.aspx)解释为：
+
+> _WIN32 Defined as 1 when the compilation target is 32-bit ARM, 64-bit ARM, x86, or x64. Otherwise, undefined.
+> _WIN64 Defined as 1 when the compilation target is 64-bit ARM or x64. Otherwise, undefined.
+
+所以一般情况下使用`Visual Studio`编译时`_WIN32`始终被定义，而`_WIN64`只在编译64位程序时才会被定义
+
+## userdel -r username 删除用户
