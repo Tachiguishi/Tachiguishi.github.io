@@ -431,3 +431,28 @@ gsettings set com.canonical.Unity.Launcher launcher-position Bottom
 所以一般情况下使用`Visual Studio`编译时`_WIN32`始终被定义，而`_WIN64`只在编译64位程序时才会被定义
 
 ## userdel -r username 删除用户
+
+## vs code doesn't read .bash_profile in integrated terminal
+
+vs code 集成终端运行时报错`bash: __git_ps1: command not found...`,而我正常的终端却没有问题
+
+这是因为`VS Code`启动的是一个`no-login`的`shell`，所以只会载入`.bashrc`。  
+所以可以将`source ～/git-prompt.sh`等相关配置放入`.bashrc`中  
+或者在`VS Code`中修改配置`"terminal.integrated.shellArgs.linux": ["-l"]`，使继承终端变成一个`login`终端，
+这样就会载入`.bash_profile`文件
+
+[官方文档](https://code.visualstudio.com/docs/editor/integrated-terminal#_shell-arguments)
+
+## 库连接顺序
+
+`gcc`默认开启`--as-needed`，这导致会自动忽略没有被使用的库，即使你添加到了`-llibname`参数中。  
+所以当连接库的参数顺序不对时会导致有些库被认为不需要而被忽略  
+静态库连接错误: `undefined reference to: xxx`  
+动态库连接错误: `undefined symbol: xxx`  
+
+### 解决方法
+
+* 在项目开发过层中尽量让lib是垂直关系，避免循环依赖；越是底层的库，越是往后面写
+* 通过-(和-)强制repeat，让一些库重复查找保证其被编译，但是这样会浪费一些时间
+
+[参考](https://www.cnblogs.com/OCaml/archive/2012/06/18/2554086.html)

@@ -140,6 +140,14 @@ End with a line saying just "end".
 
 ### Watchpoints
 
+```shell
+watch expression
+```
+
+当监视的表达式的值改变时将自动触发断点。  
+被监视表达式中的变量必须在当前作用域中，当超出作用域时自动删除`watchpoint`。  
+`watchpoint`不支持多线程，它只能监视变量在单个线程中的变化
+
 ### 命令缩写
 
 * `b == break`
