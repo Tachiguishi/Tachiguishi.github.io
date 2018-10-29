@@ -148,6 +148,47 @@ watch expression
 被监视表达式中的变量必须在当前作用域中，当超出作用域时自动删除`watchpoint`。  
 `watchpoint`不支持多线程，它只能监视变量在单个线程中的变化
 
+### 查看变量值
+
+* `print variablename` 显示变量当前值，可以直接显示结构体，数组等复杂数据结构。  
+* `print/x var` 以十六进制输出变量的值，其它格式参数`c`: 单个字符, `s`: 字符串，`f`: 浮点型
+* `display variablename` 在每个断点被触发后自动显示变量的值(如果变量在作用域内的话)  
+* `info display` 列出所有`display`列表。
+* `disable display display_list_number`
+* `enable display display_list_number`
+* `undisplay display_list_number` 删除
+* `command` 使用`command`语法自定义输出变量与格式，示例：  
+    ```shell
+    >p tmp->val
+    >if (tmp->left != 0)
+        >p tmp->left->val
+        >else
+        >printf "%s\n", "none"
+        >end
+    >if (tmp->right != 0)
+        >p tmp->right->val
+        >else
+        >printf "%s\n", "none"
+        >end
+    >end
+    ```
+* `call function()`  
+    在`command`语句中，使用使用`call function()`的方式可以调用程序中的函数
+* 动态数组  
+    对于普通数组`int x[10]`,可以使用`print x`直接将整个数组全部输出，  
+    当时对于动态分配的数组`int* y; y = (int*)malloc(10*sizeof(ing));`，
+    这种方法却不行,`print y`输出的时`y`的地址，`print *y`输出的时`y[0]`的值。  
+    要想输出整个数组，需要使用`*pointer@number_of_elements`的形式，即`print *y*10`。
+    同时支持在输出时的类型转化: `print (int [10])*y`
+* `ptype classname`  
+    输出类的基本结构：`public`的变量与接口
+* `info locals` 列出当前调用栈当中的所有局部变量的值
+
+### 修改变量值
+
+`set var = new_value`
+
+
 ### 命令缩写
 
 * `b == break`
@@ -156,15 +197,11 @@ watch expression
 * `c == continue`
 * `fin == finish`
 * `u = until`
+* `p == print`
+* `dis == disable`
+* `disp == display`
+* `undisp == undisplay`
 
-* `tbreak line`  
-    设置临时断点，即该断点在被出发过一次后就会自动失效
-* `run`  
-    启动程序，后面可接参数
-* `print variablename`  
-    查看制定变量的当前值
-* `watch [variablename | condition]`  
-    监视`variablename`值,但其值变化时会自动出发断点。也可以使用条件语句，如`wactch (var > 30)`
 * stack frame  
     相关命令: `frame`, `up`, `down`, `backtrace`
 * `-tui`  
