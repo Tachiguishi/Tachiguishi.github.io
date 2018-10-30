@@ -1,0 +1,53 @@
+---
+layout: post
+title:  Tmux 101
+date:   2018-10-31 19:30:00 +0800
+categories: tools
+tags: tmux
+---
+
+## 插件
+
+[插件目录](https://github.com/tmux-plugins)
+
+### [tpm](https://github.com/tmux-plugins/tpm)
+
+Tmux Plugin Manager.
+
+#### 安装方法：
+
+1. `git clone git@github.com:tmux-plugins/tpm.git ~/.tmux/plugins/tpm`
+2. 修改`.tmux.conf`文件
+	```conf
+	# List of plugins
+	set -g @plugin 'tmux-plugins/tpm'
+	set -g @plugin 'tmux-plugins/tmux-sensible'
+
+	# Other examples:
+	# set -g @plugin 'github_username/plugin_name'
+	# set -g @plugin 'git@github.com/user/plugin'
+	# set -g @plugin 'git@bitbucket.com/user/plugin'
+
+	# Initialize TMUX plugin manager (keep this line at the very bottom of tmux.conf)
+	run '~/.tmux/plugins/tpm/tpm'
+	```
+3. reload: `tmux source ~/.tmux.conf`
+
+#### 使用方法：
+
+* 安装插件  
+	在`~/.tmux.conf`中使用`set -g @plugin '...'`语句，然后按`prefix + I`,相应插件就会被clone到`~/.tmux/plugins/`目录下
+* 卸载插件  
+	删除`~/.tmux.conf`中的相关语句，按`prefix + alt + u`.  
+	或者直接手动删除`~/.tmux/plugins/`目录下的相关插件目录
+
+### [Restoring tmux Sessions](https://andrewjamesjohnson.com/restoring-tmux-sessions/)
+
+```conf
+set -g @plugin 'tmux-plugins/tmux-resurrect'
+set -g @plugin 'tmux-plugins/tmux-continuum'
+
+set -g @continuum-restore 'on'
+```
+
+这样配置后，每`15 min`会自动保存一次。同时也可以用`prefix-ctrl-s`手动保存，`prefix-ctrl-r`手动载入
