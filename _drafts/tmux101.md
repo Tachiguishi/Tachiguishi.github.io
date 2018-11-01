@@ -36,7 +36,8 @@ Tmux Plugin Manager.
 #### 使用方法：
 
 * 安装插件  
-	在`~/.tmux.conf`中使用`set -g @plugin '...'`语句，然后按`prefix + I`,相应插件就会被clone到`~/.tmux/plugins/`目录下
+	在`~/.tmux.conf`中使用`set -g @plugin '...'`语句，然后按`prefix + I`,相应插件就会被clone到`~/.tmux/plugins/`目录下  
+	或者手动执行`~/.tmux/plugins/tpm/bin/install_plugins`安装
 * 卸载插件  
 	删除`~/.tmux.conf`中的相关语句，按`prefix + alt + u`.  
 	或者直接手动删除`~/.tmux/plugins/`目录下的相关插件目录

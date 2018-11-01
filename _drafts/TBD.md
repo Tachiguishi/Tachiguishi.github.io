@@ -498,3 +498,10 @@ ln -s /lib64/libmbedcrypto.so.3 /lib64/libmbedcrypto.so.2
 ```
 
 [参考文档](https://copr.fedorainfracloud.org/coprs/outman/shadowsocks-libev/)
+
+
+## socket connect 非阻塞
+
+## socket recv 返回值
+
+## ubuntu 631端口被监听

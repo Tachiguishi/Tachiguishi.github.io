@@ -188,7 +188,6 @@ watch expression
 
 `set var = new_value`
 
-
 ### 命令缩写
 
 * `b == break`
@@ -202,6 +201,8 @@ watch expression
 * `disp == display`
 * `undisp == undisplay`
 
+### other
+
 * stack frame  
     相关命令: `frame`, `up`, `down`, `backtrace`
 * `-tui`  
@@ -209,3 +210,26 @@ watch expression
 * startup files  
     `.gdbinit`文件会在`gdb`每次启动时被载入，所以可以在其中放入一些基础设定，避免每次打开时要重新配置断点等信息。  
     在`$HOME`目录和项目目录中都可以有`.gdbinit`文件，其中`$HOME`目录的`.gdbinit`文件会最先载入，然后载入可执行文件，最后载入项目文件中的`.gdbinit`文件。也可以使用`gdb -command=startup_files executable`指定其他启动文件
+
+## core dump
+
+程序在运行中崩溃时通常会生成`core dump`文件，生成文件的目录位置与文件名可以通过`sysctl kernel.core_pattern`查看  
+`core_pattern`的具体含义可以查看`man 5 core`或[kernel_doc](https://www.kernel.org/doc/Documentation/sysctl/kernel.txt)
+
+而在`Fedora`中，默认是不会产生`core`文件的，但可以通过`coredumpctl`命令来获取
+
+```shell
+Example 1. List all the core dumps of a program named foo
+    # coredumpctl list foo
+
+Example 2. Invoke gdb on the last core dump
+    # coredumpctl gdb
+
+Example 3. Show information about a process that dumped core, matching by its PID 6654
+    # coredumpctl info 6654
+
+Example 4. Extract the last core dump of /usr/bin/bar to a file named bar.coredump
+    # coredumpctl -o bar.coredump dump /usr/bin/bar
+```
+
+> [参考文档](https://ask.fedoraproject.org/en/question/98776/where-is-core-dump-located/)
