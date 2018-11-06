@@ -108,17 +108,6 @@ lshw -C display
 
 ## login-loop after installing nvidia-384
 
-
-## fedora shadowsocks
-
-```shell
-dnf copr enable -y libredhat/shadowsocks
-dnf install -y shadowsocks-libev simple-obfs
-
-sudo systemctl start shadowsocks-libev-local@config.service
-sudo systemctl enable shadowsocks-libev-local@config.service
-```
-
 ## fedora gitkraken
 
 ```shell
@@ -466,42 +455,14 @@ unknown command beginning "CONSTRAINT..." - rest of line ignored.
 这是由于`constraint`语句与前面的语句间包含空行，导致语句解析错误。只要将空行删除即可  
 [参考](https://stackoverflow.com/questions/27112678/oracle-unknown-command-constraint)
 
-## shadowsocks 启动失败
-
-```shell
-error while loading shared libraries: libmbedcrypto.so.2: cannot open shared object file: No such file or directory
-```
-
-```shell
-ldd /bin/ss-local
-#=>linux-vdso.so.1 (0x00007ffec466e000)
-#=>libm.so.6 => /lib64/libm.so.6 (0x00007fd49e392000)
-#=>libev.so.4 => /lib64/libev.so.4 (0x00007fd49e183000)
-#=>libcares.so.2 => /lib64/libcares.so.2 (0x00007fd49df71000)
-#=>libsodium.so.23 => /lib64/libsodium.so.23 (0x00007fd49dd1e000)
-#=>libmbedcrypto.so.2 => not found
-#=>libpcre.so.1 => /lib64/libpcre.so.1 (0x00007fd49d84e000)
-#=>libpthread.so.0 => /lib64/libpthread.so.0 (0x00007fd49d62f000)
-#=>libc.so.6 => /lib64/libc.so.6 (0x00007fd49d270000)
-#=>/lib64/ld-linux-x86-64.so.2 (0x00007fd49e957000)
-#=>libpkcs11-helper.so.1 => /lib64/libpkcs11-helper.so.1 (0x00007fd49d053000)
-#=>libdl.so.2 => /lib64/libdl.so.2 (0x00007fd49ce4f000)
-#=>libcrypto.so.1.1 => /lib64/libcrypto.so.1.1 (0x00007fd49c9be000)
-#=>libz.so.1 => /lib64/libz.so.1 (0x00007fd49c7a7000)
-
-ll /lib64/libmbedcrypto.so.*
-#=>-rwxr-xr-x. 1 root root 402976 Sep 19 17:43 /lib64/libmbedcrypto.so.2.13.0
-#=>lrwxrwxrwx. 1 root root     23 Sep 19 17:43 /lib64/libmbedcrypto.so.3 -> libmbedcrypto.so.2.13.0
-
-# 发现存在libmbedcrypto.so库，只是版本不同，所以建立软连接使其成功找到库文件
-ln -s /lib64/libmbedcrypto.so.3 /lib64/libmbedcrypto.so.2
-```
-
-[参考文档](https://copr.fedorainfracloud.org/coprs/outman/shadowsocks-libev/)
-
-
 ## socket connect 非阻塞
 
 ## socket recv 返回值
 
 ## ubuntu 631端口被监听
+
+## 主机与vm虚拟机中的ubuntu互相拷贝
+
+```
+apt-get install open-vm-tools open-vm-tools-desktop
+```

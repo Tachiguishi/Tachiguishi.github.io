@@ -188,6 +188,14 @@ watch expression
 
 `set var = new_value`
 
+### 调用栈(call stack)
+
+* `backtrace` 显示当前调用栈信息，每个栈都有一个序号(从`0`开始)
+* `frame n` 调转到指定栈，(`n`为`backtrace`列表中的序号)
+* `up`, `down` 向上/下跳转一个栈
+* `backtrace n` 显示从栈顶开始的`n`栈信息
+* `backtrace -n` 显示从栈底开始的`n`栈信息
+
 ### 命令缩写
 
 * `b == break`
@@ -200,11 +208,10 @@ watch expression
 * `dis == disable`
 * `disp == display`
 * `undisp == undisplay`
+* `bt == backtrace`
 
 ### other
 
-* stack frame  
-    相关命令: `frame`, `up`, `down`, `backtrace`
 * `-tui`  
     进入`TUI`模式(可以显示源码)，在普通模式下也可以通过按`ctrl+x,ctrl+a`进入`TUI`模式
 * startup files  
@@ -233,3 +240,13 @@ Example 4. Extract the last core dump of /usr/bin/bar to a file named bar.coredu
 ```
 
 > [参考文档](https://ask.fedoraproject.org/en/question/98776/where-is-core-dump-located/)
+
+## 多线程
+
+* `info threads` 列出当前所有线程，当前线程前有一个`*`标记
+* `thread n` 调转到指定线程(`n`为`info threads`命令列出的编号)
+* `break args thread n` 在指定线程上设置断点
+
+## 参考资料
+
+* [Official_documentation](https://www.gnu.org/software/gdb/documentation/)

@@ -87,7 +87,7 @@ bundle exec jekyll serve
 解决： 
 
 ```shell
-sudo apt-get install libz-dev
+sudo apt-get install zlib-devel
 # ubuntu 上执行sudo apt-get install libz-dev
 ```
 
