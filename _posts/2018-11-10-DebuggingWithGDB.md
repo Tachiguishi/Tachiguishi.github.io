@@ -1,7 +1,7 @@
 ---
 layout: post
 title:  Debugging with GDB
-date:   2018-10-10 19:30:00 +0800
+date:   2018-11-10 19:30:00 +0800
 categories: tools
 tags: gdb
 ---
@@ -246,6 +246,25 @@ Example 4. Extract the last core dump of /usr/bin/bar to a file named bar.coredu
 * `info threads` 列出当前所有线程，当前线程前有一个`*`标记
 * `thread n` 调转到指定线程(`n`为`info threads`命令列出的编号)
 * `break args thread n` 在指定线程上设置断点
+
+## 重定向
+
+通常运行程序的输出与GDB在同一窗口，对于某些程序，特别是`ncurse`程序这样很不适合调试。  
+这时需要将程序输出重定向到别的窗口。  
+
+1. 先启动一个终端窗口作为运行程序的输出窗口，在该窗口中运行`tty`获取其ID,如`/dev/pts/7`
+2. 启动`GDB`，运行`tty /dev/pts/7`将程序输出重定向到先前打开的终端窗口  
+
+## 其他工具
+
+* `strace` 打印出所有系统调用，调用参数，返回结果，错误信息
+* `ltrace` 打印出所有库函数调用，调用参数，返回结果，错误信息
+* `lint`等静态分析工具
+* 内存检测工具， 参见[Memory Debuggers](https://elinux.org/Memory_Debuggers)
+
+## 其它语言
+
+`GDB`还可以用来调试其它语言，如`Java`, `Python`, `Perl`
 
 ## 参考资料
 
