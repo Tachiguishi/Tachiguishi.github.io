@@ -466,3 +466,10 @@ unknown command beginning "CONSTRAINT..." - rest of line ignored.
 ```
 apt-get install open-vm-tools open-vm-tools-desktop
 ```
+
+## shell终端光标消失
+
+假如Linux下光标消失，不要急：
+
+echo -e "\033[?25l"  隐藏光标
+echo -e "\033[?25h" 显示光标
