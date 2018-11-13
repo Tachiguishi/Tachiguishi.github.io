@@ -473,3 +473,22 @@ apt-get install open-vm-tools open-vm-tools-desktop
 
 echo -e "\033[?25l"  隐藏光标
 echo -e "\033[?25h" 显示光标
+
+## CMake debug/release
+
+```shell
+mkdir Release
+cd Release
+cmake -DCMAKE_BUILD_TYPE=Release ..
+make
+
+mkdir Debug
+cd Debug
+cmake -DCMAKE_BUILD_TYPE=Debug ..
+make
+```
+
+```cmake
+set(CMAKE_CXX_FLAGS_DEBUG "$ENV{CXXFLAGS} -O0 -Wall -g -ggdb")
+set(CMAKE_CXX_FLAGS_RELEASE "$ENV{CXXFLAGS} -O3 -Wall")
+```

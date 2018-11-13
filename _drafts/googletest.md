@@ -108,7 +108,14 @@ endif()
 # Now simply link against gtest or gtest_main as needed. Eg
 add_executable(example example.cpp)
 target_link_libraries(example gtest_main)
+enable_testing()
 add_test(NAME example_test COMMAND example)
 ```
 
 [build_googletest]: https://github.com/google/googletest/blob/master/googletest/README.md
+
+### 运行
+
+单独运行`gtest`程序，则测试结果会在命令行显示。  
+如果是集成到`CMake`中，运行`CMake . && make test`,命令行直接显示的是`CMake`的测试统计信息，
+而`gtest`的测试输出则被保存在`Testing/Temporary/LastTest.log`文件中
