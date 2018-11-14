@@ -474,7 +474,9 @@ apt-get install open-vm-tools open-vm-tools-desktop
 echo -e "\033[?25l"  隐藏光标
 echo -e "\033[?25h" 显示光标
 
-## CMake debug/release
+## CMake
+
+### debug/release
 
 ```shell
 mkdir Release
@@ -492,3 +494,44 @@ make
 set(CMAKE_CXX_FLAGS_DEBUG "$ENV{CXXFLAGS} -O0 -Wall -g -ggdb")
 set(CMAKE_CXX_FLAGS_RELEASE "$ENV{CXXFLAGS} -O3 -Wall")
 ```
+
+### library path
+
+```cmake
+include_directories("D:/OSGEARTH/include")
+link_directories("D:/OSGEARTH/lib")
+link_libraries(osg osgDB osgViewer)
+```
+
+### output path
+
+```cmake
+set(CMAKE_RUNTIME_OUTPUT_DIRECTORY ${CMAKE_BINARY_DIR}/bin)
+set(CMAKE_LIBRARY_OUTPUT_DIRECTORY ${CMAKE_BINARY_DIR}/lib)
+set(CMAKE_ARCHIVE_OUTPUT_DIRECTORY ${CMAKE_BINARY_DIR}/lib)
+```
+
+## `linux`挂载`windows`共享文件夹
+
+假设`windows`共享文件夹地址`//win-hostname/wingman`(可以通过在`windows`上参看文件夹共享属性得知),用户名`win-user`,密码`win-passwd`。  
+`linux`上用来挂载的文件夹`/run/media/linux-user/wingman`(该文件夹需要是已经存在的)
+则可以使用如下命令来进行挂载
+
+```shell
+sudo mount -t cifs -o username=win-user,password=win-passwd //win-hostname/wingman /run/media/linux-user/wingman
+```
+
+这样挂载的文件夹中所有文件的属性都是`-rwxr-xr-x`,也就是说是无法修改文件，也无法向文件家中添加文件。而且也无法修改权限。  
+使用`id linux-user`获取用户的`gid`与`uid`，加入都为`1000`。然后修改上述命令为
+
+```shell
+sudo mount -t cifs -o username=win-user,password=win-passwd,gid=1000,uid=1000 //win-hostname/wingman /run/media/linux-user/wingman
+```
+
+卸载
+
+```shell
+umount /run/media/linux-user/wingman
+```
+
+[reference](https://blog.csdn.net/tojohnonly/article/details/71374984)
