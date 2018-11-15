@@ -1,7 +1,7 @@
 ---
 layout: post
 title:  googletest 101
-date:   2018-10-16 19:30:00 +0800
+date:   2018-11-11 19:30:00 +0800
 categories: tools
 tags: googletest
 ---
@@ -119,3 +119,9 @@ add_test(NAME example_test COMMAND example)
 单独运行`gtest`程序，则测试结果会在命令行显示。  
 如果是集成到`CMake`中，运行`CMake . && make test`,命令行直接显示的是`CMake`的测试统计信息，
 而`gtest`的测试输出则被保存在`Testing/Temporary/LastTest.log`文件中
+
+GTEST_BREAK_ON_FAILURE
+
+## 断言
+
+## 参数化

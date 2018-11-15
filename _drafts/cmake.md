@@ -1,0 +1,77 @@
+---
+layout: post
+title:  CMake 101
+date:   2018-11-14 19:30:00 +0800
+categories: tools
+tags: googletest
+---
+
+`CMake`即`Cross platform Make`,是一个开源跨平台的自动化构建工具。
+它并不直接编辑生成最终的运行程序或库，而是产生用于构件最终成品的其它工具的构建文件，然后再用其它工具进行真正的构建。
+以此实现跨平台的结果。
+
+## 安装
+
+```shell
+dnf install cmake
+```
+
+## 示例
+
+```cmake
+cmake_minimum_required (VERSION 3.0)
+
+project(demoProject)
+
+add_executable(demo main.cpp)
+```
+
+```
+cmake . && make
+```
+
+## 常用配置
+
+### debug/release
+
+```shell
+mkdir Release
+cd Release
+cmake -DCMAKE_BUILD_TYPE=Release ..
+make
+
+mkdir Debug
+cd Debug
+cmake -DCMAKE_BUILD_TYPE=Debug ..
+make
+```
+
+```cmake
+set(CMAKE_CXX_STANDARD 11)
+set(CMAKE_CXX_FLAGS_DEBUG "$ENV{CXXFLAGS} -O0 -Wall -g -ggdb")
+set(CMAKE_CXX_FLAGS_RELEASE "$ENV{CXXFLAGS} -O3 -Wall")
+```
+
+### library path
+
+```cmake
+include_directories("D:/OSGEARTH/include")
+link_directories("D:/OSGEARTH/lib")
+link_libraries(osg osgDB osgViewer)
+```
+
+### output path
+
+```cmake
+set(CMAKE_RUNTIME_OUTPUT_DIRECTORY ${CMAKE_BINARY_DIR}/bin)
+set(CMAKE_LIBRARY_OUTPUT_DIRECTORY ${CMAKE_BINARY_DIR}/lib)
+set(CMAKE_ARCHIVE_OUTPUT_DIRECTORY ${CMAKE_BINARY_DIR}/lib)
+```
+
+### use environment variables
+
+```
+$ENV{variable}
+```
+
+* [入门教程](http://www.hahack.com/codes/cmake/)

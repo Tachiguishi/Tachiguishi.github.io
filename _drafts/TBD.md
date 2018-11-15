@@ -474,43 +474,6 @@ apt-get install open-vm-tools open-vm-tools-desktop
 echo -e "\033[?25l"  隐藏光标
 echo -e "\033[?25h" 显示光标
 
-## CMake
-
-### debug/release
-
-```shell
-mkdir Release
-cd Release
-cmake -DCMAKE_BUILD_TYPE=Release ..
-make
-
-mkdir Debug
-cd Debug
-cmake -DCMAKE_BUILD_TYPE=Debug ..
-make
-```
-
-```cmake
-set(CMAKE_CXX_FLAGS_DEBUG "$ENV{CXXFLAGS} -O0 -Wall -g -ggdb")
-set(CMAKE_CXX_FLAGS_RELEASE "$ENV{CXXFLAGS} -O3 -Wall")
-```
-
-### library path
-
-```cmake
-include_directories("D:/OSGEARTH/include")
-link_directories("D:/OSGEARTH/lib")
-link_libraries(osg osgDB osgViewer)
-```
-
-### output path
-
-```cmake
-set(CMAKE_RUNTIME_OUTPUT_DIRECTORY ${CMAKE_BINARY_DIR}/bin)
-set(CMAKE_LIBRARY_OUTPUT_DIRECTORY ${CMAKE_BINARY_DIR}/lib)
-set(CMAKE_ARCHIVE_OUTPUT_DIRECTORY ${CMAKE_BINARY_DIR}/lib)
-```
-
 ## `linux`挂载`windows`共享文件夹
 
 假设`windows`共享文件夹地址`//win-hostname/wingman`(可以通过在`windows`上参看文件夹共享属性得知),用户名`win-user`,密码`win-passwd`。  
