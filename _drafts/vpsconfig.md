@@ -11,6 +11,12 @@ tags: googletest
 ## Wyvern.Avalon
 
 操作系统: `Centos 7 x86_64 bbr`
+```shell
+cat /etc/redhat-release
+# CentOS Linux release 7.5.1804 (Core)
+uname -r
+# 4.19.2-1.el7.elrepo.x86_64
+```
 
 ### 添加新用户
 
@@ -22,10 +28,11 @@ visudo #=> add: username ALL=(ALL) ALL
 
 ### ssh
 
-#### 添加端口
+#### 修改`sshd`配置
 
 `/etc/ssh/sshd_config`
-```shell
+```conf
+PermitRootLogin no
 Port $Ganmu 
 ```
 
@@ -49,7 +56,7 @@ ssh-copy-id -i ~/.ssh/id_rsa.pub user@host -p $Ganmu
 Host Wyvern_Avalon
     HostName hostname||hostip
     Port $Ganmu
-    User root
+    User username
     PreferredAuthentications publickey
     IdentityFile /Users/Spike/.ssh/id_rsa
 ```
@@ -58,8 +65,12 @@ Host Wyvern_Avalon
 
 ```shell
 yum update
-yum install epel-release
-yum install denyhosts
+yum install python-ipaddr
+wget https://github.com/denyhosts/denyhosts/archive/v3.1.tar.gz
+sudo python setup.py install
+cd /etc/init.d
+ln -s /usr/bin/daemon-control-list denyhosts
+service denyhosts start
 ```
 
 ### basic tools
@@ -67,4 +78,25 @@ yum install denyhosts
 ```shell
 yum install vim
 yum install tmux
+yum install wget
+yum install git
+```
+
+### others
+
+#### PS1
+
+```bashrc
+green="\[\033[0;32m\]"
+blue="\[\033[0;34m\]"
+purple="\[\033[0;35m\]"
+reset="\[\033[0m\]"
+export PS1="[$purple\u$reset@$green\h $blue\W$reset]$ "
+```
+
+#### Timezone
+
+```shell
+sudo touch /etc/profile.d/timezone.sh
+sudo echo "export TZ='Asia/Shanghai'" > /etc/profile.d/timezone.sh
 ```
