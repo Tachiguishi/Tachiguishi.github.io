@@ -3,12 +3,15 @@ layout: post
 title:  CMake 101
 date:   2018-11-14 19:30:00 +0800
 categories: tools
-tags: googletest
+tags: cmake
 ---
 
 `CMake`即`Cross platform Make`,是一个开源跨平台的自动化构建工具。
 它并不直接编辑生成最终的运行程序或库，而是产生用于构件最终成品的其它工具的构建文件，然后再用其它工具进行真正的构建。
-以此实现跨平台的结果。
+以此实现跨平台的结果。  
+在`Linux`上通常结合`make`一起使用。
+
+> `make`教程[跟我一起写Makefile](https://seisman.github.io/how-to-write-makefile/index.html)
 
 ## 安装
 

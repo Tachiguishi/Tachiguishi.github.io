@@ -61,6 +61,9 @@ Host Wyvern_Avalon
     IdentityFile /Users/Spike/.ssh/id_rsa
 ```
 
+为了防止`Bad owner or permissions on .ssh/config`错误，
+`~/.ssh/config`文件的权限必须是`600`,即该文件的读写权限只能该用户一人独有
+
 ### denyhosts
 
 ```shell

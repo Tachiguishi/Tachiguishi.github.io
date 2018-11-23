@@ -223,6 +223,12 @@ watch expression
 程序在运行中崩溃时通常会生成`core dump`文件，生成文件的目录位置与文件名可以通过`sysctl kernel.core_pattern`查看  
 `core_pattern`的具体含义可以查看`man 5 core`或[kernel_doc](https://www.kernel.org/doc/Documentation/sysctl/kernel.txt)
 
+而且`shell`通常会限制`core`文件的产生，对于`bash`可以使用`ulimit -c`查看`core`文件的大小限制，大于设定值的`core`文件将不会产生  
+可以使用`ulimit -c n`或`ulimit -c unlimited`修改大小限制
+
+有了`core`文件后，我们就可以`gdb program corefile`来启动调试，输入`backtrace`查看崩溃时的调用栈，
+从而发现究竟时那条语句触发的崩溃，以及崩溃时个变量的值是多少
+
 而在`Fedora`中，默认是不会产生`core`文件的，但可以通过`coredumpctl`命令来获取
 
 ```shell
@@ -240,6 +246,11 @@ Example 4. Extract the last core dump of /usr/bin/bar to a file named bar.coredu
 ```
 
 > [参考文档](https://ask.fedoraproject.org/en/question/98776/where-is-core-dump-located/)
+
+在`Ubuntu`中，其`core`文件会被导向`apport`服务，同样可以使用`coredumpctl`来获取。  
+但也可以直接关闭`apport`服务，`service apport stop`，这样程序在崩溃时就会直接生成`core`文件
+
+> [参考文档](https://vra.github.io/2017/12/03/ubuntu-core-dump-debug/)
 
 ## 多线程
 
