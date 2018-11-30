@@ -25,6 +25,8 @@ sudo dnf install docker-ce
 ```shell
 docker --version
 #=> Docker version 18.09.0, build 4d60db4
+docker info
+#=> 显示更多的详细信息
 ```
 
 ### 添加当前用户到`docker`用户组
@@ -41,6 +43,20 @@ sudo usermod -aG docker $USER
 systemctl start docker
 # 开机自启动
 systemctl enable docker
+```
+
+### 运行`Hello world`
+
+```shell
+docker run hello-world
+# 查看已有的image
+docker image
+# 查看运行的container
+docker container ls
+# 查看所有container
+docker container ls --all
+# 查看所有未运行的container
+docker container ls -aq
 ```
 
 ### 配置修改

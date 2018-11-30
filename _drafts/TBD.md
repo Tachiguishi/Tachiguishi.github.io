@@ -516,3 +516,19 @@ umount /run/media/linux-user/wingman
 4、如果是以源码包自己编译安装的，例如.tar.gz或者tar.bz2形式的，这个只能看可执行文件是否存在了，
 
 上面两种方法都看不到这种源码形式安装的包。如果是以root用户安装的，可执行程序通常都在/sbin:/usr/bin目录下
+
+
+## 查看开机启动
+
+```shell
+# 列出所有开机启动项
+systemctl list-unit-files
+# 检测某个服务(如redis.service)是否开机启动
+systemctl is-enabled redis.service
+```
+
+## sqlplus 中文乱码
+
+```sql
+select userenv('language') from dual;
+```
