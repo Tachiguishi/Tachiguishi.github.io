@@ -532,3 +532,37 @@ systemctl is-enabled redis.service
 ```sql
 select userenv('language') from dual;
 ```
+
+## vs code encoding
+
+```json
+{
+    // 自动检测文件编码
+    "files.autoGuessEncoding": true,
+    // 文件默认打开编码
+    "files.encoding": "utf8",
+    // 针对语言选择编码
+    "[markdown]": {
+        "files.encoding": "utf8"
+    }
+}
+```
+
+## pipenv
+
+安装
+
+```
+pip install --user pipenv
+```
+
+运行`python -m site --user-base`获取`pipenv`执行文件路径,并添加其到`~/.bashrc`文件中
+
+```shell
+python -m site --user-base
+#=> /Users/jetbrains/.local
+# 添加环境便令
+echo "export PATH=$PATH:Users/jetbrains/.local/bin" >> ~/.bashrc
+```
+
+[Configuring Pipenv Environment](https://www.jetbrains.com/help/pycharm/pipenv.html)
