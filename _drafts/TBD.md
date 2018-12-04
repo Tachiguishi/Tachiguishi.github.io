@@ -566,3 +566,11 @@ echo "export PATH=$PATH:Users/jetbrains/.local/bin" >> ~/.bashrc
 ```
 
 [Configuring Pipenv Environment](https://www.jetbrains.com/help/pycharm/pipenv.html)
+
+## ps1 配置
+
+```shell
+sudo apt-get install fonts-powerline
+```
+
+spectrum_ls

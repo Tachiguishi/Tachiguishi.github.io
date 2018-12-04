@@ -52,3 +52,21 @@ set -g @continuum-restore 'on'
 ```
 
 这样配置后，每`15 min`会自动保存一次。同时也可以用`prefix-ctrl-s`手动保存，`prefix-ctrl-r`手动载入
+
+## 配置
+
+### [powerline](https://github.com/powerline/powerline)
+
+```shell
+# 安装
+pip3 install --user powerline-status
+# 获取安装路径
+pip show powerline-status
+```
+
+修改配置文件`~/.tmux.conf`
+
+```conf
+powerline_root="/home/root/.local/lib/python3.6/site-packages"
+source "${powerline_root}/powerline/bindings/tmux/powerline.conf"
+```
