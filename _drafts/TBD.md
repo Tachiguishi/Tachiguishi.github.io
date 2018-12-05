@@ -567,10 +567,34 @@ echo "export PATH=$PATH:Users/jetbrains/.local/bin" >> ~/.bashrc
 
 [Configuring Pipenv Environment](https://www.jetbrains.com/help/pycharm/pipenv.html)
 
-## ps1 配置
+## powerline
+
+### fonts
 
 ```shell
 sudo apt-get install fonts-powerline
+dnf install powerline-fonts
+```
+
+vscode 的终端无法正确显示：  
+下载[Menlo for Powerline](https://github.com/abertsch/Menlo-for-Powerline)字体  
+放入`~/.fonts`文件夹，运行`fc-cache -vf ~/.fonts`  
+
+修改`vscode`配置
+
+```json
+{
+"terminal.integrated.fontFamily": "Menlo for Powerline"
+}
 ```
 
 spectrum_ls
+
+## win7 路由表
+
+```shell
+# 查看
+route print
+# 添加(-p表示永久路由)
+route add 192.168.2.0 mask 255.255.255.0 192.168.1.1 -p
+```
