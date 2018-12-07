@@ -598,3 +598,24 @@ route print
 # 添加(-p表示永久路由)
 route add 192.168.2.0 mask 255.255.255.0 192.168.1.1 -p
 ```
+
+## zsh: no match found
+
+在使用`gtest`的`--gtest_filter=testgroup.*`测试用例筛选功能时, `zsh`报错`no match found:`  
+这是由于`zsh`自己尝试解析你的命令参数中的`*`引起的。所以只要不让`zsh`解析而是直接将参数传给`gtest`就可以了
+
+在`~/.zshrc`添加如下配置：
+
+```
+setopt no_nomatch
+```
+
+[参考](https://www.jianshu.com/p/87d85593006e)
+
+但是即使这样在`vscode`中调试时还是不行，这是只要在`launch.json`的参数配置的传递值用`''`包含即可
+
+```json
+{
+    "args": ["'--gtest_filter=testgroup.*'"]
+}
+```
