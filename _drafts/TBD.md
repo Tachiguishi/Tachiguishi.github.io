@@ -619,3 +619,9 @@ setopt no_nomatch
     "args": ["'--gtest_filter=testgroup.*'"]
 }
 ```
+
+## MySQL 8.0版本连接报错：Could not create connection to database server
+
+MySQL8.0版本需要更换驱动为“com.mysql.cj.jdbc.Driver”，之前的“com.mysql.jdbc.Driver”已经不能在MySQL 8.0版本使用了
+
+[参考](https://www.cnblogs.com/smiler/p/9963773.html)

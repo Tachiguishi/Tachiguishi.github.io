@@ -35,6 +35,25 @@ cmake . && make
 
 ## 常用配置
 
+### compiler
+
+```shell
+cmake -DCMAKE_C_COMPILER=clang -DCMAKE_CXX_COMPILER=clang++
+```
+
+或
+
+```cmake
+set(CMAKE_C_COMPILER "clang")
+set(CMAKE_CXX_COMPILER "clang++" )
+```
+
+### flags
+
+```cmake
+set(CMAKE_CXX_FLAGS "-Wall")
+```
+
 ### debug/release
 
 ```shell
