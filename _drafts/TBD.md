@@ -625,3 +625,28 @@ setopt no_nomatch
 MySQL8.0版本需要更换驱动为“com.mysql.cj.jdbc.Driver”，之前的“com.mysql.jdbc.Driver”已经不能在MySQL 8.0版本使用了
 
 [参考](https://www.cnblogs.com/smiler/p/9963773.html)
+
+
+## ubuntu界面卡死
+
+find xorg pid and kill it
+
+```shell
+ps -t tty7
+sudo kill pid
+```
+
+## linux wifi manager
+
+```shell
+# show saved connections
+nmcli c
+# list available wifi hotspots
+nmcli d wifi list
+# connect
+nmcli d wifi connect <WiFiSSID> password <WiFiPassword> [iface <WiFiInterface]>
+# another connect
+nmcli c up id <SavedWiFiConn>
+```
+
+[reference](https//askubuntu.com/questions/461825/how-to-connect-to-wifi-from-the-command-line)
