@@ -45,4 +45,32 @@ Run gindex
 dnf install perl-devel
 ```
 
+或
+
+```shell
+perl -MCPAN -e shell 
+cpan[2]> install Time::HiRes 
+cpan[3]> exit
+```
+
+`can't exec x11perf`  
+
+```shell
+yum install xorg-x11-apps
+```
+
+运行`graphics`测试时需要`root`权限
+
 测试结果放在`./results`目录下
+
+## sysbench
+
+### 安装
+
+```shell
+# 安装EPEL源
+dnf install epel-release
+dnf install sysbench
+sysbench --version
+#=> sysbench 1.0.12
+```

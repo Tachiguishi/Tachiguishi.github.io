@@ -650,3 +650,61 @@ nmcli c up id <SavedWiFiConn>
 ```
 
 [reference](https//askubuntu.com/questions/461825/how-to-connect-to-wifi-from-the-command-line)
+
+## tracker-miner-fs eating up my memory
+
+## centos7 IP
+
+查看
+
+```shell
+ip addr
+```
+
+虽然插了网线，但是网卡显示并没有被分配`IP`。
+
+在`/etc/sysconfig/network-scripts/`目录下找到网卡名命名文件  
+打开发现最后一行`ONBOOT=no`，将其修改为`ONBOOT=yes`  
+重启网络`service network restart`  
+重新使用`ip addr`发现已经被分配`IP`
+
+## centos 安装图形界面
+
+### 安装
+
+可以先用`yum grouplist`查看可以安装的桌面环境有哪些
+
+```shell
+yum groupinstall "X Window System"
+yum groupinstall "GNOME Desktop"
+```
+
+### 修改启动方式
+
+```shell
+# 命令模式
+systemctl set-default multi-user.target
+# 图形模式
+systemctl set-default graphical.target
+```
+
+## 通信分析工具
+
+### [WireEdit](https://wireedit.com/)
+
+一款可视化网络数据包编辑工具
+
+### TraceWrangler
+
+抓取的数据包中包含很多网络环境的隐私信息，在需要和别人分享数据包时很不安全。
+该款软件可以清楚这些隐私信息
+
+### Tcpreplay
+
+重新发送抓取到的数据包，查看实际反映，利于调试
+
+### NetworkMiner
+
+### CapTipper
+
+### ngrep 数据包的grep

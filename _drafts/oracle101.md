@@ -41,7 +41,7 @@ tags: oracle
 
 ### 监听
 
-云新`lsnrctl`命令的用户需要拥有`dba`权限
+运行`lsnrctl`命令的用户需要拥有`dba`权限
 
 ```shell
 # 查看监听状态
@@ -50,4 +50,10 @@ lsnrctl status
 lsnrctl start
 # 关闭监听
 lsnrctl stop
+```
+
+### ping
+
+```
+tnsping
 ```
