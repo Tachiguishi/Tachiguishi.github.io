@@ -676,8 +676,30 @@ ip addr
 
 ```shell
 yum groupinstall "X Window System"
+# Gnome
 yum groupinstall "GNOME Desktop"
+# KDE
+yum groupinstall "KDE Plasma Workspaces"
 ```
+
+### 卸载
+
+```shell
+yum groupremove "GNOME Desktop"
+```
+
+### 切换图形界面
+
+```shell
+switchdesk gnome
+switchdesk kde
+```
+
+### 修改默认图形界面
+
+`/etc/sysconfig/desktop`文件中添加或修改`DESKTOP="GNOME"`或`DESKTOP="KDE"`  
+或  
+在`~`目录下添加`.xinitrc`，文件内容为`gnome-session`或`startkde`
 
 ### 修改启动方式
 
@@ -708,3 +730,25 @@ systemctl set-default graphical.target
 ### CapTipper
 
 ### ngrep 数据包的grep
+
+## linux 分辨率
+
+`/etc/X11/xorg.conf`
+
+```conf
+Section "Screen"
+  Depth 24
+  SubSection "Display"
+    Depth 24
+    Modes "1920x1080"
+  EndSubSection
+EndSection
+```
+
+```shell
+xrandr
+cvt 1440 900
+xrandr --newmode cvt-output
+xrandr --addmode monitor-name mode-name
+xrandr --output monitor-name --mode mode-name
+```
