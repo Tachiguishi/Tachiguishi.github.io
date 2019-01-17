@@ -710,6 +710,12 @@ systemctl set-default multi-user.target
 systemctl set-default graphical.target
 ```
 
+### 查看当前桌面环境
+
+```shell
+echo $DESKTOP_SESSION
+```
+
 ## 通信分析工具
 
 ### [WireEdit](https://wireedit.com/)
@@ -751,4 +757,15 @@ cvt 1440 900
 xrandr --newmode cvt-output
 xrandr --addmode monitor-name mode-name
 xrandr --output monitor-name --mode mode-name
+```
+
+## linux 切换显示器
+
+```shell
+#查看显示器列表
+xrandr -q
+#关闭笔记本显示器，使用VGA-1
+xrandr --output VGA-1  --output LVDS-1 --off
+#设置VGA-1为主显示器，在笔记本显示器左
+xrandr --output VGA-1 --primary --left-of LVDS-1
 ```
