@@ -57,3 +57,7 @@ lsnrctl stop
 ```
 tnsping
 ```
+
+## benchmark wich swingbench
+
+

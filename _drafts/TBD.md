@@ -769,3 +769,9 @@ xrandr --output VGA-1  --output LVDS-1 --off
 #设置VGA-1为主显示器，在笔记本显示器左
 xrandr --output VGA-1 --primary --left-of LVDS-1
 ```
+
+## 关闭ipv6
+
+```shell
+sysctl net.ipv6.conf.all.disable_ipv6=1
+```
