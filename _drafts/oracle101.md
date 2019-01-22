@@ -58,6 +58,14 @@ lsnrctl stop
 tnsping
 ```
 
+### 查看字符编码
+
+```sql
+select * from nls_database_parameters where parameter ='NLS_CHARACTERSET';
+```
+
+[参考](https://blog.csdn.net/angus_17/article/details/7762472)
+
 ## benchmark wich swingbench
 
 

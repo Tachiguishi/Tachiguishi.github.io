@@ -297,7 +297,8 @@ grub2-mkconfig -o /boot/grub2/grub.cfg
 
 ### 运行qt5程序时需要添加环境变量
 
-`QT_QPA_PLATFORM_PLUGIN_PATH=qtbase/plugins/platforms`
+`QT_QPA_PLATFORM_PLUGIN_PATH=qtbase/plugins/platforms`  
+`QT_QPA_FONTDIR=fonts_directory`
 
 ## 获取文件大小 
 
