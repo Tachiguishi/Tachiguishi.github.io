@@ -776,3 +776,12 @@ xrandr --output VGA-1 --primary --left-of LVDS-1
 ```shell
 sysctl net.ipv6.conf.all.disable_ipv6=1
 ```
+
+## sed
+
+```shell
+a \
+text   Append text, which has each embedded newline preceded by a backslash.
+i \
+text   Insert text, which has each embedded newline preceded by a backslash.
+```
