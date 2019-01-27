@@ -61,12 +61,12 @@ set -g @continuum-restore 'on'
 # 安装
 pip3 install --user powerline-status
 # 获取安装路径
-pip show powerline-status
+pip3 show powerline-status
 ```
 
 修改配置文件`~/.tmux.conf`
 
 ```conf
-powerline_root="/home/root/.local/lib/python3.6/site-packages"
+powerline_root="/home/root/.local/lib/python3.7/site-packages"
 source "${powerline_root}/powerline/bindings/tmux/powerline.conf"
 ```
