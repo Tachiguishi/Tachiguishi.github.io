@@ -785,3 +785,19 @@ text   Append text, which has each embedded newline preceded by a backslash.
 i \
 text   Insert text, which has each embedded newline preceded by a backslash.
 ```
+
+## Update fedora from 28 to 29
+
+### 通过GUI更新
+
+### 通过命令行更新
+
+```shell
+sudo dnf upgrade --refresh
+sudo dnf clean all
+sudo dnf install dnf-plugin-system-upgrade
+sudo dnf system-upgrade download --refresh --releasever=29
+sudo dnf system-upgrade reboot
+```
+
+[reference](https://linuxconfig.org/how-to-upgrade-fedora-28-to-29-version)
