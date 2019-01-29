@@ -801,3 +801,9 @@ sudo dnf system-upgrade reboot
 ```
 
 [reference](https://linuxconfig.org/how-to-upgrade-fedora-28-to-29-version)
+
+## debian 安装缺少固件
+
+在[这里](http://cdimage.debian.org/cdimage/unofficial/non-free/firmware/)下载固件然后放入U盘启动盘根目录的`/firmware`文件夹下即可
+
+[参考](https://www.debian.org/releases/stable/mips/ch06s04.html.zh-cn)
