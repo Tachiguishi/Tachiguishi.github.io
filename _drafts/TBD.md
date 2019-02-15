@@ -223,46 +223,6 @@ git mergetool
 
 Debuggers (gdb), Profilers (gprof, valgrind)
 
-
-## open terminal in nautilus
-
-```shell
-sudo dnf install gnome-terminal-nautilus
-nautilus -q
-```
-
-## fedora 删除多余内核
-
-```shell
-# 查看当前内核
-uname -r
- 
-# 查看所有内核
-rpm -qa kernel
-
-# 删除指定内核kernel-4.15.17-200.fc26.x86_64
-dnf remove kernel-4.15.17-200.fc26.x86_64
-```
-
-重启后启动项多余的选项也会自动被删除
-
-## fedora 修改启动项顺序
-
-```shell
-# 产看所有启动项完成名称,menuentry后跟着的就是完整名称
-cat /boot/grub2/grub.cfg | grep menuentry
-
-# 修改默认启动项()
-grub2-set-default 'Fedora (4.16.3-301.fc28.x86_64) 28 (Workstation Edition)'
-
-# 查看默认启动项(验证修改结果)
-grub2-editenv list
-
-# 生成配置文件使修改生效
-grub2-mkconfig -o /boot/grub2/grub.cfg
-```
-
-
 ## socket error 10038 无效的套接字
 
 使用`send`时出错，说明使用的套接字是无效的
@@ -786,24 +746,28 @@ i \
 text   Insert text, which has each embedded newline preceded by a backslash.
 ```
 
-## Update fedora from 28 to 29
-
-### 通过GUI更新
-
-### 通过命令行更新
-
-```shell
-sudo dnf upgrade --refresh
-sudo dnf clean all
-sudo dnf install dnf-plugin-system-upgrade
-sudo dnf system-upgrade download --refresh --releasever=29
-sudo dnf system-upgrade reboot
-```
-
-[reference](https://linuxconfig.org/how-to-upgrade-fedora-28-to-29-version)
-
 ## debian 安装缺少固件
 
 在[这里](http://cdimage.debian.org/cdimage/unofficial/non-free/firmware/)下载固件然后放入U盘启动盘根目录的`/firmware`文件夹下即可
 
 [参考](https://www.debian.org/releases/stable/mips/ch06s04.html.zh-cn)
+
+## golang
+
+```shell
+dnf install go
+```
+
+### vscode 安装 go 插件失败
+
+失败原因是由于网络封锁导致线路不稳定，但是可以通过手动的方式自己下载
+
+```shell
+mkdir -p $GOPATH/src/golang.org/x
+cd $GOPATH/src/golang.org/x
+git clone --depth=1 https://github.com/golang/tools.git
+git clone --depth=1 https://github.com/golang/lint.git
+# 完成以上步骤后，执行
+go get golang.org/x/lint/golint
+# 或者打开vscode，让vscode自行安装
+```

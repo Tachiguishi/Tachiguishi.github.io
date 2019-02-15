@@ -2,8 +2,8 @@
 layout: post
 title:  VPS Settings
 date:   2018-11-17 19:30:00 +0800
-categories: tools
-tags: googletest
+categories: trivia
+tags: vps
 ---
 
 此文用于记录我在所购买的`VPS`进行的各种操作

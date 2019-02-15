@@ -34,7 +34,7 @@ dnf install -y shadowsocks-libev simple-obfs
 	"local_port":1080,
 	"password":"your-passwd",
 	"timeout":300,
-	"method":"chacha20-ietf",
+	"method":"chacha20",
 	"fast_open":false,
 	"workers":1
 }
