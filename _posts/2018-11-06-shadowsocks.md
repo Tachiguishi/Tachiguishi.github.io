@@ -120,3 +120,22 @@ ln -s /lib64/libmbedcrypto.so.3 /lib64/libmbedcrypto.so.2
 
 * [Shadowsocks_Arch_wiki](https://wiki.archlinux.org/index.php/Shadowsocks_(%E7%AE%80%E4%BD%93%E4%B8%AD%E6%96%87))
 * [科学上网漫游指南](https://lvii.gitbooks.io/outman/content/)
+
+## OpenWrt
+
+### 安装
+
+```shell
+opkg install shadowsocks-libev
+opkg install luci-app-shadowsocks
+```
+
+其中`shadowsocks-libev`和`PC`版没区别，`luci-app-shadowsocks`用于在路由器的网页版配置界面控制`shadowsocks-libev`  
+在路由器上配置`shadowsocks`主要是将其配置成`透明代理`(`ss-redir`)，这样连接此路由的设备无需作任何配置机可通过`shadowsocks`上网
+
+`cat /proc/cpuinfo` 查看路由器型号，根据型号在[OpenWrt官网](https://openwrt.org)查询`Package Arch`  
+我所使用的路由器是[Youku YK1](https://openwrt.org/toh/hwdata/youku/youku_yk1),对应的型号是`mipsel_24kc`
+
+[reference](http://www.cashqian.net/blog/001472734000655b3d2e0db753848d39a052bc75220291f000)
+
+[透明代理](https://www.zfl9.com/ss-redir.html)

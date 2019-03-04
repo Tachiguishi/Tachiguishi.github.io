@@ -771,3 +771,21 @@ git clone --depth=1 https://github.com/golang/lint.git
 go get golang.org/x/lint/golint
 # 或者打开vscode，让vscode自行安装
 ```
+
+## pps state mismatchxra
+
+## xfce 显示器配置
+
+`~/.config/xfce4/xfconf/xfce-perchannel-xmls/displays.xml`
+
+```xml
+<?xml version="1.0" encoding="UTF-8">
+
+<channel name="displays" version="1.0">
+	<property name="Default" type="empty">
+		<property name="eDP-1" type="string" value="1. PTN 24&quot;">
+			<property name="Active" type="bool" value="false">
+		</property>
+	</property>
+</channel>
+```
