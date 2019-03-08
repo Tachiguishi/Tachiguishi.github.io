@@ -139,3 +139,26 @@ opkg install luci-app-shadowsocks
 [reference](http://www.cashqian.net/blog/001472734000655b3d2e0db753848d39a052bc75220291f000)
 
 [透明代理](https://www.zfl9.com/ss-redir.html)
+
+## Server
+
+服务端推荐使用秋水逸冰的[四合一安装脚本](https://teddysun.com/486.html)  
+服务端可以同时启用多个端口，每个端口拥有独立的密码，方便多人使用，[参考](https://teddysun.com/532.html)  
+
+```json
+{
+    "server":"0.0.0.0",
+    "local_address":"127.0.0.1",
+    "local_port":1080,
+    "port_password":{
+         "9000":"password0",
+         "9001":"password1",
+         "9002":"password2",
+         "9003":"password3",
+         "9004":"password4"
+    },
+    "timeout":300,
+    "method":"your_encryption_method",
+    "fast_open": false
+}
+```
