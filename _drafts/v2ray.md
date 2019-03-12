@@ -131,6 +131,29 @@ Configuration OK.
 sudo systemctl start v2ray
 ```
 
+## Mac
+
+```shell
+# install
+brew tap v2ray/v2ray
+brew install v2ray-core
+
+# update
+brew update
+brew upgrade v2ray-core
+
+# uninstall
+brew uninstall v2ray-core
+brew untap v2ray/v2ray
+
+# edit the default config
+vim /usr/local/etc/v2ray/config.json
+# run v2ray-core without starting at login
+brew services run v2ray-core
+# run v2ray-core and register it to launch at login
+brew services start v2ray-core
+```
+
 ## Android
 
 `Android`平台可以使用`v2rayNG`或`BifrostV`进行配置
