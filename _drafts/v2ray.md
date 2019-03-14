@@ -30,30 +30,29 @@ wget https://install.direct/go.sh && chmod +x go.sh && sudo ./go.sh
 
 ```json
 {
-  "log":{
-    "loglevel": "warning",
-    "access": "/var/log/v2rayaccess.log",
-    "error": "/var/log/v2rayerror.log"
-  },
-  "inbounds": [{
-    "port": 80,	// 服务端监听端口
-    "protocol": "vmess",
-    "settings": {
-      "clients": [
-        {
-			// uuid 服务端与客户端必须一致，类似于密码。
-			// 格式必须是uuid的格式，可以使用 `v2ctl uuid`命令生成或者使用网站www.uuidgenerator.net生成
-			"id": "de408bc1-f9d3-526d-1462-76dd94bf5010"
-        }
-      ]
-    }
-  }],
-  "outbounds": [{
-    "protocol": "freedom",
-    "settings": {}
-  }]
+	"log":{
+		"loglevel": "warning",
+		"access": "/var/log/v2ray/access.log",
+		"error": "/var/log/v2ray/error.log"
+	},
+	"inbounds": [{
+		"port": 80,
+		"protocol": "vmess",
+		"settings": {
+			"clients": [{
+				"id": "de408bc1-f9d3-526d-1462-76dd94bf5010"
+			}]
+		}
+	}],
+	"outbounds": [{
+		"protocol": "freedom",
+		"settings": {}
+	}]
 }
 ```
+
+服务端与客户端的`id`必须一致，类似于密码。  
+格式必须是`uuid`的格式，可以使用 `v2ctl uuid`命令生成或者使用网站www.uuidgenerator.net生成
 
 ### 客户端
 
@@ -65,7 +64,7 @@ wget https://install.direct/go.sh && chmod +x go.sh && sudo ./go.sh
 		"error": "/var/log/v2rayerror.log"
 	},
 	"inbounds": [{
-		"port": 1080,	// 本地监听端口，浏览器等设置代理时使用
+		"port": 1080,
 		"protocol": "socks",
 		"sniffing":{
 			"enable": true,
@@ -80,10 +79,9 @@ wget https://install.direct/go.sh && chmod +x go.sh && sudo ./go.sh
 		"protocol": "vmess",
 		"settings": {
 			"vnext":[{
-			"address": "server_address",	// 服务端地址
-				"port": 80,	// 服务端的监听端口
+			"address": "server_address",
+				"port": 80,
 				"users":[{
-					// 服务端接受的uuid
 					"id": "de408bc1-f9d3-526d-1462-76dd94bf5010"
 				}]
 			}]
@@ -91,14 +89,13 @@ wget https://install.direct/go.sh && chmod +x go.sh && sudo ./go.sh
 	},{
 		"protocol": "freedom",
 		"settings": {},
-		"tag": "direct"	// 标签名，可以随意取名，供routing中的rules使用
+		"tag": "direct"
 	}],
 	"routing": {
-		// 局域网与大陆IP不走代理
 		"domainStrategy": "IPOnDemand",
 		"rules": [{
 			"type": "field",
-			"outboundTag": "direct",	// 指向outbounds中`tag`为`direct`的`protocol`
+			"outboundTag": "direct",
 			"domain": ["geosite:cn"]
 		},{
 			"type": "field",
@@ -108,6 +105,10 @@ wget https://install.direct/go.sh && chmod +x go.sh && sudo ./go.sh
 	}
 }
 ```
+
+`outbounds`中的`tag`为标签名，可以随意取名，供`routing`中的`rules`使用  
+`routing`中的`rules`中的`outboundTag`即指定`outbounds`中的`tag`，指明满足哪些条件的流量使用指定`protocol`  
+上述`routing`配置中指定局域网与大陆IP使用`direct`所指向的`protocol`,即`freedom`,表示直连
 
 ## 运行
 
@@ -162,6 +163,33 @@ brew services start v2ray-core
 如果你手机配置过一个`VPN`，且将这个`VPN`设置为了`Always-on VPN`的话，则会导致无法配置新的`VPN`，  
 `v2ray`启动时报错`permission denied to create a VPN service`  
 这时只要将那个`VPN`的`Always-on VPN`选项关闭即可
+
+## 广告屏蔽
+
+广告屏蔽是通过客户端的路由配置完成的，所以只需修改客户端的配置即可
+
+首先为客户端的`outbounds`添加一项`blackhole`协议
+
+```json
+{
+	"protocol": "blackhole",
+	"settings": {},
+	"tag": "adblock"
+}
+```
+
+在路由配置项`routing`中添加广告服务的域名，将其导向`blackhole`
+
+```json
+{
+	"type": "field",
+	"outboundTag": "adblock",
+	"domain": ["geosite:category-ads"]
+}
+```
+
+其中`geosite:category-ads`的广告域名列表保存在`/usr/bin/v2ray/geosite.dat`文件中  
+改列表由[domain-list-community](https://github.com/v2ray/domain-list-community)负责维护
 
 ## Issues
 
