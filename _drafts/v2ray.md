@@ -40,7 +40,8 @@ wget https://install.direct/go.sh && chmod +x go.sh && sudo ./go.sh
 		"protocol": "vmess",
 		"settings": {
 			"clients": [{
-				"id": "de408bc1-f9d3-526d-1462-76dd94bf5010"
+				"id": "de408bc1-f9d3-526d-1462-76dd94bf5010",
+				"alterId": 10
 			}]
 		}
 	}],
@@ -82,7 +83,8 @@ wget https://install.direct/go.sh && chmod +x go.sh && sudo ./go.sh
 			"address": "server_address",
 				"port": 80,
 				"users":[{
-					"id": "de408bc1-f9d3-526d-1462-76dd94bf5010"
+					"id": "de408bc1-f9d3-526d-1462-76dd94bf5010",
+					"alterId": 10
 				}]
 			}]
 		}

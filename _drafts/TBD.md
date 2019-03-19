@@ -801,12 +801,32 @@ GRUB_CMDLINE_LINUX=""
 ```
 
 1. `GRUB_DEFAULT=0`  
-设置默认启动项，在grub.cfg文件中按menuentry顺序开始计数，从0开始计数。比如要默认从第四个菜单项启动,数字改为3,若改为 saved,则默认为上次启动项。
+设置默认启动项，在`grub.cfg`文件中按`menuentry`顺序开始计数，从0开始计数。比如要默认从第四个菜单项启动,数字改为3,若改为 saved,则默认为上次启动项。
 2. `GRUB_HIDDEN_TIMEOUT=0`  
 此配置将影响grub菜单显示。若设置此选项为一个常数，则将在此时间内隐藏菜单而显示引导画面。菜单将会被隐藏，如果注释掉该行，即：(`#GRUB_HIDDEN_TIMEOUT=0`)。则grub菜单能够显示，等待用户的选择，以决定进入那个系统或内核。GRUB2第一次执行时将会寻找其他操作系统。若没有其他操作系统被检测到,菜单将会配置为隐藏。若辨认出其他操作系统,菜单将会显示。若是大于 0 的整数,系统将会依此配置的秒数暂停,但不会显示菜单。0 则菜单不会显示,也不会有延迟。使用者可以在启动时按住 `SHIFT` 键不放以强制显示菜单。启动过程中,系统将会检查 SHIFT 键状态。若无法辨识按键状态,会有一个短时间的延迟让使用者可通过按下 ESC 键来显示菜单。 
 3. `GRUB_HIDDEN_TIMEOUT_QUIET=true`  
 true不显示倒计时。屏幕将会是空白的。false 在 `GRUB_HIDDEN_TIMEOUT` 中配置的时间,空白屏幕上会有一个倒数计时器。 
 4. `GRUB_TIMEOUT=10`  
-此命令将顺从 `GRUB_HIDDEN_TIMEOUT` 配置,除非 `GRUB_HIDDEN_TIMEOUT` 被注释掉(#)。若 `GRUB_HIDDEN_TIMEOUT` 启用,则当菜单显示时,GRUB_TIMEOUT 将会只执行一次。配置此值为 -1 将会导致菜单一直显示,直到用户选择。GRUB2菜单默认为隐藏,除非其他操作系统被系统检测到。若没有其他操作系统,此行将会被注释掉,除非使用者修改它。为了在每次启动时显示菜单,去掉此行的注释并使用 1 或更大的值。
+此命令将顺从 `GRUB_HIDDEN_TIMEOUT` 配置,除非 `GRUB_HIDDEN_TIMEOUT` 被注释掉(#)。若 `GRUB_HIDDEN_TIMEOUT` 启用,则当菜单显示时,`GRUB_TIMEOUT` 将会只执行一次。配置此值为 `-1` 将会导致菜单一直显示,直到用户选择。GRUB2菜单默认为隐藏,除非其他操作系统被系统检测到。若没有其他操作系统,此行将会被注释掉,除非使用者修改它。为了在每次启动时显示菜单,去掉此行的注释并使用 1 或更大的值。
 5. `GRUB_CMDLINE_LINUX_DEFAULT="quiet splash"`  
-quiet的意思是内核启动时候简化提示信息，splash是以图形界面启动
+`quiet`的意思是内核启动时候简化提示信息，`splash`是以图形界面启动
+
+## tcping
+
+检测目标`host`的某个端口是否开启。  
+一般情况下会很快返回`open`或`close`结果，如果`timeout`且确认网络无异常则很可能是被墙了
+
+```shell
+tcping -t 10 host port
+```
+
+## ubuntu 网络设置
+
+`/etc/NetwordManager/system-connections/`  
+`/etc/network/interfaces`
+
+```shell
+ifconfig
+ifconfig eth0 192.168.1.0 netmask 255.255.255.0
+service network-manager restart
+```
