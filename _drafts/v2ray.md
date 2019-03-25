@@ -159,7 +159,9 @@ brew services start v2ray-core
 
 ## Android
 
-`Android`平台可以使用`v2rayNG`或`BifrostV`进行配置
+`Android`平台可以使用`v2rayNG`或`BifrostV`  
+`BifrostV`与`Shadowsocks`的`Android`版很像，可以查看实时传输速度，功能也更全，但是包含广告。  
+`v2rayNG`没有广告，但功能非常基本，也不显示实时传输速度
 
 注意，`v2ray`启动是会在手机上自动添加一个`VPN`配置，  
 如果你手机配置过一个`VPN`，且将这个`VPN`设置为了`Always-on VPN`的话，则会导致无法配置新的`VPN`，  
@@ -192,6 +194,31 @@ brew services start v2ray-core
 
 其中`geosite:category-ads`的广告域名列表保存在`/usr/bin/v2ray/geosite.dat`文件中  
 改列表由[domain-list-community](https://github.com/v2ray/domain-list-community)负责维护
+
+## logrotate
+
+`v2ray`的日志文件会随时间逐渐增大，可以利用`linux`自带的`logrotate`自动管理日志  
+在`/etc/logrotate.d/`目录下添加文件
+
+`/etc/logrotate.d/v2ray`
+
+```
+/var/log/v2ray/access.log{
+	daily
+	rotate 7
+	dateext
+	missingok
+	minisize 1M
+}
+
+/var/log/v2ray/error.log{
+	daily
+	rotate 7
+	dateext
+	missingok
+	notifempty
+}
+```
 
 ## Issues
 
