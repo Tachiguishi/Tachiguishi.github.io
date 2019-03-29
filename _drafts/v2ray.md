@@ -53,7 +53,7 @@ wget https://install.direct/go.sh && chmod +x go.sh && sudo ./go.sh
 ```
 
 服务端与客户端的`id`必须一致，类似于密码。  
-格式必须是`uuid`的格式，可以使用 `v2ctl uuid`命令生成或者使用网站www.uuidgenerator.net生成
+格式必须是`uuid`的格式，可以使用 `v2ctl uuid`命令生成或者使用[网站](https://www.uuidgenerator.net)生成
 
 ### 客户端
 
@@ -61,8 +61,8 @@ wget https://install.direct/go.sh && chmod +x go.sh && sudo ./go.sh
 {
 	"log":{
 		"loglevel": "warning",
-		"access": "/var/log/v2rayaccess.log",
-		"error": "/var/log/v2rayerror.log"
+		"access": "/var/log/v2ray/access.log",
+		"error": "/var/log/v2ray/error.log"
 	},
 	"inbounds": [{
 		"port": 1080,
@@ -193,7 +193,72 @@ brew services start v2ray-core
 ```
 
 其中`geosite:category-ads`的广告域名列表保存在`/usr/bin/v2ray/geosite.dat`文件中  
-改列表由[domain-list-community](https://github.com/v2ray/domain-list-community)负责维护
+该列表由[domain-list-community](https://github.com/v2ray/domain-list-community)负责维护
+
+## WebSocket + TLS + Web
+
+### 注册域名
+
+使用[freenom](https://www.freenom.com)注册免费域名，或使用其它方法注册付费域名.  
+假设注册的域名为`domain.me`
+
+### 安装Nginx
+
+```shell
+yum install nginx
+```
+
+修改`nginx`配置文件`/etc/nginx/conf.d/default.conf`
+
+```conf
+server_name domain.me;
+server_name www.domain.me;
+```
+
+启动`systemctl start nginx`
+
+### TLS证书
+
+使用`acme.sh`脚本安装
+
+```shell
+curl https://get.acme.sh | sh
+source ~/.bashrc
+acme.sh --issue -d domain.me -d www.domain.me --nginx
+```
+
+如果一切顺利则会产生如下结果
+
+```
+Your cert is in  /root/.acme.sh/domain.me/domain.me.cer
+Your cert key is in  /root/.acme.sh/domain.me/domain.me.key
+The intermediate CA cert is in  /root/.acme.sh/domain.me/ca.cer
+And the full chain certs is there:  /root/.acme.sh/domain.me/fullchain.cer
+```
+
+### 使用证书
+
+修改`nginx`配置文件`/etc/nginx/conf.d/default.conf`
+
+```conf
+listen  443 ssl;
+ssl on;
+ssl_certificate       /path/fullchain.crt;
+ssl_certificate_key   /path/domain.me.key;
+ssl_protocols         TLSv1 TLSv1.1 TLSv1.2;
+ssl_ciphers           HIGH:!aNULL:!MD5;
+```
+
+重启`nginx`
+
+```shell
+systemctl restart nginx
+```
+
+### 验证证书
+
+在网站[SSL_Labs](https://www.ssllabs.com/ssltest)中输入你的域名即可检测结果
+
 
 ## logrotate
 
