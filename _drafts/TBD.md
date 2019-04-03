@@ -62,7 +62,9 @@ apt-get install libxext-dev (require x11proto-xext-dev)
 
 The creation of swap space in partition #5 of SCSI1 (2,0,0) (sda) failed.
 
-产生问题的原因是由于无法读取服务器上的硬盘。但是在开机启动时系统显示是可以正确检测到硬盘的，而且我换了几块硬盘后依然无效，所以排除是硬盘的问题。而这个U盘启动盘在其他PC机上使用时完全没有问题的，所以也判处安装盘的问题。接下来就只有华为服务器的问题了，于是我上网了华为服务器的[文档](https://forum.huawei.com/enterprise/zh/thread-333163-1-1.html)，发现里面提到了`RAID`这个概念。由于我的服务器原本有三块硬盘，一些原因去除了两块硬盘，且是LSI SAS3108控制器，所以需要重新配置`RAID`。于是根据[华为文档](http://support.huawei.com/enterprise/zh/doc/EDOC1000004345?section=j07s)中的说明，重新配置后成功安装
+产生问题的原因是由于无法读取服务器上的硬盘。但是在开机启动时系统显示是可以正确检测到硬盘的，而且我换了几块硬盘后依然无效，所以排除是硬盘的问题。而这个U盘启动盘在其他PC机上使用时完全没有问题的，所以也判处安装盘的问题。接下来就只有华为服务器的问题了，于是我上网了华为服务器的[文档](https://forum.huawei.com/enterprise/zh/thread-333163-1-1.html)，发现里面提到了`RAID`这个概念。由于我的服务器原本有三块硬盘，一些原因去除了两块硬盘，且是LSI SAS3108控制器，所以需要重新配置`RAID`。于是根据[华为文档](http://support.huawei.com/enterprise/zh/doc/EDOC1000004345?section=j07s)中的说明，重新配置后成功安装  
+
+按`Ctrl + R`进入`RAID`配置界面，创建一个新的虚拟磁盘即可
 
 # 2018-09-13
 

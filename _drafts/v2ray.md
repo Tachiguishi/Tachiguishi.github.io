@@ -202,63 +202,108 @@ brew services start v2ray-core
 使用[freenom](https://www.freenom.com)注册免费域名，或使用其它方法注册付费域名.  
 假设注册的域名为`domain.me`
 
-### 安装Nginx
+### 搭建Web服务
+
+#### Caddy
 
 ```shell
-yum install nginx
+yum install epel-release
+yum install caddy
 ```
 
-修改`nginx`配置文件`/etc/nginx/conf.d/default.conf`
+将`caddy`配置成代理
 
 ```conf
-server_name domain.me;
-server_name www.domain.me;
+domain.me {
+	proxy /path localhost:8080 {
+		websocket
+		header_upstream -Origin
+	}
+}
 ```
 
-启动`systemctl start nginx`
+#### 修改V2ray配置
 
-### TLS证书
+服务端
 
-使用`acme.sh`脚本安装
-
-```shell
-curl https://get.acme.sh | sh
-source ~/.bashrc
-acme.sh --issue -d domain.me -d www.domain.me --nginx
+```json
+{
+	"log":{
+		"loglevel": "warning",
+		"access": "/var/log/v2ray/access.log",
+		"error": "/var/log/v2ray/error.log"
+	},
+	"inbounds": [{
+		"port": 8080,
+		"listen":"127.0.0.1",
+		"protocol": "vmess",
+		"settings": {
+			"clients": [{
+				"id": "de408bc1-f9d3-526d-1462-76dd94bf5010",
+				"alterId": 10
+			}]
+		},
+		"streamSettings": {
+			"network": "ws",
+			"wsSettings": {
+				"path": "/path"
+			}
+		}
+	}],
+	"outbounds": [{
+		"protocol": "freedom",
+		"settings": {}
+	}]
+}
 ```
 
-如果一切顺利则会产生如下结果
+客户端
 
+```json
+{
+	"log":{
+		"loglevel": "warning",
+		"access": "/var/log/v2ray/access.log",
+		"error": "/var/log/v2ray/error.log"
+	},
+	"inbounds": [{
+		"port": 1080,
+		"protocol": "socks",
+		"sniffing":{
+			"enable": true,
+			"destOverride": ["http", "tls"]
+		},
+		"setting":{
+		"auth": "noauth",
+		"udp": true
+		}
+	}],
+	"outbounds": [{
+		"protocol": "vmess",
+		"settings": {
+			"vnext":[{
+			"address": "domain.me",
+				"port": 443,
+				"users":[{
+					"id": "de408bc1-f9d3-526d-1462-76dd94bf5010",
+					"alterId": 10
+				}]
+			}]
+		}，
+		"streamSettings": {
+			"network": "ws",
+			"security": "tls",
+			"wsSettings": {
+				"path": "/path"
+			}
+		}
+	},{
+		"protocol": "freedom",
+		"settings": {},
+		"tag": "direct"
+	}]
+}
 ```
-Your cert is in  /root/.acme.sh/domain.me/domain.me.cer
-Your cert key is in  /root/.acme.sh/domain.me/domain.me.key
-The intermediate CA cert is in  /root/.acme.sh/domain.me/ca.cer
-And the full chain certs is there:  /root/.acme.sh/domain.me/fullchain.cer
-```
-
-### 使用证书
-
-修改`nginx`配置文件`/etc/nginx/conf.d/default.conf`
-
-```conf
-listen  443 ssl;
-ssl on;
-ssl_certificate       /path/fullchain.crt;
-ssl_certificate_key   /path/domain.me.key;
-ssl_protocols         TLSv1 TLSv1.1 TLSv1.2;
-ssl_ciphers           HIGH:!aNULL:!MD5;
-```
-
-重启`nginx`
-
-```shell
-systemctl restart nginx
-```
-
-### 验证证书
-
-在网站[SSL_Labs](https://www.ssllabs.com/ssltest)中输入你的域名即可检测结果
-
 
 ## logrotate
 
@@ -303,3 +348,4 @@ clntIP:Port1 rejected  v2ray.com/core/proxy/vmess/encoding: failed to read reque
 
 [offical_manual](https://www.v2ray.com)
 [简易教程](https://toutyrater.github.io)
+
