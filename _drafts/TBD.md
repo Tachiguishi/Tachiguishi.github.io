@@ -739,3 +739,24 @@ service network-manager restart
 ```shell
 chown -R oracle:oinstall/home/oracle
 ```
+
+## install oracle11g2.32bit error
+
+```log
+Checking Temp space: must be greater than 80 MB. Actual 2225807 MB Passed
+Checking swap space: must be greater than 150 MB. Actual 4095 MB Passed
+
+The number of files bootstrapped for the jre is 0.
+
+The number of files bootstrapped for the oui is 0.
+```
+
+`runInstaller`在检测`pre-require`通过后直接退出，产生上述日志。出错原因是由于硬盘空间>2TB,所以只要将剩余空间减少到2TB以下即可
+
+## oracle11g2.32bit 安装 DBCA 时出错
+
+安装`DBCA`时出错`ora-00443`, 显示有后台程序停止运行，尝试几次均是如此但每次停止的程序不同。
+
+根据[帖子](https://community.oracle.com/message/11280469)中的描述，很可能是内存(16G)太大引起的。  
+于是取下一个内存条(剩余8g), 并在`/etc/sysctl.conf`中设置`kernel.shmmax = 8589934590`  
+成功

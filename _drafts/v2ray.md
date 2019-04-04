@@ -211,16 +211,21 @@ yum install epel-release
 yum install caddy
 ```
 
-将`caddy`配置成代理
+将`caddy`配置中添加反向代理
 
 ```conf
 domain.me {
+	root /var/www/html
 	proxy /path localhost:8080 {
 		websocket
 		header_upstream -Origin
 	}
 }
 ```
+
+`caddy`可以保留原有的`Web`服务配置，但是将其中的某个特定路径(eg: `/path`)访问转向`v2ray`。  
+`caddy`只有在接收到`/path`路径请求时才会转向`v2ray`, 这样访问原有的网站服务不受影响。  
+由于`https`的保护，外界无法知道你访问的是网站的那个路径
 
 #### 修改V2ray配置
 
@@ -304,6 +309,9 @@ domain.me {
 	}]
 }
 ```
+
+`streamSettings`配置中的`wsSettings`的`path`需要的`caddy`中代理的路径相同。  
+客户端的`"security": "tls"`是供`caddy`使用的，所以服务端没有
 
 ## logrotate
 

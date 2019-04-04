@@ -52,6 +52,14 @@ lsnrctl start
 lsnrctl stop
 ```
 
+### 启动实例
+
+```shell
+dbstart
+```
+
+or 登录`sqlplus`后执行`startup`
+
 ### ping
 
 ```
