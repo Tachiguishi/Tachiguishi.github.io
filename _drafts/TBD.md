@@ -755,8 +755,71 @@ The number of files bootstrapped for the oui is 0.
 
 ## oracle11g2.32bit 安装 DBCA 时出错
 
-安装`DBCA`时出错`ora-00443`, 显示有后台程序停止运行，尝试几次均是如此但每次停止的程序不同。
+安装`DBCA`时出错`ORA-00443`, 显示有后台程序停止运行，尝试几次均是如此但每次停止的程序不同。
 
 根据[帖子](https://community.oracle.com/message/11280469)中的描述，很可能是内存(16G)太大引起的。  
 于是取下一个内存条(剩余8g), 并在`/etc/sysctl.conf`中设置`kernel.shmmax = 8589934590`  
 成功
+
+## curl wget 走代理
+
+```shell
+curl -x http://127.0.0.1:1080 github.com
+wget -e "http_proxy=127.0.0.1:1080" github.com
+```
+
+## 最新整理在线接收短信验证码注册码大全
+
+1、ReceivingSms
+https://www.receivingsms.com
+
+2、blacktel
+https://www.blacktel.io
+
+3、spoofBox
+http://www.spoofbox.com
+
+4、SmsReceiver
+https://sms.ndtan.net
+
+5、OnlineSIM
+http://onlinesim.ru
+
+6、Twilio
+https://www.twilio.com
+
+7、PdfLibr
+https://www.pdflibr.com
+
+8、SELLAITE
+http://sms.sellaite.com
+
+9、Receive SMS Online
+http://receive-sms-online.com
+
+10、Free Online Phone
+https://www.freeonlinephone.org
+
+11、RECEIVE SMS ONLINE
+https://www.receivesmsonline.net
+
+12、Receive FREE SMS online
+http://receivefreesms.com
+
+13、Receive-SMS
+https://receive-sms.com
+
+14、Receive SMS online for Free
+https://sms-online.co/receive-free-sms
+
+15、Free SMS Numbers Online
+https://smsnumbersonline.com
+
+16、Receive a SMS Online
+https://receive-a-sms.com
+
+17、Receive SMS Online for FREE
+https://www.receive-sms-online.info
+
+18、SMSReceiveFree
+https://smsreceivefree.com

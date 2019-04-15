@@ -294,7 +294,7 @@ domain.me {
 					"alterId": 10
 				}]
 			}]
-		}，
+		},
 		"streamSettings": {
 			"network": "ws",
 			"security": "tls",
@@ -354,6 +354,5 @@ clntIP:Port1 rejected  v2ray.com/core/proxy/vmess/encoding: failed to read reque
 
 ## Reference
 
-[offical_manual](https://www.v2ray.com)
-[简易教程](https://toutyrater.github.io)
-
+* [offical_manual](https://www.v2ray.com)
+* [简易教程](https://toutyrater.github.io)
