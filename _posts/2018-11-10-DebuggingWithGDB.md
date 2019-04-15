@@ -56,7 +56,7 @@ ddd --version
     继续执行到下一断点或程序结束
 * `continue n`  
     继续执行，并忽略即将遇到的`n`个断点
-* `finish`: step out
+* `finish`: step out  
     跳出当前的栈，即执行完当前所在的函数。如果其中遇到断点会暂停
 * `until`  
     执行到下一个行号大于当前行号的语句，通常用来跳出循环  
@@ -177,7 +177,7 @@ watch expression
 * 动态数组  
     对于普通数组`int x[10]`,可以使用`print x`直接将整个数组全部输出，  
     当时对于动态分配的数组`int* y; y = (int*)malloc(10*sizeof(ing));`，
-    这种方法却不行,`print y`输出的时`y`的地址，`print *y`输出的时`y[0]`的值。  
+    这种方法却不行,`print y`输出的是`y`的地址，`print *y`输出的时`y[0]`的值。  
     要想输出整个数组，需要使用`*pointer@number_of_elements`的形式，即`print *y*10`。
     同时支持在输出时的类型转化: `print (int [10])*y`
 * `ptype classname`  
