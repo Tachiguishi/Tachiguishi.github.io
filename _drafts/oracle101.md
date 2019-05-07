@@ -74,6 +74,32 @@ select * from nls_database_parameters where parameter ='NLS_CHARACTERSET';
 
 [参考](https://blog.csdn.net/angus_17/article/details/7762472)
 
+### spool
+
+将`select`查询结果，格式化写入文件
+
+## Chores
+
+### 密码期限
+
+1. 查看用户用的profile策略，一般是default：  
+
+```sql
+select username, profile from dba_users;
+```
+
+2. 查看指定概要文件（如default）的密码有效期设置：  
+
+```sql
+Select * FROM dba_profiles s Where s.profile='DEFAULT' AND resource_name='PASSWORD_LIFE_TIME';
+```
+
+3. 将密码有效期由默认的180天修改成“UNLIMITED”：  
+
+```sql
+ALTER PROFILE DEFAULT LIMIT PASSWORD_LIFE_TIME UNLIMITED;
+```
+
 ## benchmark wich swingbench
 
 

@@ -726,7 +726,9 @@ tcping -t 10 host port
 ## ubuntu 网络设置
 
 `/etc/NetwordManager/system-connections/`  
-`/etc/network/interfaces`
+该文件夹中的配置文件是通过图形界面配置的
+
+`/etc/network/interfaces`  该文件是通过`ifconfig`命令配置的
 
 ```shell
 ifconfig
