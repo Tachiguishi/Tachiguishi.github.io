@@ -65,3 +65,93 @@ Unicode: 前缀`\u`或`\U`,或使用`\N{name}`格式
 ```python
 # -*- coding: encoding name -*-
 ```
+
+## Sequence
+
+### List
+
+使用`,`分隔，被`[]`包裹。可以嵌套
+
+```python
+edward = ['Edward Gumby', 42]
+```
+
+#### Index
+
+通过下标(index)获取元素，从`0`开始; 或者从`-1`开始反向访问
+
+```python
+edward[0]
+```
+
+#### Slicing
+
+通过指定两个下标获取一段元素，`[m:n]`包含`m`但不包含`n`
+
+```python
+tag = '<a href="http://www.python.org">Python web site</a>'
+tag[9:30]
+# 'http://www.python.org'
+tag[32:-4]
+# 'Python web site'
+```
+
+可以省略`m`或`n`表示第一个或最后一个元素: `[m:]`, `[:n]`, `[:]`
+
+使用第三个参数指定步长: `[m:n:step]`, `step`可以时负数，表示反向
+
+#### Add
+
+使用`+`可以拼接
+
+```python
+[1, 2, 3] + [4, 5, 6]
+# [1, 2, 3, 4, 5, 6]
+```
+
+#### Multiplication
+
+`Sequence`与数字`n`相承会将`Sequence`重复`n`次
+
+#### 成员
+
+`in`判断某个元素是否包含在`sequence`内，返回`True`或`False`
+
+```python
+users = ['mlh', 'foo', 'bar']
+'foo' in users
+# True
+```
+
+#### len, min, max
+
+#### funcion
+
+* 修改 `names[1] = 'Alice'`
+* 删除 `del names[2]`
+* Assigning to Slices 可以通过此方法添加删除元素
+* append 在末尾添加元素
+* clear 清空列表
+* copy 深复制， 直接使用赋值语句`=`是浅复制
+* count 计算某个元素出现的次数
+* extend 在末尾添加一个列表
+* index 返回某个元素第一次出现的下标，如果不存在则报错
+* insert 在指定下标位置插入元素 `names.insert(2, 'ppt')`
+* pop 删除最后一个元素并将其返回
+* remove 删除指定元素(一次只能删除一个), 无返回值。如果不存在则报错
+* reverse 取反
+* sort 排序， 特殊排序`x.sort(key=len)` `x.sort(reverse=True)`
+
+### Tuple
+
+使用`,`分隔，被`[]`包裹。可以嵌套
+
+## Map
+
+### Dictionary
+
+## Control
+
+### Boolean
+
+`False`, `None`, `0`, `""`, `()`, `[]`, `{}`
