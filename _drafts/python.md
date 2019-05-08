@@ -6,6 +6,10 @@ categories: lang
 tags: python
 ---
 
+## Tutorial
+
+* [google_tutorial](https://developers.google.com/edu/python/introduction)
+
 ## Basics
 
 ### 基本计算
