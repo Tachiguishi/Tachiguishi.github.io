@@ -159,3 +159,18 @@ users = ['mlh', 'foo', 'bar']
 ### Boolean
 
 `False`, `None`, `0`, `""`, `()`, `[]`, `{}`
+
+## Function
+
+### document
+
+使用`'`,`'''`在函数第一行写帮助文档，当使用`help()`或`funName.__doc__`可以查看
+
+### 参数
+
+1. 使用`key=value`格式可以忽视参数顺序
+2. 参数中`*param`可以以`tuple`格式接收任意数量的参数
+3. 参数中的`**param`可以以`dict`格式接收任意数量的`key=value`格式参数
+4. 传参时使用`*`,`**`可以将`tuple`, `dict`格式的参数解构传递给普通参数列表的函数
+
+## Class

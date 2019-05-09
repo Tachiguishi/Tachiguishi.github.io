@@ -100,6 +100,12 @@ Select * FROM dba_profiles s Where s.profile='DEFAULT' AND resource_name='PASSWO
 ALTER PROFILE DEFAULT LIMIT PASSWORD_LIFE_TIME UNLIMITED;
 ```
 
+4. 已经被报告了密码快要过期的账户必须再改一次密码（需要DBA权限
+
+```sql
+alter user username identified by passwd;
+```
+
 ## benchmark wich swingbench
 
 
