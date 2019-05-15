@@ -7,8 +7,6 @@ tags: v2ray
 ---
 
 V2Ray is a unified platform for anti-censorship.  
-之所以使用`v2ray`是因为我的`shadowsocks`一个月内连续被封了3次端口。
-于是我一方便同时为`shadowsocks`开了多个端口，随机使用，另一方便开始使用`v2ray`.
 
 ## 安装
 
