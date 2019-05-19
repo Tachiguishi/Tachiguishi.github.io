@@ -174,3 +174,14 @@ users = ['mlh', 'foo', 'bar']
 4. 传参时使用`*`,`**`可以将`tuple`, `dict`格式的参数解构传递给普通参数列表的函数
 
 ## Class
+
+## 开发环境
+
+[reference](https://vimiix.com/post/2018/03/11/manage-your-virtualenv-with-pipenv/)
+
+```shell
+pip3 install --user pipenv
+mkdir project_dir
+cd project_dir
+pipenv install --three
+```
