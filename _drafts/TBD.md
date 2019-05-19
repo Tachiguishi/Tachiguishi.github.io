@@ -726,7 +726,9 @@ tcping -t 10 host port
 ## ubuntu 网络设置
 
 `/etc/NetwordManager/system-connections/`  
-`/etc/network/interfaces`
+该文件夹中的配置文件是通过图形界面配置的
+
+`/etc/network/interfaces`  该文件是通过`ifconfig`命令配置的
 
 ```shell
 ifconfig
@@ -823,3 +825,26 @@ https://www.receive-sms-online.info
 
 18、SMSReceiveFree
 https://smsreceivefree.com
+
+## ssh反向代理
+
+A机器IP: `A.A.A.A` ssh监听端口: `22`, 用户名`alice`, 位于内网  
+B及其IP: `B.B.B.B` ssh监听端口: `33`, 用户名`finn`, 位于公网  
+
+在A上建立与B端口`3000`的反向代理
+
+```shell
+ssh -fCNR 3000:localhost:22 finn@B.B.B.B -p33
+```
+
+在B上做端口转发，将连接到`44`的ssh连接转向`3000`，而`3000`与A已经建立连接，从而最终转向A
+
+```shell
+ssh -fCNL *:44:localhost:3000 localhost -p33
+```
+
+在可以访问B但无法访问A的机器C上使用(登录到A)：
+
+```shell
+ssh alice@B.B.B.B -p44
+```
