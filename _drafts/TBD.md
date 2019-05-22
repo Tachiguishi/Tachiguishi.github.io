@@ -848,3 +848,59 @@ ssh -fCNL *:44:localhost:3000 localhost -p33
 ```shell
 ssh alice@B.B.B.B -p44
 ```
+
+## qmake多个项目编译
+
+c++编译时回先生成`*.o`文件，文件名与原文件相同。当如果不同文件夹的文件名刚好相同，
+在编译第二个文件时检测到已经有`*.o`文件(第一个文件生成的)了，所以不会再次生成，
+致使第二个文件不会编译
+
+## Pure Virtual Function Called
+
+产生这个问题的原因主要有二：
+1) 在基类的构造函数里调用了纯虚函数，这个很容易理解，很显然俺们的项目里不会有这种低级错误，否则一跑就crash… 总之，这个错误就忽略了；
+2) 某个继承类的对象调用一个虚函数时，这个对象已经被析构了，这时可能是内存错误，也可能是pure virtual function called
+
+第一个不太可能会犯，而第二个可能由于变量定义顺序的关系，导致要使用的变量提前析构如：
+
+```c++
+class A{
+public:
+
+    virtual ~A(){};
+
+    virtual void fun() = 0;
+};
+
+class B : public A{
+public:
+    virtual ~B(){}
+
+    virtual void fun() override{
+        // do something
+    }
+};
+
+class C{
+public:
+    ～C(){
+        m_pa->fun();
+    }
+
+    void SetA(A* p){
+        m_pa = p;
+    }
+
+private:
+    A* m_pa;
+};
+
+
+int main(){
+    C c;
+    B b;
+    c.SetA(&b);
+}
+```
+
+上述程序中，在`c`析构前`b`已经析构，导致`c`析构中调用`b`的函数出错
