@@ -32,7 +32,8 @@ visudo #=> add: username ALL=(ALL) ALL
 
 `/etc/ssh/sshd_config`
 ```conf
-PermitRootLogin no
+PasswordAuthentication no ; 禁止密码登录
+PermitRootLogin no  ; 禁止root用户登录
 Port $Ganmu 
 ```
 
