@@ -904,3 +904,21 @@ int main(){
 ```
 
 上述程序中，在`c`析构前`b`已经析构，导致`c`析构中调用`b`的函数出错
+
+## Ubuntu kidle_inject进程占用CPU过高
+
+临时解决方案  
+
+```shell
+sudo rmmod intel_powerclamp
+```
+
+即可解决，但是重启后失效
+
+永久解决方案
+
+```shell
+echo "blacklist intel_powerclamp" | sudo tee /etc/modprobe.d/disable-powerclamp.conf
+```
+
+[参考](https://blog.csdn.net/soslinken/article/details/54892752)

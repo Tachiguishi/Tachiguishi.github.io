@@ -277,6 +277,15 @@ Example 4. Extract the last core dump of /usr/bin/bar to a file named bar.coredu
 
 `GDB`还可以用来调试其它语言，如`Java`, `Python`, `Perl`
 
+## Chore
+
+### print打印完整字符串
+
+使用`print`打印字符串时，如果字符串太长，后面部分会被省略，以`...`结尾，这是`gdb`对打印字符的限制  
+可以通过`show print elements`显示可以完整打印的长度  
+通过`set print elements newNumber`设置新的打印长度  
+`set print elements 0`取消打印长度限制
+
 ## 参考资料
 
 * [Official_documentation](https://www.gnu.org/software/gdb/documentation/)
