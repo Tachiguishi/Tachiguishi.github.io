@@ -922,3 +922,30 @@ echo "blacklist intel_powerclamp" | sudo tee /etc/modprobe.d/disable-powerclamp.
 ```
 
 [参考](https://blog.csdn.net/soslinken/article/details/54892752)
+
+## Ubuntu ifconfig only show lo
+
+已确认网卡硬件完好且正确插入，故排除硬件故障。
+
+使用`sudo lshw -C network`查看硬件信息，显示:
+
+```shell
+sudo lshw -C network
+# *-network UNCLAIMED
+#    description: Ethernet controller
+#    product: Ethernet Connection (5) I219-LM
+#    vendor: Intel Corporation
+```
+
+由`UNCLAIMED`可知系统没有合适驱动，故只需安装合适的驱动即可  
+
+根据网卡型号`Intel 219-LM`找到其驱动[e1000e](https://downloadcenter.intel.com/download/15817/Intel-Network-Adapter-Driver-for-PCIe-Intel-Gigabit-Ethernet-Network-Connections-Under-Linux-)
+
+安装驱动后重启即可
+
+```shell
+tar xfv e1000e.tar.gz
+cd e1000e/src
+sudo make install
+sudo reboot
+```
