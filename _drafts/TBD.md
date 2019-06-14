@@ -949,3 +949,25 @@ cd e1000e/src
 sudo make install
 sudo reboot
 ```
+
+## SSH 使用代理连接
+
+`ssh user@server -o ProxyCommand='nc -X 5 -x localhost:1080 %h %p'`
+
+但是这里的`nc`必须是`OpenBSD`版本, 一般的`Linux`版本的并不支持，通常报错
+
+```shell
+nc: invalid option -- 'X'
+```
+
+可以通过安装`netcat-openbsd`解决，或使用`connect-proxy`代替
+
+```config
+ProxyCommand connect-proxy -S 127.0.0.1:1080 %h %p
+```
+
+### reference
+
+* [ssh命令之ProxyCommand选项](https://dslztx.github.io/blog/2017/05/19/ssh%E5%91%BD%E4%BB%A4%E4%B9%8BProxyCommand%E9%80%89%E9%A1%B9/)
+* [SSH穿越跳板机](http://mingxinglai.com/cn/2015/07/ssh-proxycommand/)
+* [privoxy转socks5为http](https://blog.chaos.run/dreams/centos-7-ssh-via-socks5/)
