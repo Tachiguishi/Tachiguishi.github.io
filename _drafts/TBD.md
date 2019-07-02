@@ -949,3 +949,16 @@ cd e1000e/src
 sudo make install
 sudo reboot
 ```
+
+## Ubuntu 基本tool
+
+git, vim, oh-my-zsh, cmake, vscode, tmux
+
+
+## Ubuntu telegeram
+
+```shell
+sudo add-apt-repository ppa:atareao/telegram
+sudo apt-get update
+sudo apt-get install telegram
+```

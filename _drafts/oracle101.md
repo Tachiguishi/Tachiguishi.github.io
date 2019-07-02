@@ -91,7 +91,7 @@ select username, profile from dba_users;
 2. 查看指定概要文件（如default）的密码有效期设置：  
 
 ```sql
-Select * FROM dba_profiles s Where s.profile='DEFAULT' AND resource_name='PASSWORD_LIFE_TIME';
+Select * FROM dba_profiles s Where s.profile='DEFAULT' AND s.resource_name='PASSWORD_LIFE_TIME';
 ```
 
 3. 将密码有效期由默认的180天修改成“UNLIMITED”：  
