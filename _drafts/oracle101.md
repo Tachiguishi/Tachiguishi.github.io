@@ -106,6 +106,35 @@ ALTER PROFILE DEFAULT LIMIT PASSWORD_LIFE_TIME UNLIMITED;
 alter user username identified by passwd;
 ```
 
+### ORA-27101: shared memory realm does not exist
+
+ORA-01034 and ORA-27101 normally indicate that the database instance you're attempting to connect to is shut down and that you're not connected as a user who has permission to start it up  
+
+启动或重启oracle实例
+
+```shell
+$ sqlplus /nolog
+>> conn sys/sys as sysdba
+>> shutdown abort
+>> startup
+```
+
+[reference](https://stackoverflow.com/questions/6555827/ora-01034-oracle-not-available-ora-27101-shared-memory-realm-does-not-exist)
+
+### ORA-00845: MEMORY_TARGET not supported on this system
+
+启动实例时报错。表明可用的`/dev/shm`空间小于oracle的`memory_target`
+
+使用`df -h`查看`/dev/shm`空间，登录`oracle`后使用`show parameter mem`(实例启动后才有效)查看`memory_target`大小
+
+如果`/dev/shm`空间太小，则可以修改`/etc/fstab`文件增加其大小，重启电脑后生效
+
+```/etc/fstab
+tmpfs	/dev/shm	tmpfs	rw,size=4000m	0	0
+```
+
+[refrence](https://www.askmaclean.com/archives/%E8%A7%A3%E5%86%B3linux%E4%B8%8A11g%E7%9A%84ora-00845%E9%94%99%E8%AF%AF.html)
+
 ## benchmark wich swingbench
 
 
