@@ -962,3 +962,16 @@ sudo add-apt-repository ppa:atareao/telegram
 sudo apt-get update
 sudo apt-get install telegram
 ```
+
+## Mac 上 VS Code 启动后立即闪退
+
+原因未知，重新下载安装无效，于是删除相关配置文件，启动成功
+
+```shell
+rm -rf ~/Library/Preferences/com.microsoft.VSCode.helper.plist 
+rm -rf ~/Library/Preferences/com.microsoft.VSCode.plist 
+rm -rf ~/Library/Caches/com.microsoft.VSCode
+rm -rf ~/Library/Caches/com.microsoft.VSCode.ShipIt/
+rm -rf ~/Library/Application\ Support/Code/
+rm -rf ~/Library/Saved\ Application\ State/com.microsoft.VSCode.savedState/
+```
