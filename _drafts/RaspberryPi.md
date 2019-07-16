@@ -54,3 +54,11 @@ sudo apt-get install shadowsocks-libev
 创建一个文件夹用于挂载：`mkdir ~/guren`  
 运行命令载入U盘：`sudo mount -o uid=pi,gid=pi /dev/sda1 /home/pi/guren`  
 使用完毕后弹出：`sudo umount /home/pi/guren`
+
+挂载后的U盘乱码：-> 在挂载时使用`-o iocharset=utf8`参数
+
+`/etc/fstab`
+
+```
+/dev/sda1 /mnt/chen auto defaults,iocharset=utf8,noexec,umask=0000 0 0
+```
