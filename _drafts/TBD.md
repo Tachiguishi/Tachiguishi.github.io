@@ -975,3 +975,12 @@ rm -rf ~/Library/Caches/com.microsoft.VSCode.ShipIt/
 rm -rf ~/Library/Application\ Support/Code/
 rm -rf ~/Library/Saved\ Application\ State/com.microsoft.VSCode.savedState/
 ```
+
+## ping broadcast, 查看局域网内所有IP
+
+```shell
+ping -b broadcast_address
+```
+
+其中`broadcast_address`可以通过`ifconfig`命令查看  
+但不是所有机器都会回应广播的`ICMP`，需要将`/proc/sys/net/ipv4/icmp_echo_ignore_broadcasts`设为`0`
