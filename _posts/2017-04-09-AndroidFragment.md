@@ -4,7 +4,7 @@ title:  Chapter 7 UI Fragments and the Fragments Manager
 date:   2017-04-09 14:02:00 +0800
 categories:
   - Reading
-  - Android Programming by Chris Stewart
+  - Android
 ---
 
 从本章开始我们要做一个`CriminalIntent`应用。为了界面的灵活性，需要使用`fragment`

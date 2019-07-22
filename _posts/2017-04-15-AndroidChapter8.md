@@ -4,7 +4,7 @@ title:  Chapter 8 Creating User Interfaces with Layouts and Widgets
 date:   2017-04-15 06:15:00 +0800
 categories:
   - Reading
-  - Android Programming by Chris Stewart
+  - Android
 ---
 
 ## Upgrading Crime

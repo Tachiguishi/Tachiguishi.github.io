@@ -4,7 +4,7 @@ title:  Chapter 13 User Comment
 date:   2017-03-06 06:45:47 +0800
 categories:
   - Reading
-  - Flask Web Development by Miguel Grinberg
+  - Flask
 ---
 
 ## Database representation of comment

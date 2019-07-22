@@ -4,7 +4,7 @@ title: Chapter 6 Passing Arguments
 date: 2017-01-05 21:22:00 +0800
 categories:
   - Reading
-  - Shell Programming in Unix, Linux and OS X by Stephen G. Kochan
+  - Shell
 ---
 
 之前已经知道，可以将一段程序写入文件然后在运行文件。  

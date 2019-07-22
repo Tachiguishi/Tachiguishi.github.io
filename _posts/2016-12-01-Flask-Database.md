@@ -4,7 +4,7 @@ title:  Chapter 5 Flask Databases
 date:   2016-12-01 22:09:00 +0800
 categories:
   - Reading
-  - Flask Web Development by Miguel Grinberg
+  - Flask
 ---
 
 ## SQL Databases

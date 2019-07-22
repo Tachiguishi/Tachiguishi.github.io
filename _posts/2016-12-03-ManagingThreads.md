@@ -4,7 +4,7 @@ title:  Managing Threads
 date:   2016-12-03 06:33:00 +0800
 categories:
   - Reading
-  - C++ Concurrency in Action by Anthony Williams
+  - CPlus
 ---
 
 * 启动线程

@@ -4,7 +4,7 @@ title:  Application Structure
 date:   2016-12-20 22:51:00 +0800
 categories:
   - Reading
-  - Flask Web Development by Miguel Grinberg
+  - Flask
 ---
 
 Flask 没有特定的结构要求，以下为一种可行的结构

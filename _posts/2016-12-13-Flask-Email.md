@@ -4,7 +4,7 @@ title:  "Flask Email"
 date:   2016-12-13 06:18:00 +0800
 categories:
   - Reading
-  - Flask Web Development by Miguel Grinberg
+  - Flask
 ---
 
 我们可以使用 python 的`smtplib`库，但是使用集成的`flask-mail`更方便

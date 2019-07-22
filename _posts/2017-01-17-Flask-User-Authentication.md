@@ -4,7 +4,7 @@ title:  Chapter 8 User Authentication
 date:   2016-12-30 05:53:00 +0800
 categories:
   - Reading
-  - Flask Web Development by Miguel Grinberg
+  - Flask
 ---
 
 ## Flask 的 Authentication 拓展

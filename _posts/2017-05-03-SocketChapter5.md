@@ -4,7 +4,7 @@ title:  Chapter 5 Send and Receive Data
 date:   2017-05-03 12:34:00 +0800
 categories:
   - Reading
-  - TCP IP sockets in C by Michael J Donahoo
+  - TCPIP
 ---
 
 ## Encoding Integers

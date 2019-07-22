@@ -4,7 +4,7 @@ title:  Chapter 15 Testing and Performance
 date:   2017-03-20 22:37:00 +0800
 categories:
   - Reading
-  - Flask Web Development by Miguel Grinberg
+  - Flask
 ---
 
 ## Testing

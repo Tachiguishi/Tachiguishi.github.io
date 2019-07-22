@@ -4,7 +4,7 @@ title:  Chapter 10 Environment
 date:   2017-03-10 21:18:00 +0800
 categories:
   - Reading
-  - Shell Programming in Unix, Linux and OS X by Stephen G. Kochan
+  - Shell
 ---
 
 ## Local variable

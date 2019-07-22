@@ -4,7 +4,7 @@ title:  Chapter 1 Your First Android Application
 date:   2017-01-07 17:10:00 +0800
 categories:
   - Reading
-  - Android Programming by Chris Stewart
+  - Android
 ---
 
 这一章将要写一个叫"GeoQuiz"的程序

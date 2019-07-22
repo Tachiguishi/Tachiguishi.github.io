@@ -4,7 +4,7 @@ title:  Chapter 8 Loop
 date:   2017-02-24 21:52:00 +0800
 categories:
   - Reading
-  - Shell Programming in Unix, Linux and OS X by Stephen G. Kochan
+  - Shell
 ---
 
 有三种内置循环语句命令`for`, `while`, `until`

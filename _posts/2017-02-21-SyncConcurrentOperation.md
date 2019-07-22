@@ -4,7 +4,7 @@ title:  Chapter 4 Synchronizing concurrent operations
 date:   2017-02-21 22:11:00 +0800
 categories:
   - Reading
-  - C++ Concurrency in Action by Anthony Williams
+  - CPlus
 ---
 
 ## waiting for an event or other condition

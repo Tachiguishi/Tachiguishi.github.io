@@ -4,7 +4,7 @@ title:  Chapter 3 Of Names and Address families
 date:   2017-04-11 21:20:00 +0800
 categories:
   - Reading
-  - TCP IP sockets in C by Michael J Donahoo
+  - TCPIP
 ---
 
 `Socket API`只接受`IP`地址作为目标地址，但是人类并不善于记忆数值型变量。

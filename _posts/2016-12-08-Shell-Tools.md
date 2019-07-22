@@ -4,7 +4,7 @@ title:  Chapter 4 Tools of The Trade
 date:   2016-12-08 05:32:00 +0800
 categories:
   - Reading
-  - Shell Programming in Unix, Linux and OS X by Stephen G. Kochan
+  - Shell
 ---
 
 ## 正则表达式

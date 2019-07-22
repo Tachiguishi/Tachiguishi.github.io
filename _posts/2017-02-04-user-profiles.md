@@ -4,7 +4,7 @@ title:  Chapter 10 User Profiles
 date:   2017-02-04 12:56:00 +0800
 categories:
   - Reading
-  - Flask Web Development by Miguel Grinberg
+  - Flask
 ---
 
 ## Profile Information

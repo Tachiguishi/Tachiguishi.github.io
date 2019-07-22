@@ -4,7 +4,7 @@ title:  Chapter 2 Basic TCP Sockets
 date:   2017-03-15 21:20:00 +0800
 categories:
   - Reading
-  - TCP IP sockets in C by Michael J Donahoo
+  - TCPIP
 ---
 
 ## IPv4 TCP Client

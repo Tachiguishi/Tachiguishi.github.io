@@ -4,7 +4,7 @@ title:  Chapter 4 Debugging Android Apps
 date:   2017-03-04 16:57:00 +0800
 categories:
   - Reading
-  - Android Programming by Chris Stewart
+  - Android
 ---
 
 ## Exceptions and stack traces

@@ -4,7 +4,7 @@ title:  Can I Quote You on That
 date:   2016-12-22 15:41:00 +0800
 categories:
   - Reading
-  - Shell Programming in Unix, Linux and OS X by Stephen G. Kochan
+  - Shell
 ---
 
 总共有四种引用符号: `'`, `"`, `\`, `

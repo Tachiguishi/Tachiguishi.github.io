@@ -4,7 +4,7 @@ title:  Chapter 11 Blog Posts
 date:   2017-02-17 10:18:00 +0800
 categories:
   - Reading
-  - Flask Web Development by Miguel Grinberg
+  - Flask
 ---
 
 ## Blog Post Submission and Display

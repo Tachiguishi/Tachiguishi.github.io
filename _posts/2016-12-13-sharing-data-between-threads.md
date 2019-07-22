@@ -4,7 +4,7 @@ title:  Chapter 3 Sharing data between threads
 date:   2016-12-13 19:00:00 +0800
 categories:
   - Reading
-  - C++ Concurrency in Action by Anthony Williams
+  - CPlus
 ---
 
 ## 线程间数据共享的问题

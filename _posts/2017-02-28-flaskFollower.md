@@ -4,7 +4,7 @@ title:  Chapter 12 Followers
 date:   2017-02-28 05:09:47 +0800
 categories:
   - Reading
-  - Flask Web Development by Miguel Grinberg
+  - Flask
 ---
 
 ## Database relationships revisited

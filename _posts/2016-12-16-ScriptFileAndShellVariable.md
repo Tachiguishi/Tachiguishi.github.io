@@ -4,7 +4,7 @@ title:  Script file And Shell variable
 date:   2016-12-16 09:57:00 +0800
 categories:
   - Reading
-  - Shell Programming in Unix, Linux and OS X by Stephen G. Kochan
+  - Shell
 ---
 
 ## Command Files

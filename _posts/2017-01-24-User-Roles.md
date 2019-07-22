@@ -4,7 +4,7 @@ title:  Chapter 9 User Roles
 date:   2017-01-24 14:39:00 +0800
 categories:
   - Reading
-  - Flask Web Development by Miguel Grinberg
+  - Flask
 ---
 
 ## Database Representation of Roles

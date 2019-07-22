@@ -4,7 +4,7 @@ title:  "Linux Basic Command"
 date:   2016-11-26 16:11:47 +0800
 categories:
   - Reading
-  - Shell Programming in Unix, Linux and OS X by Stephen G. Kochan
+  - Shell
 ---
 
 ### 101

@@ -4,7 +4,7 @@ title:  Chapter 7 Condition statement
 date:   2017-02-10 01:52:00 +0800
 categories:
   - Reading
-  - Shell Programming in Unix, Linux and OS X by Stephen G. Kochan
+  - Shell
 ---
 
 条件语句`if`的基本格式

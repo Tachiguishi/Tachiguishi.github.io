@@ -4,7 +4,7 @@ title:  Chapter 9 Reading and Printing Data
 date:   2017-03-02 22:20:00 +0800
 categories:
   - Reading
-  - Shell Programming in Unix, Linux and OS X by Stephen G. Kochan
+  - Shell
 ---
 
 ## The `read` Command

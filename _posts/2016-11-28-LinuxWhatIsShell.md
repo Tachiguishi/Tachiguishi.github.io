@@ -4,7 +4,7 @@ title:  "What is Shell"
 date:   2016-11-28 16:11:47 +0800
 categories:
   - Reading
-  - Shell Programming in Unix, Linux and OS X by Stephen G. Kochan
+  - Shell
 ---
 
 ## Kernel and Utility

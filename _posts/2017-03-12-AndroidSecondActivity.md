@@ -4,7 +4,7 @@ title:  Chapter 5 Your Second Activity
 date:   2017-03-12 19:51:00 +0800
 categories:
   - Reading
-  - Android Programming by Chris Stewart
+  - Android
 ---
 
 ## Setting Up a Second Activity

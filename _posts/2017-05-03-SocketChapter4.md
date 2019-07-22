@@ -4,7 +4,7 @@ title:  Chapter 4 Using UDP Sockets
 date:   2017-05-03 08:14:00 +0800
 categories:
   - Reading
-  - TCP IP sockets in C by Michael J Donahoo
+  - TCPIP
 ---
 
 ## Sending and Receiving with UDP Sockets
