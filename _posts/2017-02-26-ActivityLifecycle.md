@@ -21,7 +21,7 @@ categories:
 public static int d(String tag, String msg)
 ```
 
-`d`代表`debug`，表示日志级别。第一个参数表示日志来源，通常一个常量，其值未相应的类名。第二个参数即未日志级别  
+`d`代表`debug`，表示日志级别。第一个参数表示日志来源，通常一个常量，通常设为相应的类名。第二个参数即为实际的日志内容  
 例如在`QuizActivity`中，
 
 ```java

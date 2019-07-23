@@ -133,6 +133,13 @@ $ sqlplus /nolog
 tmpfs	/dev/shm	tmpfs	rw,size=4000m	0	0
 ```
 
+### 日志
+
+```shell
+# 关闭监听日志
+lsnrctl set log_status off
+```
+
 [refrence](https://www.askmaclean.com/archives/%E8%A7%A3%E5%86%B3linux%E4%B8%8A11g%E7%9A%84ora-00845%E9%94%99%E8%AF%AF.html)
 
 ## benchmark wich swingbench
