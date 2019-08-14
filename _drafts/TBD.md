@@ -984,3 +984,9 @@ ping -b broadcast_address
 
 其中`broadcast_address`可以通过`ifconfig`命令查看  
 但不是所有机器都会回应广播的`ICMP`，需要将`/proc/sys/net/ipv4/icmp_echo_ignore_broadcasts`设为`0`
+
+## CPU温度
+
+```shell
+/sys/devices/virtual/thermal/thermal_zone0/temp
+```
