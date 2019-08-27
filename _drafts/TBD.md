@@ -987,6 +987,8 @@ ping -b broadcast_address
 
 ## CPU温度
 
+安装库`lm_sensors`,然后运行命令`sensors-detect`配置，`sensors`显示温度
+
 ```shell
 /sys/devices/virtual/thermal/thermal_zone0/temp
 ```
