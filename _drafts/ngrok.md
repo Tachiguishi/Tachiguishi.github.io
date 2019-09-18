@@ -1,9 +1,9 @@
 ---
 layout: post
-title:  V2Ray
+title:  Ngrok
 date:   2019-08-27 19:15:00 +0800
 categories: tools
-tags: v2ray
+tags: ngrok
 ---
 
 `ngrok`是一个反向代理程序，用于实现内网穿透。可以捕获并分析`http/https`流量，并支持`tcp`代理  
