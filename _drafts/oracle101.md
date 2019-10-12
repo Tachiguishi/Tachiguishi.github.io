@@ -121,6 +121,21 @@ $ sqlplus /nolog
 
 [reference](https://stackoverflow.com/questions/6555827/ora-01034-oracle-not-available-ora-27101-shared-memory-realm-does-not-exist)
 
+### ORA-00837: Specified value of MEMORY_TARGET greater than MEMORY_MAX_TARGET
+
+错误修改`MEMORY_MAX_TARGET`大小，导致`MEMORY_TARGET < MEMORY_MAX_TARGET`, 致使数据库启动失败。
+
+使用修改前的`pfile`文件启动数据库, 生成新的`spfile`再次启动
+
+```sql
+startup pfile='/home/oracle/ora11/admin/orcl11g/pfile/init.ora.5242019144032';
+create spfile from memory;
+shutdown immediate
+startup
+```
+
+如果找不到`init.ora`文件，可疑自己生成一个`create pfile='/tmp/init.ora' from spfile;`
+
 ### ORA-00845: MEMORY_TARGET not supported on this system
 
 启动实例时报错。表明可用的`/dev/shm`空间小于oracle的`memory_target`
