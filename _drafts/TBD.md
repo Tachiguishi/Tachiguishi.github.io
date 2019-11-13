@@ -992,3 +992,10 @@ ping -b broadcast_address
 ```shell
 /sys/devices/virtual/thermal/thermal_zone0/temp
 ```
+
+
+## Eclipse
+
+```
+Eclipse Plug-in Development Environment
+```

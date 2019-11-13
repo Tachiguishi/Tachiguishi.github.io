@@ -159,4 +159,11 @@ lsnrctl set log_status off
 
 ## benchmark wich swingbench
 
+Oracle写数据文件的进程，输出显示为：“ora_dbw0_ORCL”
+• Oracle写日志文件的进程，输出显示为：“ora_lgwr_ORCL”
+• Oracle监听实例状态的进程，输出显示为：“ora_smon_ORCL”
+• Oracle监听客户端连接进程状态的进程，输出显示为：“ora_pmon_ORCL”
+• Oracle进行归档的进程，输出显示为：“ora_arc0_ORCL”
+• Oracle进行检查点的进程，输出显示为：“ora_ckpt_ORCL”
+• Oracle进行恢复的进程，输出显示为：“ora_reco_ORCL”
 
