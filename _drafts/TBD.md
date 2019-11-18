@@ -999,3 +999,12 @@ ping -b broadcast_address
 ```
 Eclipse Plug-in Development Environment
 ```
+
+## iptables 本地端口转发
+
+```shell
+iptables -t nat -I PREROUTING -p tcp --dport 8080 -j DNAT --to 127.0.0.1:8000
+sysctl -w net.ipv4.conf.all.route_localnet=1
+```
+
+[reference](https://www.cnblogs.com/hanyifeng/p/6723964.html)
