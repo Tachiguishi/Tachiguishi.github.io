@@ -72,7 +72,7 @@ git clone github-page-URL
 cd ./github-page
 
 # 安装所需控件
-bundle install
+bundle install --path ~/.gem/jekyllbundle 
 
 # 运行
 bundle exec jekyll serve
@@ -87,7 +87,7 @@ bundle exec jekyll serve
 解决： 
 
 ```shell
-sudo apt-get install zlib-devel
+sudo dnf install zlib-devel
 # ubuntu 上执行sudo apt-get install libz-dev
 ```
 
