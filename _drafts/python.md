@@ -180,8 +180,31 @@ users = ['mlh', 'foo', 'bar']
 [reference](https://vimiix.com/post/2018/03/11/manage-your-virtualenv-with-pipenv/)
 
 ```shell
+## install pipenv
 pip3 install --user pipenv
+
+## init develop environment
 mkdir project_dir
 cd project_dir
 pipenv install --three
+
+## active env
+pipenv shell
+
+## install libs
+pipenv install lib-name
+
+## 查看第三方包的依赖关系
+pipenv graph
+```
+
+如果网络访问受限，可以修改`Pipfile`中源地址
+
+`Pipfile`
+
+```conf
+[[source]]
+url = "https://pypi.tuna.tsinghua.edu.cn/simple"
+verify_ssl = true
+name = "pypi"
 ```
