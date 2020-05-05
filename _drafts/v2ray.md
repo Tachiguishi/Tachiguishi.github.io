@@ -70,8 +70,8 @@ wget https://install.direct/go.sh && chmod +x go.sh && sudo ./go.sh
 			"destOverride": ["http", "tls"]
 		},
 		"setting":{
-		"auth": "noauth",
-		"udp": true
+			"auth": "noauth",
+			"udp": true
 		}
 	}],
 	"outbounds": [{
@@ -165,6 +165,10 @@ brew services start v2ray-core
 如果你手机配置过一个`VPN`，且将这个`VPN`设置为了`Always-on VPN`的话，则会导致无法配置新的`VPN`，  
 `v2ray`启动时报错`permission denied to create a VPN service`  
 这时只要将那个`VPN`的`Always-on VPN`选项关闭即可
+
+## 跨平台客户端
+
+CLASHR
 
 ## 广告屏蔽
 
@@ -310,6 +314,69 @@ domain.me {
 
 `streamSettings`配置中的`wsSettings`的`path`需要的`caddy`中代理的路径相同。  
 客户端的`"security": "tls"`是供`caddy`使用的，所以服务端没有
+
+## 添加CDN
+
+在`WebSocket + TLS + Web`的基础上添加`CDN`, 这里以`Cloudflare`为例
+
+1. 由于`Caddy`会自动注册申请`LetsEncrypt`证书，这要求其必须与外界直接连接，在嵌套`CDN`后这一步则无法完成。
+2. `Cloudflare`默认使用`HTTP`与后台服务通信，而`Caddy`会将其重定向到`HTTPS`，进而引起`rederict loop`
+
+### 注册Cloudflare
+
+获得注册油箱`cloudflare@gmail.com`与`Global API Key`: `1234567890asdfjkl1234567890asdfjkl`  
+获取`Nameserver`地址: `ns.cloudflare.com`
+
+1. 将域名DNS指向服务器所在地址
+2. 将`SSL/TLS encryption mode`设为`Full`或者`Full(Strict)`(解决上面的问题2)
+
+
+### 修改域名服务商`DNS`配置
+
+将在`Freenom`注册的域名`domain.me`的`nameserver`设置成`ns.cloudflare.com`
+
+### 修改`Caddy`配置以支持`Cloudflare`
+
+1. 安装`cloudflare`插件，使`caddy`支持`cloudflare`
+
+```shell
+curl https://getcaddy.com | bash -s personal tls.dns.cloudflare
+```
+
+修改`/etc/caddy/caddy.conf`
+
+```conf
+domain.me {
+	root /var/www/html
+	proxy /path localhost:8080 {
+		websocket
+		header_upstream -Origin
+	}
+	tls {
+		dns cloudflare
+	}
+}
+```
+
+2. 修改启动环境
+
+修改`/etc/systemd/system/multi-user.target.wants/caddy.service`添加`cloudflare`环境
+
+```
+Environment=CLOUDFLARE_EMAIL=cloudflare@gmail.com
+Environment=CLOUDFLARE_API_KEY=1234567890asdfjkl1234567890asdfjkl
+```
+
+重启服务
+
+```shell
+systemctl daemon-reload
+systemctl restart caddy
+```
+
+### reference
+
+[CaddyServer and Cloudflare](https://www.cylindric.net/web/caddyserver-and-cloudflare)
 
 ## logrotate
 
