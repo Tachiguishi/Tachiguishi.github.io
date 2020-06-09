@@ -193,9 +193,16 @@ pipenv shell
 
 ## install libs
 pipenv install lib-name
+pipenv install --dev pylint
 
 ## 查看第三方包的依赖关系
 pipenv graph
+
+## 卸载库
+pipenv uninstall reuqests
+
+## 删除虚拟环境
+pipenv --rm
 ```
 
 如果网络访问受限，可以修改`Pipfile`中源地址
