@@ -1008,3 +1008,30 @@ sysctl -w net.ipv4.conf.all.route_localnet=1
 ```
 
 [reference](https://www.cnblogs.com/hanyifeng/p/6723964.html)
+
+## Django Vue template confilct
+
+### 修改vue.js的默认的绑定符号
+Vue.config.delimiters = ["[[", "]]"];
+
+### 使用模板的标签来输出“{{”、“ }}”
+
+参数	输出
+openblock	{%
+closeblock	%}
+openvariable	{{
+closevariable	}}
+openbrace	{
+closebrace	}
+opencomment	{#
+closecomment	#}
+我们可以在模板中用
+
+{% templatetag openvariable %} 
+{% templatetag closevariable %}
+
+### 禁用django模板渲染
+
+{% verbatim %}
+    {{ vue }}
+{% endverbatim %}

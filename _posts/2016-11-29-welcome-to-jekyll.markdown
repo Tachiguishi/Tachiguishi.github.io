@@ -72,7 +72,7 @@ git clone github-page-URL
 cd ./github-page
 
 # 安装所需控件
-bundle install --path ~/.gem/jekyllbundle 
+bundle install --path ~/.gem/bundle 
 
 # 运行
 bundle exec jekyll serve
