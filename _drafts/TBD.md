@@ -1035,3 +1035,19 @@ closecomment	#}
 {% verbatim %}
     {{ vue }}
 {% endverbatim %}
+
+## TShark
+
+tshark [ -i <capture interface>|- ] [ -f <capture filter> ] [ -2 ] [ -r <infile> ] [ -w <outfile>|- ] [ options ] [ <filter> ]
+
+-c <capture packet count>
+-a|--autostop <capture autostop condition>
+Specify a criterion that specifies when TShark is to stop writing to a capture file. The criterion is of the form test:value, where test is one of:
+
+duration:value Stop writing to a capture file after value seconds have elapsed. Floating point values (e.g. 0.5) are allowed.
+
+files:value Stop writing to capture files after value number of files were written.
+
+filesize:value Stop writing to a capture file after it reaches a size of value kB. If this option is used together with the -b option, TShark will stop writing to the current capture file and switch to the next one if filesize is reached. When reading a capture file, TShark will stop reading the file after the number of bytes read exceeds this number (the complete packet will be read, so more bytes than this number may be read). Note that the filesize is limited to a maximum value of 2 GiB.
+
+packets:value switch to the next file after it contains value packets. Same as -c<capture packet count>.
