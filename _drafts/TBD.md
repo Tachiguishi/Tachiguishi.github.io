@@ -1051,3 +1051,16 @@ files:value Stop writing to capture files after value number of files were writt
 filesize:value Stop writing to a capture file after it reaches a size of value kB. If this option is used together with the -b option, TShark will stop writing to the current capture file and switch to the next one if filesize is reached. When reading a capture file, TShark will stop reading the file after the number of bytes read exceeds this number (the complete packet will be read, so more bytes than this number may be read). Note that the filesize is limited to a maximum value of 2 GiB.
 
 packets:value switch to the next file after it contains value packets. Same as -c<capture packet count>.
+
+## git 项目太大
+
+```shell
+# 查找最大的文件
+git verify-pack -v .git/objects/pack/*.idx | sort -k 3 -n | tail -5
+# 查看文件细节
+git rev-list --objects -all | grep <hash>
+# 从所有历史中删除指定文件
+git filter-branch --force --index-filter "git rm --cached --ignore-unmatch <file_path>" --prune-empty --tag-name-filter cat -- --all
+# 提交到远程
+git push --force -all
+```
