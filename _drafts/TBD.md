@@ -1064,3 +1064,10 @@ git filter-branch --force --index-filter "git rm --cached --ignore-unmatch <file
 # 提交到远程
 git push --force -all
 ```
+
+## Termux
+
+开启访问手机中的文件系统  
+1. 开启`Termux`的文件访问权限
+2. 在`Termux`中运行`termux-setup-storage`后则在`～`目录下出现`storage`目录
+3. `～/storage`目录即为手机的`/storage/emulated/0/`目录
