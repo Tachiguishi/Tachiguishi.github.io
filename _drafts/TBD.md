@@ -1071,3 +1071,26 @@ git push --force -all
 1. 开启`Termux`的文件访问权限
 2. 在`Termux`中运行`termux-setup-storage`后则在`～`目录下出现`storage`目录
 3. `～/storage`目录即为手机的`/storage/emulated/0/`目录
+
+## arm linux 交叉编译
+
+```shell
+apt install g++-aarch64-linux-gnu
+```
+
+指定编译时所使用的编译器
+
+```cmake
+set(CMAKE_C_COMPILER, aarch64-linux-gnu-gcc)
+set(CMAKE_CXX_COMPILER, aarch64-linux-gnu-g++)
+```
+
+## mysql 监听地址
+
+`mysql`默认监听`127.0.0.1`, 只需要修改其配置文件即可
+
+`/etc/mysql/mysql.conf.d/mysqld.cnf`
+
+```conf
+bind-address = 0.0.0.0
+```
