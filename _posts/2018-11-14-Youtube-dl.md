@@ -94,6 +94,15 @@ youtube-dl -f 171 https://www.youtube.com/watch?v=diuexInkshA
 youtube-dl -f 171+244 https://www.youtube.com/watch?v=diuexInkshA
 ```
 
+也可以使用特定的名称来指定格式，这样就不用预先知道格式代码了
+
+* best: Select the best quality format represented by a single file with video and audio.
+* worst: Select the worst quality format represented by a single file with video and audio.
+* bestvideo: Select the best quality video-only format (e.g. DASH video). May not be available.
+* worstvideo: Select the worst quality video-only format. May not be available.
+* bestaudio: Select the best quality audio only-format. May not be available.
+* worstaudio: Select the worst quality audio only-format. May not be available.
+
 ### 字幕
 
 * `--list-subs`	List all available subtitles for the video
@@ -160,3 +169,72 @@ Deleting original file Débilman No Uta (Full) - Devilman Crybaby OST-diuexInksh
 ```
 
 可以看到，`youtube-dl`先下载了两个文件，一个最好品质音频，一个最好品质视频，然后自动调用`ffmpeg`进行合并，最后删除下载的两个原始文件
+
+## 自动下载
+
+由于网络因素，晚上下载速度慢且不稳定，凌晨速度快且稳定，所以我制作了一个定时脚本放在`Raspberry Pi`上，让它在每天早上4点去下载我想要的视频
+
+### 下载脚本
+
+`/home/pi/.bin/youbutedaily`
+
+```shell
+#!/bin/sh
+
+# video URL that I want to download
+youlist=/home/pi/.youtube
+# video URL that downloading failed
+faillist=/tmp/youfailed
+
+if [ -f $youlist ]; then
+
+# remove empty line
+sed -i "/^$/d" $youlist
+# clear failed URL
+echo > $faillist
+
+# download
+while read line
+do
+	# check for empty line
+	if [ -z "$line" ]; then
+		echo "pass"
+		continue
+	fi
+	echo "$line"" begin"
+	youtube-dl --proxy socks5://127.0.0.1:1080 -o "/home/pi/%(title)s-%(id)s.%(ext)s" $line 2>> /home/pi/.youtube.log
+	if [ $? -ne 0 ]; then
+		echo "$line" >> $faillist
+	fi
+done < $youlist
+
+# remove success URL from list
+cat $faillist > $youlist
+
+fi
+```
+
+### 定时执行
+
+```shell
+crontab -l
+# * 4 * * * /home/pi/.bin/youbutedaily
+```
+
+### 添加下载地址到`.youtube`文件
+
+对于一般视频，只要直接添加视频地址即可。但有些视频我只想下载音频，所以只要在地址前添加`-f bestaudio`即可
+
+`/home/pi/.bin/bestaudio`
+
+```shell
+#!/bin/sh
+
+if [ $# -ne 1 ]; then
+	echo "wrong parameters"
+fi
+
+echo "-f bestaudio ""$1" >> /home/pi/.youtube
+
+cat /home/pi/.youtube
+```
