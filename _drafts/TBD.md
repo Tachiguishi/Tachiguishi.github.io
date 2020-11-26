@@ -1007,7 +1007,20 @@ iptables -t nat -I PREROUTING -p tcp --dport 8080 -j DNAT --to 127.0.0.1:8000
 sysctl -w net.ipv4.conf.all.route_localnet=1
 ```
 
+```shell
+echo "net.ipv4.conf.all.route_localnet=1" >> /etc/sysctl.conf
+sysctl -p
+```
+
 [reference](https://www.cnblogs.com/hanyifeng/p/6723964.html)
+
+### iptables failed
+
+```
+problem running iptables: Another app is currently holding the xtables lock. Perhaps you want to use the -w option
+```
+
+`-w [seconds]`可以指定在`iptables`执行时如果发现锁被占用则会等待指定时间，如果在等待时间内锁被释放，则能成功执行
 
 ## Django Vue template confilct
 
@@ -1093,4 +1106,10 @@ set(CMAKE_CXX_COMPILER, aarch64-linux-gnu-g++)
 
 ```conf
 bind-address = 0.0.0.0
+```
+
+## makefile 从命令行传递变量
+
+```
+make VARNAME=value
 ```

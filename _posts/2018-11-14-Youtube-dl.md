@@ -214,12 +214,17 @@ cat $faillist > $youlist
 fi
 ```
 
+> 写定时任务脚本时注意`$PATH`环境与直接在终端执行不同，具体看`/etc/crontab`文件中的设置
+> 也可以自己通过`crontab -e`添加必要的路径
+
 ### 定时执行
 
 ```shell
 crontab -l
-# * 4 * * * /home/pi/.bin/youbutedaily
+# 0 4 * * * /home/pi/.bin/youbutedaily
 ```
+
+> 设置定时任务时需要注意系统时区
 
 ### 添加下载地址到`.youtube`文件
 
