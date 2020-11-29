@@ -1065,6 +1065,11 @@ filesize:value Stop writing to a capture file after it reaches a size of value k
 
 packets:value switch to the next file after it contains value packets. Same as -c<capture packet count>.
 
+
+```shell
+tshark -i "any" -b filesize:50000 fizes:2 -w tcp.pcap
+```
+
 ## git 项目太大
 
 ```shell
@@ -1112,4 +1117,10 @@ bind-address = 0.0.0.0
 
 ```
 make VARNAME=value
+```
+
+## bluetoothctl
+
+```shell
+bluetoothctl connect <divice-mac-address>
 ```

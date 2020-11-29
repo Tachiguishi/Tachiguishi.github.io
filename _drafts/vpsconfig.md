@@ -59,7 +59,7 @@ Host Wyvern_Avalon
     Port $Ganmu
     User username
     PreferredAuthentications publickey
-    IdentityFile /Users/Spike/.ssh/id_rsa
+    IdentityFile ~/.ssh/id_rsa
 ```
 
 为了防止`Bad owner or permissions on .ssh/config`错误，
@@ -99,6 +99,15 @@ export PS1="[$purple\u$reset@$green\h $blue\W$reset]$ "
 ```
 
 #### Timezone
+
+```shell
+# check for current timezone
+ls -l /etc/localtime
+# query available timezone
+timedatectl list-timezones
+# change timezone
+sudo timedatectl set-timezone America/Los_Angeles
+```
 
 ```shell
 sudo touch /etc/profile.d/timezone.sh

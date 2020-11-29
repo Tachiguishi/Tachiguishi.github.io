@@ -185,6 +185,8 @@ Deleting original file Débilman No Uta (Full) - Devilman Crybaby OST-diuexInksh
 youlist=/home/pi/.youtube
 # video URL that downloading failed
 faillist=/tmp/youfailed
+# log
+logfile=/home/pi/youtube.txt
 
 if [ -f $youlist ]; then
 
@@ -201,8 +203,8 @@ do
 		echo "pass"
 		continue
 	fi
-	echo "$line"" begin"
-	youtube-dl --proxy socks5://127.0.0.1:1080 -o "/home/pi/%(title)s-%(id)s.%(ext)s" $line 2>> /home/pi/.youtube.log
+	echo $(TZ='Asia/Shanghai' date "+%F %T") "downloading" $line >> $logfile
+	youtube-dl --proxy socks5://127.0.0.1:1080 -o "/home/pi/%(title)s-%(id)s.%(ext)s" $line 2>> $logfile
 	if [ $? -ne 0 ]; then
 		echo "$line" >> $faillist
 	fi
@@ -221,10 +223,11 @@ fi
 
 ```shell
 crontab -l
+#PATH=/usr/local/sbin:/usr/local/bin:/usr/sbin:/usr/bin:/sbin:/bin
 # 0 4 * * * /home/pi/.bin/youbutedaily
 ```
 
-> 设置定时任务时需要注意系统时区
+> 设置定时任务时需要注意系统时区与环境变量
 
 ### 添加下载地址到`.youtube`文件
 
@@ -240,6 +243,7 @@ if [ $# -ne 1 ]; then
 fi
 
 echo "-f bestaudio ""$1" >> /home/pi/.youtube
+sed -i "/^$/d" /home/pi/.youtube
 
 cat /home/pi/.youtube
 ```
