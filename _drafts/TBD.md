@@ -855,6 +855,23 @@ c++编译时回先生成`*.o`文件，文件名与原文件相同。当如果不
 在编译第二个文件时检测到已经有`*.o`文件(第一个文件生成的)了，所以不会再次生成，
 致使第二个文件不会编译
 
+## qmake subdirs endless loop
+
+`./my.pro`
+
+```pro
+TEMPLATE = subdirs
+
+SUBDIRS += \
+    diretory1 \
+    diretory2 \     \
+    diretory3
+
+```
+
+由于`diretory2`后面多写了一个`\`字符，导致`qmake`在解析时向`SUBDIRS`队列中添加了一个`./`目录下的`.pro`文件，被解析为`./my.pro`文件。  
+从而导致递归调用，引起无限死循环
+
 ## Pure Virtual Function Called
 
 产生这个问题的原因主要有二：
@@ -1063,11 +1080,12 @@ files:value Stop writing to capture files after value number of files were writt
 
 filesize:value Stop writing to a capture file after it reaches a size of value kB. If this option is used together with the -b option, TShark will stop writing to the current capture file and switch to the next one if filesize is reached. When reading a capture file, TShark will stop reading the file after the number of bytes read exceeds this number (the complete packet will be read, so more bytes than this number may be read). Note that the filesize is limited to a maximum value of 2 GiB.
 
-packets:value switch to the next file after it contains value packets. Same as -c<capture packet count>.
+packets:value switch to the next file after it contains value packets. Same as -c <capture packet count>.
 
 
 ```shell
-tshark -i "any" -b filesize:50000 fizes:2 -w tcp.pcap
+tshark -D   # show available interface
+tshark -i any -b filesize:50000 -b fizes:2 -w tcp.pcap
 ```
 
 ## git 项目太大
