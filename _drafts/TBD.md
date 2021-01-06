@@ -1142,3 +1142,20 @@ make VARNAME=value
 ```shell
 bluetoothctl connect <divice-mac-address>
 ```
+
+## rpath rpath-link
+
+`rpath-link`相当与添加`LIBRARY_PATH`路径
+
+```shell
+gcc -Wl,-rpath-link=$(pwd)
+```
+
+`rpath`同时添加`LIBRARY_PATH`与`LD_LIBRARY_PATH`路径，并将路径记录到最终的结果文件中
+
+```pro
+QMAKE_RPATHDIR
+QMAKE_RPATHLINKDIR
+```
+
+[reference](https://stackoverflow.com/questions/49138195/whats-the-difference-between-rpath-link-and-l)
