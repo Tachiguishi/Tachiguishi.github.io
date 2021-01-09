@@ -1142,3 +1142,18 @@ make VARNAME=value
 ```shell
 bluetoothctl connect <divice-mac-address>
 ```
+
+## date
+
+```shell
+date +%s
+# 1609045622
+date -d @1609045622
+# Sun Dec 27 01:07:02 PM CST 2020
+```
+
+## nmap
+
+```shell
+nmap -p1024 hostname
+```
