@@ -1159,3 +1159,17 @@ QMAKE_RPATHLINKDIR
 ```
 
 [reference](https://stackoverflow.com/questions/49138195/whats-the-difference-between-rpath-link-and-l)
+## date
+
+```shell
+date +%s
+# 1609045622
+date -d @1609045622
+# Sun Dec 27 01:07:02 PM CST 2020
+```
+
+## nmap
+
+```shell
+nmap -p1024 hostname
+```
