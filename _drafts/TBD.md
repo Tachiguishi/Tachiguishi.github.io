@@ -1173,3 +1173,18 @@ date -d @1609045622
 ```shell
 nmap -p1024 hostname
 ```
+
+## Bind to port xx on 0.0.0.0 failed: Permission denied.
+
+centos自带`SELinux`，限定了`ssh`可以使用的端口
+
+```shell
+## check SELinux status
+sestatus
+## check support ssh port(install policycoreutils-python if you don't have semanage)
+semanage port -l | grep ssh
+## add new port to ssh
+semanage port -a -t ssh_port_t -p tcp 2222
+```
+
+[reference](https://ddewaele.github.io/networking/ssh/changing-the-ssh-port/)
