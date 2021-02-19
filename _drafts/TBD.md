@@ -1044,27 +1044,36 @@ problem running iptables: Another app is currently holding the xtables lock. Per
 ### 修改vue.js的默认的绑定符号
 Vue.config.delimiters = ["[[", "]]"];
 
-### 使用模板的标签来输出“{{”、“ }}”
+### 使用模板的标签来输出{% raw %} “{{”、“ }}” {% endraw %}
 
-参数	输出
-openblock	{%
-closeblock	%}
-openvariable	{{
-closevariable	}}
-openbrace	{
-closebrace	}
-opencomment	{#
-closecomment	#}
+{% raw %}
+| 参数 | 输出 |
+| -- | -- |
+| openblock | {% |
+| closeblock | %} |
+| openvariable | {{ |
+| closevariable | }} |
+| openbrace | { |
+| closebrace | } |
+| opencomment | {# |
+| closecomment | #} |
+
+{% endraw %}
+
 我们可以在模板中用
 
+{% raw %}
 {% templatetag openvariable %} 
 {% templatetag closevariable %}
+{% endraw %}
 
 ### 禁用django模板渲染
 
+{% raw %}
 {% verbatim %}
     {{ vue }}
 {% endverbatim %}
+{% endraw %}
 
 ## TShark
 

@@ -76,6 +76,8 @@ bundle install --path ~/.gem/bundle
 
 # 运行
 bundle exec jekyll serve
+# 运行(include draft)
+bundle exec jekyll serve --draft
 
 # 浏览器打开 http://127.0.0.1:4000 查看结果
 ```
@@ -97,6 +99,12 @@ sudo dnf install zlib-devel
 > Could not find commonmarker-0.17.13 in any of the sources
 
 根据提示执行`gem pristine commonmarker --version 0.17.13`解决问题
+
+### 语法
+
+#### 屏蔽Tag转义
+
+{%raw%} raw - endraw {%endraw%}
 
 ### 参考文献
 
