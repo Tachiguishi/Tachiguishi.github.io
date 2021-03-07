@@ -57,6 +57,22 @@ sudo apt-get install shadowsocks-libev
 
 挂载后的U盘乱码：-> 在挂载时使用`-o iocharset=utf8`参数
 
+```shell
+sudo mount -o uid=pi,gid=pi,iocharset=utf8 /dev/sdb1 /home/pi/lagann
+```
+
+`df -T`查看磁盘格式
+
+### 挂载U盘后变为`Read-Only`
+
+1. 使用`dmesg`诊断，查看日志
+
+```
+FAT-fs (sda1): Volume was not properly unmounted. Some data may be corrupt. Please run fsck.
+FAT-fs (sda1): error, fat_free_clusters: deleting FAT entry beyond EOF
+FAT-fs (sda1): Filesystem has been set read-only
+```
+
 `/etc/fstab`
 
 ```
