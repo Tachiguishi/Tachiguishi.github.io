@@ -980,6 +980,11 @@ sudo apt-get update
 sudo apt-get install telegram
 ```
 
+## Ubuntu 驱动
+
+安装ubuntu-drivers
+运行ubuntu-drivers devices查看所需驱动
+
 ## Mac 上 VS Code 启动后立即闪退
 
 原因未知，重新下载安装无效，于是删除相关配置文件，启动成功
