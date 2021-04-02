@@ -43,6 +43,10 @@ Port $Ganmu
 #### 添加公钥
 
 ```shell
+# generate ssh key pair
+ssh-keygen -t ecdsa -C "label for this key pair"
+# or
+ssh-keygen -t ed25519 -C "label for this key pair"
 # run in local pc
 ssh -p $Ganmu user@host 'mkdir -p .ssh && cat >> .ssh/authorized_keys' < ~/.ssh/id_rsa.pub
 # or
