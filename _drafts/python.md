@@ -187,6 +187,8 @@ pip3 install --user pipenv
 mkdir project_dir
 cd project_dir
 pipenv install --three
+## 指定所使用的python版本号
+pipenv python TEXT # TEXT为版本号，如3.9
 
 ## active env
 pipenv shell
@@ -203,6 +205,15 @@ pipenv uninstall reuqests
 
 ## 删除虚拟环境
 pipenv --rm
+
+# Locate the project:
+pipenv --where
+
+# Locate the virtualenv:
+pipenv --venv
+
+# Locate the Python interpreter:
+pipenv --py
 ```
 
 如果网络访问受限，可以修改`Pipfile`中源地址
