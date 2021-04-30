@@ -47,3 +47,14 @@ add_executable(helloworld
 
 target_link_libraries(helloworld Qt5::Widgets)
 ```
+
+## QDebug
+
+`qDebug()`无输出但`qInfo()`可以正常输出，需修改配置文件
+
+```ini
+# ~/.config/QtProject/qtlogging.ini
+[Rules]
+*.debug=true  # Enable all debug messages
+qt.*.debug=false  # Disable qt debug messages, leaving only ours
+```
