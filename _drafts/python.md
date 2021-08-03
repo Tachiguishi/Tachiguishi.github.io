@@ -182,13 +182,15 @@ users = ['mlh', 'foo', 'bar']
 ```shell
 ## install pipenv
 pip3 install --user pipenv
+## use proxy
+pip3 install --user pipenv --proxy=http://127.0.0.1:8080
 
 ## init develop environment
 mkdir project_dir
 cd project_dir
 pipenv install --three
 ## 指定所使用的python版本号
-pipenv python TEXT # TEXT为版本号，如3.9
+pipenv --python TEXT # TEXT为版本号，如3.9
 
 ## active env
 pipenv shell
