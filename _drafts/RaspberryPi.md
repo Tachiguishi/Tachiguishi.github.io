@@ -154,6 +154,10 @@ input-file=/home/pi/.config/aria2/aria2.session
 save-session-interval=60
 ```
 
+```shell
+touch /home/pi/.config/aria2/aria2.session
+```
+
 ### Tracker
 
 ```
