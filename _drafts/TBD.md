@@ -1108,7 +1108,7 @@ tshark -i any -b filesize:50000 -b fizes:2 -w tcp.pcap
 # 查找最大的文件
 git verify-pack -v .git/objects/pack/*.idx | sort -k 3 -n | tail -5
 # 查看文件细节
-git rev-list --objects -all | grep <hash>
+git rev-list --objects --all | grep <hash>
 # 从所有历史中删除指定文件
 git filter-branch --force --index-filter "git rm --cached --ignore-unmatch <file_path>" --prune-empty --tag-name-filter cat -- --all
 # 提交到远程

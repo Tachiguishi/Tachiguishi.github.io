@@ -27,6 +27,8 @@ cmake_minimum_required (VERSION 3.0)
 project(demoProject)
 
 add_executable(demo main.cpp)
+
+target_link_libraries(demo pthread)
 ```
 
 ```
@@ -95,5 +97,26 @@ set(CMAKE_ARCHIVE_OUTPUT_DIRECTORY ${CMAKE_BINARY_DIR}/lib)
 ```
 $ENV{variable}
 ```
+
+```cmake
+add_custom_command(
+  OUTPUT testData.cpp
+  COMMAND reswrap 
+  ARGS    testData.src > testData.cpp
+  DEPENDS testData.src 
+)
+set_property(SOURCE unit-tests.cpp APPEND PROPERTY OBJECT_DEPENDS testData.cpp)
+
+add_executable(app main.cpp)
+add_executable(tests unit-tests.cpp)
+```
+
+## 常用变量
+
+* `CMAKE_CURRENT_LIST_DIR`: `CMakeLists.txt`文件所在目录
+* `CMAKE_CURRENT_BINARY_DIR`: `cmake`当前工作目录
+* `CMAKE_SOURCE_DIR`: 源文件根目录(运行cmake时指定的目录)
+
+## reference
 
 * [入门教程](http://www.hahack.com/codes/cmake/)
