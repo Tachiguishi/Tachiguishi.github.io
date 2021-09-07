@@ -440,7 +440,9 @@ dnf install powerline-fonts
 
 vscode 的终端无法正确显示：  
 下载[Menlo for Powerline](https://github.com/abertsch/Menlo-for-Powerline)字体  
-放入`~/.fonts`文件夹，运行`fc-cache -vf ~/.fonts`  
+放入`~/.fonts`文件夹，运行`fc-cache -vf ~/.fonts` 
+
+Cascadia-code Font for windows
 
 修改`vscode`配置
 
@@ -1202,3 +1204,10 @@ semanage port -a -t ssh_port_t -p tcp 2222
 ```
 
 [reference](https://ddewaele.github.io/networking/ssh/changing-the-ssh-port/)
+
+## msvcp140.dll
+
+[x86](https://aka.me/vs/16/release/vc_redist.x86.exe)
+[x64](https://aka.me/vs/16/release/vc_redist.x64.exe)
+
+64位系统两个版本程序都需要安装
