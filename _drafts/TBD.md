@@ -1211,3 +1211,9 @@ semanage port -a -t ssh_port_t -p tcp 2222
 [x64](https://aka.me/vs/16/release/vc_redist.x64.exe)
 
 64位系统两个版本程序都需要安装
+
+## confluence
+
+### 导出PDF无法显示中文
+
+缺少中文字体，在confluence配置界面上传相关CJK-SC字体并安装即可
