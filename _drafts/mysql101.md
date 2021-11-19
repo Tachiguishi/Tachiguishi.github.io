@@ -37,3 +37,14 @@ FLUSH PRIVILEGES;
 
 Analyze MySQL queries from logs, processlist, and tcpdump  
 用于分析查询日志，定位影响性能的是那些查询语句
+
+
+## issues
+
+### 表名区分大小写
+
+由`lower_case_table_names`配置，linux中默认为0
+
+0 库表名以创建语句中指定的字母大小写存储在磁盘上，名称比较区分大小写。
+1 库表名以小写形式存储在磁盘上，名称比较不区分大小写。MySQL 在存储和查找时将所有表名转换为小写。此行为也适用于数据库名称和表别名。
+2 库表名以创建语句中指定的字母大小写存储在磁盘上，但是 MySQL 在查找时将它们转换为小写。名称比较不区分大小写。

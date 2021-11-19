@@ -98,3 +98,41 @@ systemctl restart nginx
 
 在网站[SSL_Labs](https://www.ssllabs.com/ssltest)中输入你的域名即可检测结果
 
+### issue
+
+#### (13: Permission denied) while connecting to upstream:[nginx]
+
+Disclaimer
+Make sure there are no security implications for your use-case before running this.
+
+Answer
+I had a similar issue getting Fedora 20, Nginx, Node.js, and Ghost (blog) to work. It turns out my issue was due to SELinux.
+
+This should solve the problem:
+
+```shell
+setsebool -P httpd_can_network_connect on
+```
+
+Details
+I checked for errors in the SELinux logs:
+
+```shell
+sudo cat /var/log/audit/audit.log | grep nginx | grep denied
+```
+
+And found that running the following commands fixed my issue:
+
+```shell
+sudo cat /var/log/audit/audit.log | grep nginx | grep denied | audit2allow -M mynginx
+sudo semodule -i mynginx.pp
+```
+
+[reference](https://stackoverflow.com/questions/23948527/13-permission-denied-while-connecting-to-upstreamnginx)
+
+check 
+
+```shell
+getsebool -a | grep httpd
+```
+

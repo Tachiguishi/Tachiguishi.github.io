@@ -1184,12 +1184,6 @@ date -d @1609045622
 # Sun Dec 27 01:07:02 PM CST 2020
 ```
 
-## nmap
-
-```shell
-nmap -p1024 hostname
-```
-
 ## Bind to port xx on 0.0.0.0 failed: Permission denied.
 
 centos自带`SELinux`，限定了`ssh`可以使用的端口
