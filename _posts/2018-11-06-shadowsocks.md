@@ -171,3 +171,7 @@ opkg install luci-app-shadowsocks
     "fast_open": false
 }
 ```
+
+```shell
+/etc/init.d/shadowsocks start | stop | restart | status
+```

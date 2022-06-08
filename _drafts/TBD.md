@@ -1283,6 +1283,12 @@ The Badass JLink Plugin
 3. 使用exe4j将Jar包转成Exe程序。(这时JRE并没有导入Exe，exe4j中只是描述了Exe和Jre的位置及关系。完成打包需要制作安装包)
 4. 使用InnoSetup将Exe和Jre制作成安装包。完成可发布的打包
 
+1. 使用maven-shade-plugin将所有依赖打入Jar包，生成可执行的Jar
+1.5 Press the Windows key Screenshot of the Windows key logo. on your keyboard, type "Windows Features", and press Enter. The Turn Windows features on or off dialog box appears.
+Select the .NET Framework 3.5 (includes .NET 2.0 and 3.0) check box, select OK, and reboot your computer if prompted
+2. 安装[WiX Toolset](https://wixtoolset.org/releases/)，并将安装路径添加到PATH环境变量中
+3. 使用jpackage命令打包成安装包
+
 [Reference](https://frederchen.com/article/ff808181755a7dd90175829c801a0000)
 [Using jlink to Build Java Runtimes for non-Modular Applications](https://medium.com/azulsystems/using-jlink-to-build-java-runtimes-for-non-modular-applications-9568c5e70ef4)
 
@@ -1328,3 +1334,16 @@ The Badass JLink Plugin
 [Reference](https://grobmeier.solutions/spring-multitenancy-switch-database-at-runtime.html)
 [Reference](https://www.baeldung.com/spring-boot-multi-tenancy-switch-database-at-runtime)
 [Reference](https://github.com/bcssp10/multi-tenant)
+
+## JavaFX 无法输入中文
+
+设置JVM参数：
+```
+-Djdk.gtk.version=2
+```
+
+## jpackage创建的安装包无法重复安装
+
+需要使用控制面板、程序和功能卸载旧版本
+
+使用`--app-version`参数设置并更新版本号，虽然可以安装新版本，但是不能自动卸载旧版本
