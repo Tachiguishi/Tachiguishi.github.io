@@ -22,6 +22,15 @@ dnf install -y shadowsocks-libev simple-obfs
 
 [shadowsocks-libev-fedora-copr]: https://copr.fedorainfracloud.org/coprs/outman/shadowsocks-libev/
 
+使用python版本
+
+```shell
+# 直接使用此种方式安装的sslocal为2.*版本,不支持aes-256-gcm加密方式
+sudo dnf isntall python3-shadowsocks
+# 使用pip直接安装3.*版本
+pip install https://github.com/shadowsocks/shadowsocks/archive/master.zip -U
+```
+
 ### 配置
 
 `/etc/shadowsocks-libev/config.json`

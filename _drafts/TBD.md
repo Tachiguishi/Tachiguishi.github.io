@@ -1317,3 +1317,14 @@ The Badass JLink Plugin
 ```
 
 `clean compile javafx:jlink -f pom.xml`
+
+## Spring boot use mutilple datasource
+
+[Reference](https://springframework.guru/how-to-configure-multiple-data-sources-in-a-spring-boot-application/)
+
+
+## Switch DataSource at runtime
+
+[Reference](https://grobmeier.solutions/spring-multitenancy-switch-database-at-runtime.html)
+[Reference](https://www.baeldung.com/spring-boot-multi-tenancy-switch-database-at-runtime)
+[Reference](https://github.com/bcssp10/multi-tenant)
