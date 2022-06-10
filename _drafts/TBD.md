@@ -1332,8 +1332,10 @@ Select the .NET Framework 3.5 (includes .NET 2.0 and 3.0) check box, select OK, 
 ## Switch DataSource at runtime
 
 [Reference](https://grobmeier.solutions/spring-multitenancy-switch-database-at-runtime.html)
-[Reference](https://www.baeldung.com/spring-boot-multi-tenancy-switch-database-at-runtime)
+[Reference](https://medium.com/swlh/multi-tenancy-implementation-using-spring-boot-hibernate-6a8e3ecb251a)
 [Reference](https://github.com/bcssp10/multi-tenant)
+[Reference](https://www.baeldung.com/hibernate-5-multitenancy)
+[Reference](https://stackoverflow.com/questions/64945839/how-to-implement-a-multi-tenant-spring-boot-application-where-each-user-has-it)
 
 ## JavaFX 无法输入中文
 
@@ -1347,3 +1349,35 @@ Select the .NET Framework 3.5 (includes .NET 2.0 and 3.0) check box, select OK, 
 需要使用控制面板、程序和功能卸载旧版本
 
 使用`--app-version`参数设置并更新版本号，虽然可以安装新版本，但是不能自动卸载旧版本
+
+## Generate Database Schema with Spring Data JPA
+
+[Reference](https://www.baeldung.com/spring-data-jpa-generate-db-schema)
+
+```yaml
+spring:
+  jpa:
+    properties:
+      javax.persistence.schema-generation.scripts:
+        action: create
+        create-target: create.sql
+        create-source: metadata
+```
+
+此种配置，在运行时会根据Entity的定义生成数据库表结构到create.sql文件中
+
+## create DB Tables automatically created with Spring Boot
+
+```yaml
+spring:
+  jpa:
+    hibernate:
+      ddl-auto: create
+```
+
+* validate: validate the schema, makes no changes to the database.
+* update: update the schema.
+* create: creates the schema, destroying previous data
+* create-drop: drop the schema at the end of the session
+
+此种配置，在启动时会根据Entity的定义在数据库中自动创建表结构
