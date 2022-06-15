@@ -1336,6 +1336,9 @@ Select the .NET Framework 3.5 (includes .NET 2.0 and 3.0) check box, select OK, 
 [Reference](https://github.com/bcssp10/multi-tenant)
 [Reference](https://www.baeldung.com/hibernate-5-multitenancy)
 [Reference](https://stackoverflow.com/questions/64945839/how-to-implement-a-multi-tenant-spring-boot-application-where-each-user-has-it)
+[Reference](https://stackoverflow.com/questions/54578227/how-to-add-new-datasource-at-runtime-spring-boot)
+[Reference](https://cloud.tencent.com/developer/article/1551943)
+[Reference](https://www.bswen.com/2018/05/springboot-How-to-setup-datasources-dynamically-in-springboot.html)
 
 ## JavaFX 无法输入中文
 
@@ -1381,3 +1384,14 @@ spring:
 * create-drop: drop the schema at the end of the session
 
 此种配置，在启动时会根据Entity的定义在数据库中自动创建表结构
+
+## GCC dump preprocessor defines
+
+```shell
+# For C\
+ echo | gcc -dM -E -
+ echo | clang -dM -E -
+# For C++
+ echo | g++ -dM -E -x c++ -
+ echo | clang++ -dM -E -x c++ -
+```
