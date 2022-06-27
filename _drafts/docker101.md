@@ -92,6 +92,15 @@ docker push username/repository:tag            # Upload tagged image to registry
 docker run username/repository:tag                   # Run image from a registry
 ```
 
+## Image的导入与导出
+
+```shell
+docker save imageID > out.tar
+docker save -o filename.tar <repo>:<tag>
+
+docker load < out.tar
+```
+
 ## 参考资料
 
 * [官方文档](https://docs.docker.com/)

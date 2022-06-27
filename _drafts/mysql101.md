@@ -41,6 +41,16 @@ Analyze MySQL queries from logs, processlist, and tcpdump
 
 ## issues
 
+### 监听地址
+
+`mysql`默认监听`127.0.0.1`, 只需要修改其配置文件即可
+
+`/etc/mysql/mysql.conf.d/mysqld.cnf`
+
+```conf
+bind-address = 0.0.0.0
+```
+
 ### 表名区分大小写
 
 由`lower_case_table_names`配置，linux中默认为0

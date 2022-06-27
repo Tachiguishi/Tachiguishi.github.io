@@ -1137,16 +1137,6 @@ set(CMAKE_C_COMPILER, aarch64-linux-gnu-gcc)
 set(CMAKE_CXX_COMPILER, aarch64-linux-gnu-g++)
 ```
 
-## mysql 监听地址
-
-`mysql`默认监听`127.0.0.1`, 只需要修改其配置文件即可
-
-`/etc/mysql/mysql.conf.d/mysqld.cnf`
-
-```conf
-bind-address = 0.0.0.0
-```
-
 ## makefile 从命令行传递变量
 
 ```
