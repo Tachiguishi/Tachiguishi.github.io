@@ -1385,3 +1385,11 @@ spring:
  echo | g++ -dM -E -x c++ -
  echo | clang++ -dM -E -x c++ -
 ```
+
+## firewall
+
+[odorf@localhost ~]$ sudo firewall-cmd --permanent  --zone=FedoraWorkstation --add-port=7878/tcp
+success
+[odorf@localhost ~]$ sudo firewall-cmd --reload
+success
+[odorf@localhost ~]$ sudo firewall-cmd --list-all

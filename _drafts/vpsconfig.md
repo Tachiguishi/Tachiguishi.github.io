@@ -10,12 +10,10 @@ tags: vps
 
 ## Wyvern.Avalon
 
-操作系统: `Centos 7 x86_64 bbr`
+操作系统: `ubuntu-22.04-x86_64`
 ```shell
-cat /etc/redhat-release
-# CentOS Linux release 7.5.1804 (Core)
-uname -r
-# 4.19.2-1.el7.elrepo.x86_64
+uname -a
+# Linux wyvern.avalon 5.15.0-25-generic #25-Ubuntu SMP Wed Mar 30 15:54:22 UTC 2022 x86_64 x86_64 x86_64 GNU/Linux
 ```
 
 ### 添加新用户
@@ -33,11 +31,11 @@ visudo #=> add: username ALL=(ALL) ALL
 `/etc/ssh/sshd_config`
 ```conf
 PasswordAuthentication no ; 禁止密码登录
-PermitRootLogin no  ; 禁止root用户登录
+PermitRootLogin yes  ; 允许root用户登录
 Port $Ganmu 
 ```
 
-重启`sshd`: `service sshd restart`  
+重启`sshd`: `systemctl restart sshd`  
 检查新添加的端口是否被监听: `ss -lnt`
 
 #### 添加公钥
@@ -84,10 +82,10 @@ service denyhosts start
 ### basic tools
 
 ```shell
-yum install vim
-yum install tmux
-yum install wget
-yum install git
+apt install vim zsh tmux git
+
+# install oh-my-zsh
+sh -c "$(wget https://raw.github.com/ohmyzsh/ohmyzsh/master/tools/install.sh -O -)"
 ```
 
 ### others
