@@ -95,13 +95,39 @@ docker run username/repository:tag                   # Run image from a registry
 ## Image的导入与导出
 
 ```shell
-docker save imageID > out.tar
-docker save -o filename.tar <repo>:<tag>
+docker save imageID > out.tar	# 会删除image的name和tag信息
+## 导出多个的image
+docker save -o out.tar <repo1>:<tag1> <repo2>:<tag2>
 
 docker load < out.tar
 ```
+
+```shell
+docker export containerID > out.tar
+docker import - newImageName < out.tar
+```
+
+### 区别
+
+docker import 可以为镜像指定新名称
+docker load 不能对载入的镜像重命名
+
+export 导出（import 导入）是根据容器拿到的镜像，再导入时会丢失镜像所有的历史记录和元数据信息（即仅保存容器当时的快照状态），所以无法进行回滚操作。
+而 save 保存（load 加载）的镜像，没有丢失镜像的历史，可以回滚到之前的层（layer）。
+
+docker export 的应用场景：主要用来制作基础镜像，比如我们从一个 ubuntu 镜像启动一个容器，然后安装一些软件和进行一些设置后，使用 docker export 保存为一个基础镜像。然后，把这个镜像分发给其他人使用，比如作为基础的开发环境。
+docker save 的应用场景：如果我们的应用是使用 docker-compose.yml 编排的多个镜像组合，但我们要部署的客户服务器并不能连外网。这时就可以使用 docker save 将用到的镜像打个包，然后拷贝到客户服务器上使用 docker load 载入。
 
 ## 参考资料
 
 * [官方文档](https://docs.docker.com/)
 * [Docker — 从入门到实践](https://yeasy.gitbooks.io/docker_practice/content/)
+
+
+## 使用指定用户进入Container
+
+```shell
+docker run -it -u user_name --name container_name -d image_name /bin/bash
+
+docker exec -it -u user_name containerID /bin/bash
+```
