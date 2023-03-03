@@ -1,0 +1,35 @@
+#!/usr/bin/zsh
+
+cd "$1"
+
+# get video files mp4/mkv
+videos=$(find . -type f -name "*.mp4" -o -name "*.mkv")
+echo "Found videos: $videos"
+# get the first video file name without path and extension
+videoName=$(basename "$videos")
+videoName="${videoName%.*}"
+echo "Video name: $videoName"
+
+for sub in Subs/*
+do
+	# echo "Processing $sub"
+	if [[ "$sub" == *_English.srt ]]; then
+		cp $sub $videoName.en.srt
+	elif [[ "$sub" == *_Chinese.srt ]]; then
+		cp $sub $videoName.zh.srt
+	elif [ -d $sub ]; then
+		videoName=$(echo "$sub" | cut -d/ -f2)
+		# echo "$videoName is a directory"
+		for file in $sub/*.srt; do
+			# echo "Processing $file"
+			if [[ "$file" == *_English.srt ]]; then
+				cp $file $videoName.en.srt
+			elif [[ "$file" == *_Chinese.srt ]]; then
+				cp $file $videoName.zh.srt
+			fi
+		done
+	fi
+done
+
+ls -lh
+
